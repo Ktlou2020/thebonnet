@@ -16,17 +16,17 @@ A GitHub-ready Next.js starter for rebuilding **The Bonnet** into a premium Sout
 - Prisma schema for a production database
 - Product and architecture docs for the next build phase
 
+## Railway PostgreSQL database integration
 
-## Supabase database integration
+This repo is now optimized for **Railway PostgreSQL + Prisma** so you can get the platform live quickly without a separate database provider.
 
-This repo now includes a full Supabase-ready database layer:
+Included in the repo:
 
-- `prisma/schema.prisma` for Prisma models
-- `lib/db.ts` for pooled Prisma runtime access
-- `supabase/schema.sql` for a full SQL bootstrap
-- `supabase/migrations/202605090001_init_the_bonnet.sql` for CLI deployment
-- `supabase/seed.sql` for reference data
-- `docs/supabase-setup.md` for step-by-step setup
+- `prisma/schema.prisma` for the full application data model
+- `lib/db.ts` for Prisma runtime access
+- `docs/railway-postgres-setup.md` for step-by-step Railway setup
+- `app/api/health/route.ts` for database connectivity checks
+- `app/api/leads/route.ts` for writing leads into Postgres
 
 Quick start:
 
@@ -37,16 +37,16 @@ npx prisma generate
 npm run dev
 ```
 
-Then follow `docs/supabase-setup.md` to provision Supabase and apply the SQL.
+Then follow `docs/railway-postgres-setup.md` to provision Railway PostgreSQL and connect the app.
 
 ## Suggested stack
 
 - **Frontend:** Next.js App Router + Tailwind CSS + TypeScript
 - **Backend:** Next.js route handlers today, easy migration to dedicated services later
-- **Database:** PostgreSQL with Prisma
-- **Auth:** Clerk, Auth.js, or Supabase Auth
+- **Database:** Railway PostgreSQL with Prisma
+- **Auth:** Clerk or Auth.js
 - **Payments:** Stripe or Paystack
-- **Storage:** S3 / Cloudflare R2 / Supabase Storage
+- **Storage:** S3 or Cloudflare R2
 - **Messaging:** WhatsApp Business API, Twilio, or local provider
 - **Maps:** Google Maps or Mapbox
 
@@ -63,21 +63,21 @@ Then open `http://localhost:3000`.
 
 ## Deployment
 
-### Vercel
+### Railway
 
 1. Push this repo to GitHub.
-2. Import it into Vercel.
-3. Add environment variables from `.env.example`.
-4. Connect your Postgres database.
+2. Deploy the web service on Railway.
+3. Add a PostgreSQL service in the same Railway project.
+4. Add environment variables from `.env.example`.
+5. Run Prisma schema sync with `npx prisma db push`.
 
 ### Database
 
 This starter includes a `prisma/schema.prisma` file. Typical next steps:
 
 ```bash
-npm install prisma @prisma/client
 npx prisma generate
-npx prisma migrate dev --name init
+npx prisma db push
 ```
 
 ## Suggested implementation roadmap

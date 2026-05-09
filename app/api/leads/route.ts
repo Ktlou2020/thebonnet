@@ -26,7 +26,7 @@ export async function POST(request: Request) {
       ok: true,
       persisted: false,
       message:
-        "Lead captured in demo mode. Add Supabase DATABASE_URL and DIRECT_URL to persist leads to Postgres.",
+        "Lead captured in demo mode. Add Railway PostgreSQL DATABASE_URL and DIRECT_URL to persist leads to Postgres.",
       lead: leadData
     });
   }
@@ -38,7 +38,7 @@ export async function POST(request: Request) {
   return NextResponse.json({
     ok: true,
     persisted: true,
-    message: `Lead saved to Supabase for ${lead.vehicleLabel} in ${lead.location}.`,
+    message: `Lead saved to Railway PostgreSQL for ${lead.vehicleLabel} in ${lead.location}.`,
     id: lead.id
   });
 }
