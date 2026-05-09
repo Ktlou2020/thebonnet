@@ -16,6 +16,29 @@ A GitHub-ready Next.js starter for rebuilding **The Bonnet** into a premium Sout
 - Prisma schema for a production database
 - Product and architecture docs for the next build phase
 
+
+## Supabase database integration
+
+This repo now includes a full Supabase-ready database layer:
+
+- `prisma/schema.prisma` for Prisma models
+- `lib/db.ts` for pooled Prisma runtime access
+- `supabase/schema.sql` for a full SQL bootstrap
+- `supabase/migrations/202605090001_init_the_bonnet.sql` for CLI deployment
+- `supabase/seed.sql` for reference data
+- `docs/supabase-setup.md` for step-by-step setup
+
+Quick start:
+
+```bash
+cp .env.example .env.local
+npm install
+npx prisma generate
+npm run dev
+```
+
+Then follow `docs/supabase-setup.md` to provision Supabase and apply the SQL.
+
 ## Suggested stack
 
 - **Frontend:** Next.js App Router + Tailwind CSS + TypeScript

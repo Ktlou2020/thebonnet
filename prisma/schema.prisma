@@ -3,11 +3,12 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
-enum Role {
+enum AppRole {
   CONSUMER
   MECHANIC_OWNER
   ADMIN
@@ -16,15 +17,8 @@ enum Role {
 enum WorkshopStatus {
   PENDING
   VERIFIED
+  REJECTED
   SUSPENDED
-}
-
-enum LeadStatus {
-  NEW
-  SENT
-  QUOTED
-  WON
-  LOST
 }
 
 enum SubscriptionTier {
@@ -33,159 +27,280 @@ enum SubscriptionTier {
   PRO
 }
 
-model User {
-  id           String      @id @default(cuid())
-  name         String
-  email        String      @unique
-  phone        String?
-  role         Role        @default(CONSUMER)
-  leads        Lead[]      @relation("CustomerLeads")
-  workshops    Workshop[]  @relation("WorkshopOwners")
-  reviews      Review[]
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @updatedAt
+enum AccreditationStatus {
+  PENDING
+  VERIFIED
+  REJECTED
+}
+
+enum LeadStatus {
+  NEW
+  QUALIFIED
+  ASSIGNED
+  CLOSED_WON
+  CLOSED_LOST
+  SPAM
+}
+
+enum AssignmentStatus {
+  SENT
+  VIEWED
+  QUOTED
+  WON
+  LOST
+  EXPIRED
+}
+
+enum QuoteStatus {
+  DRAFT
+  SUBMITTED
+  ACCEPTED
+  REJECTED
+  EXPIRED
+}
+
+model Profile {
+  id          String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email       String      @unique
+  fullName    String?
+  phone       String?
+  role        AppRole     @default(CONSUMER)
+  workshops   Workshop[]
+  leads       Lead[]
+  reviews     Review[]
+  createdAt   DateTime    @default(now()) @db.Timestamptz(6)
+  updatedAt   DateTime    @updatedAt @db.Timestamptz(6)
+
+  @@map("profiles")
 }
 
 model Workshop {
-  id                String              @id @default(cuid())
-  ownerId           String
-  owner             User                @relation("WorkshopOwners", fields: [ownerId], references: [id])
+  id                String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  ownerId           String               @db.Uuid
+  owner             Profile              @relation(fields: [ownerId], references: [id])
   name              String
-  slug              String              @unique
+  slug              String               @unique
   description       String
   city              String
   province          String
-  address           String?
-  latitude          Float?
-  longitude         Float?
+  addressLine1      String?
+  suburb            String?
+  postalCode        String?
+  latitude          Decimal?             @db.Decimal(9, 6)
+  longitude         Decimal?             @db.Decimal(9, 6)
   whatsapp          String?
   phone             String?
+  email             String?
   website           String?
-  status            WorkshopStatus      @default(PENDING)
-  subscriptionTier  SubscriptionTier    @default(FREE)
-  featured          Boolean             @default(false)
-  hourlyRate        Int?
-  responseMinutes   Int?
+  status            WorkshopStatus       @default(PENDING)
+  subscriptionTier  SubscriptionTier     @default(FREE)
+  featured          Boolean              @default(false)
+  mobileService     Boolean              @default(false)
   serviceRadiusKm   Int?
+  responseMinutes   Int?
+  hourlyRate        Int?
+  ratingAverage     Decimal              @default(0) @db.Decimal(3, 2)
+  reviewCount       Int                  @default(0)
   warrantyPolicy    String?
+  createdAt         DateTime             @default(now()) @db.Timestamptz(6)
+  updatedAt         DateTime             @updatedAt @db.Timestamptz(6)
   accreditations    Accreditation[]
   services          WorkshopService[]
   vehicleMakes      WorkshopMake[]
-  leads             Lead[]
-  reviews           Review[]
   media             WorkshopMedia[]
+  leadAssignments   LeadAssignment[]
+  reviews           Review[]
   subscription      WorkshopSubscription?
-  createdAt         DateTime            @default(now())
-  updatedAt         DateTime            @updatedAt
+
+  @@index([city, province])
+  @@index([status, featured])
+  @@map("workshops")
 }
 
 model Accreditation {
-  id             String    @id @default(cuid())
-  workshopId     String
-  workshop       Workshop  @relation(fields: [workshopId], references: [id])
-  authority      String
-  membershipNo   String
-  status         String
-  verifiedAt     DateTime?
+  id               String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  workshopId       String               @db.Uuid
+  authority        String
+  membershipNumber String
+  status           AccreditationStatus  @default(PENDING)
+  verifiedAt       DateTime?            @db.Timestamptz(6)
+  createdAt        DateTime             @default(now()) @db.Timestamptz(6)
+  workshop         Workshop             @relation(fields: [workshopId], references: [id], onDelete: Cascade)
+
+  @@unique([authority, membershipNumber])
+  @@index([workshopId])
+  @@map("accreditations")
 }
 
 model ServiceCategory {
-  id          String            @id @default(cuid())
-  name        String            @unique
-  slug        String            @unique
+  id          String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name        String             @unique
+  slug        String             @unique
+  createdAt   DateTime           @default(now()) @db.Timestamptz(6)
   workshops   WorkshopService[]
   benchmarks  PriceBenchmark[]
+
+  @@map("service_categories")
 }
 
 model WorkshopService {
-  workshopId   String
-  categoryId   String
-  workshop     Workshop         @relation(fields: [workshopId], references: [id])
-  category     ServiceCategory  @relation(fields: [categoryId], references: [id])
+  workshopId   String            @db.Uuid
+  categoryId   String            @db.Uuid
+  workshop     Workshop          @relation(fields: [workshopId], references: [id], onDelete: Cascade)
+  category     ServiceCategory   @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 
   @@id([workshopId, categoryId])
+  @@map("workshop_services")
 }
 
 model VehicleMake {
-  id          String         @id @default(cuid())
-  name        String         @unique
-  slug        String         @unique
+  id          String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name        String             @unique
+  slug        String             @unique
+  createdAt   DateTime           @default(now()) @db.Timestamptz(6)
   workshops   WorkshopMake[]
   benchmarks  PriceBenchmark[]
+
+  @@map("vehicle_makes")
 }
 
 model WorkshopMake {
-  workshopId   String
-  makeId       String
-  workshop     Workshop      @relation(fields: [workshopId], references: [id])
-  make         VehicleMake   @relation(fields: [makeId], references: [id])
+  workshopId   String      @db.Uuid
+  makeId       String      @db.Uuid
+  workshop     Workshop    @relation(fields: [workshopId], references: [id], onDelete: Cascade)
+  make         VehicleMake @relation(fields: [makeId], references: [id], onDelete: Cascade)
 
   @@id([workshopId, makeId])
+  @@map("workshop_makes")
 }
 
 model Lead {
-  id              String      @id @default(cuid())
-  customerId      String?
-  customer        User?       @relation("CustomerLeads", fields: [customerId], references: [id])
-  workshopId      String?
-  workshop        Workshop?   @relation(fields: [workshopId], references: [id])
-  fullName        String
-  email           String
-  phone           String
-  location        String
-  vehicle         String
-  serviceNeeded   String
-  urgency         String?
-  details         String?
-  status          LeadStatus  @default(NEW)
-  leadPrice       Int?
-  createdAt       DateTime    @default(now())
+  id             String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  customerId     String?           @db.Uuid
+  fullName       String
+  email          String
+  phone          String
+  location       String
+  city           String?
+  province       String?
+  vehicleMake    String?
+  vehicleModel   String?
+  vehicleYear    Int?
+  vehicleLabel   String
+  serviceNeeded  String
+  urgency        String?
+  details        String?
+  preferredDate  DateTime?         @db.Timestamptz(6)
+  status         LeadStatus        @default(NEW)
+  createdAt      DateTime          @default(now()) @db.Timestamptz(6)
+  customer       Profile?          @relation(fields: [customerId], references: [id], onDelete: SetNull)
+  assignments    LeadAssignment[]
+
+  @@index([status, createdAt])
+  @@index([city, province])
+  @@map("leads")
+}
+
+model LeadAssignment {
+  id                String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  leadId            String            @db.Uuid
+  workshopId        String            @db.Uuid
+  status            AssignmentStatus  @default(SENT)
+  leadPriceCents    Int?
+  assignedAt        DateTime          @default(now()) @db.Timestamptz(6)
+  viewedAt          DateTime?         @db.Timestamptz(6)
+  respondedAt       DateTime?         @db.Timestamptz(6)
+  lead              Lead              @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  workshop          Workshop          @relation(fields: [workshopId], references: [id], onDelete: Cascade)
+  quote             Quote?
+
+  @@unique([leadId, workshopId])
+  @@index([workshopId, status])
+  @@map("lead_assignments")
+}
+
+model Quote {
+  id                 String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  assignmentId       String         @unique @db.Uuid
+  labourCents        Int
+  partsCents         Int
+  vatCents           Int             @default(0)
+  totalCents         Int
+  etaText            String?
+  warrantyText       String?
+  notes              String?
+  status             QuoteStatus     @default(SUBMITTED)
+  createdAt          DateTime        @default(now()) @db.Timestamptz(6)
+  updatedAt          DateTime        @updatedAt @db.Timestamptz(6)
+  assignment         LeadAssignment  @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
+
+  @@index([status, createdAt])
+  @@map("quotes")
 }
 
 model Review {
-  id            String    @id @default(cuid())
-  workshopId    String
-  workshop      Workshop  @relation(fields: [workshopId], references: [id])
-  userId        String?
-  user          User?     @relation(fields: [userId], references: [id])
-  rating        Int
-  title         String?
-  body          String?
-  verifiedJob   Boolean   @default(false)
-  createdAt     DateTime  @default(now())
+  id             String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  workshopId     String       @db.Uuid
+  userId         String?      @db.Uuid
+  rating         Int
+  title          String?
+  body           String?
+  verifiedJob    Boolean      @default(false)
+  createdAt      DateTime     @default(now()) @db.Timestamptz(6)
+  workshop       Workshop     @relation(fields: [workshopId], references: [id], onDelete: Cascade)
+  user           Profile?     @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([workshopId, createdAt])
+  @@map("reviews")
 }
 
 model PriceBenchmark {
-  id                String            @id @default(cuid())
-  serviceCategoryId String
-  vehicleMakeId     String
-  modelName         String
+  id                String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  serviceCategoryId String            @db.Uuid
+  vehicleMakeId     String            @db.Uuid
+  vehicleModel      String
   city              String
-  low               Int
-  independentAvg    Int
-  high              Int
-  dealershipAvg     Int
-  sampleSize        Int
-  confidence        String
-  category          ServiceCategory   @relation(fields: [serviceCategoryId], references: [id])
-  make              VehicleMake       @relation(fields: [vehicleMakeId], references: [id])
+  lowCents          Int
+  independentAvgCents Int
+  highCents         Int
+  dealershipAvgCents Int
+  sampleSize        Int               @default(0)
+  confidenceLabel   String            @default("Medium")
+  createdAt         DateTime          @default(now()) @db.Timestamptz(6)
+  updatedAt         DateTime          @updatedAt @db.Timestamptz(6)
+  category          ServiceCategory   @relation(fields: [serviceCategoryId], references: [id], onDelete: Cascade)
+  make              VehicleMake       @relation(fields: [vehicleMakeId], references: [id], onDelete: Cascade)
+
+  @@unique([serviceCategoryId, vehicleMakeId, vehicleModel, city])
+  @@map("price_benchmarks")
 }
 
 model WorkshopSubscription {
-  id              String            @id @default(cuid())
-  workshopId      String            @unique
-  workshop        Workshop          @relation(fields: [workshopId], references: [id])
-  tier            SubscriptionTier
-  startDate       DateTime
-  renewsAt        DateTime
-  status          String
+  id                 String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  workshopId         String            @unique @db.Uuid
+  tier               SubscriptionTier
+  provider           String            @default("manual")
+  externalRef        String?
+  startDate          DateTime          @db.Timestamptz(6)
+  renewsAt           DateTime?         @db.Timestamptz(6)
+  cancelledAt        DateTime?         @db.Timestamptz(6)
+  createdAt          DateTime          @default(now()) @db.Timestamptz(6)
+  updatedAt          DateTime          @updatedAt @db.Timestamptz(6)
+  workshop           Workshop          @relation(fields: [workshopId], references: [id], onDelete: Cascade)
+
+  @@map("workshop_subscriptions")
 }
 
 model WorkshopMedia {
-  id           String    @id @default(cuid())
-  workshopId   String
-  workshop     Workshop  @relation(fields: [workshopId], references: [id])
-  type         String
-  url          String
-  createdAt    DateTime  @default(now())
+  id            String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  workshopId    String      @db.Uuid
+  type          String
+  url           String
+  altText       String?
+  sortOrder     Int         @default(0)
+  createdAt     DateTime    @default(now()) @db.Timestamptz(6)
+  workshop      Workshop    @relation(fields: [workshopId], references: [id], onDelete: Cascade)
+
+  @@index([workshopId, sortOrder])
+  @@map("workshop_media")
 }
