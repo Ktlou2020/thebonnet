@@ -37,6 +37,8 @@ npx prisma generate
 npm run dev
 ```
 
+Production on Railway uses a standalone Next.js build and Prisma migrations.
+
 Then follow `docs/railway-postgres-setup.md` to provision Railway PostgreSQL and connect the app.
 
 ## Suggested stack
@@ -69,7 +71,8 @@ Then open `http://localhost:3000`.
 2. Deploy the web service on Railway.
 3. Add a PostgreSQL service in the same Railway project.
 4. Add environment variables from `.env.example`.
-5. Run Prisma schema sync with `npx prisma db push`.
+5. In the web service set **Pre-deploy Command** to `npx prisma migrate deploy`.
+6. Generate a public domain in Railway Networking.
 
 ### Database
 

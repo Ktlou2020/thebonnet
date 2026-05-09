@@ -18,7 +18,7 @@ In your **web app service** on Railway, open **Variables** and add these values:
 ```env
 DATABASE_URL=${{Postgres.DATABASE_URL}}
 DIRECT_URL=${{Postgres.DATABASE_URL}}
-NEXT_PUBLIC_SITE_URL=https://YOUR-APP.railway.app
+NEXT_PUBLIC_SITE_URL=https://${{RAILWAY_PUBLIC_DOMAIN}}
 ```
 
 If your database service is not named `Postgres`, replace `Postgres` with the exact Railway service name.
@@ -35,19 +35,19 @@ DIRECT_URL="postgresql://postgres:postgres@127.0.0.1:5432/thebonnet"
 
 For local development you can point both values at the same local PostgreSQL instance.
 
-## 4. Push the schema with Prisma
+## 4. Deploy the schema with Prisma migrations
 
-Once `DATABASE_URL` is available, apply the schema:
+This repo now includes an initial Prisma migration in `prisma/migrations`. After Railway connects your web service to PostgreSQL, set the Railway **Pre-deploy Command** to:
+
+```bash
+npx prisma migrate deploy
+```
+
+For local development, you can still use:
 
 ```bash
 npm install
 npx prisma generate
-npx prisma db push
-```
-
-If you later add formal Prisma migrations, deploy them with:
-
-```bash
 npx prisma migrate deploy
 ```
 
@@ -76,3 +76,4 @@ When `DATABASE_URL` is configured correctly, new quote requests are written to t
 - This repo does **not** require Supabase to go live.
 - Railway PostgreSQL is the fastest path for the current stack because the app and database can live in the same project.
 - `DIRECT_URL` can match `DATABASE_URL` on Railway for this starter.
+- Railway recommends generating a public domain in **Settings → Networking → Public Networking**.
