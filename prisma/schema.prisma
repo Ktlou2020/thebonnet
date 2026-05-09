@@ -1,0 +1,191 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  CONSUMER
+  MECHANIC_OWNER
+  ADMIN
+}
+
+enum WorkshopStatus {
+  PENDING
+  VERIFIED
+  SUSPENDED
+}
+
+enum LeadStatus {
+  NEW
+  SENT
+  QUOTED
+  WON
+  LOST
+}
+
+enum SubscriptionTier {
+  FREE
+  GROWTH
+  PRO
+}
+
+model User {
+  id           String      @id @default(cuid())
+  name         String
+  email        String      @unique
+  phone        String?
+  role         Role        @default(CONSUMER)
+  leads        Lead[]      @relation("CustomerLeads")
+  workshops    Workshop[]  @relation("WorkshopOwners")
+  reviews      Review[]
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+}
+
+model Workshop {
+  id                String              @id @default(cuid())
+  ownerId           String
+  owner             User                @relation("WorkshopOwners", fields: [ownerId], references: [id])
+  name              String
+  slug              String              @unique
+  description       String
+  city              String
+  province          String
+  address           String?
+  latitude          Float?
+  longitude         Float?
+  whatsapp          String?
+  phone             String?
+  website           String?
+  status            WorkshopStatus      @default(PENDING)
+  subscriptionTier  SubscriptionTier    @default(FREE)
+  featured          Boolean             @default(false)
+  hourlyRate        Int?
+  responseMinutes   Int?
+  serviceRadiusKm   Int?
+  warrantyPolicy    String?
+  accreditations    Accreditation[]
+  services          WorkshopService[]
+  vehicleMakes      WorkshopMake[]
+  leads             Lead[]
+  reviews           Review[]
+  media             WorkshopMedia[]
+  subscription      WorkshopSubscription?
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+}
+
+model Accreditation {
+  id             String    @id @default(cuid())
+  workshopId     String
+  workshop       Workshop  @relation(fields: [workshopId], references: [id])
+  authority      String
+  membershipNo   String
+  status         String
+  verifiedAt     DateTime?
+}
+
+model ServiceCategory {
+  id          String            @id @default(cuid())
+  name        String            @unique
+  slug        String            @unique
+  workshops   WorkshopService[]
+  benchmarks  PriceBenchmark[]
+}
+
+model WorkshopService {
+  workshopId   String
+  categoryId   String
+  workshop     Workshop         @relation(fields: [workshopId], references: [id])
+  category     ServiceCategory  @relation(fields: [categoryId], references: [id])
+
+  @@id([workshopId, categoryId])
+}
+
+model VehicleMake {
+  id          String         @id @default(cuid())
+  name        String         @unique
+  slug        String         @unique
+  workshops   WorkshopMake[]
+  benchmarks  PriceBenchmark[]
+}
+
+model WorkshopMake {
+  workshopId   String
+  makeId       String
+  workshop     Workshop      @relation(fields: [workshopId], references: [id])
+  make         VehicleMake   @relation(fields: [makeId], references: [id])
+
+  @@id([workshopId, makeId])
+}
+
+model Lead {
+  id              String      @id @default(cuid())
+  customerId      String?
+  customer        User?       @relation("CustomerLeads", fields: [customerId], references: [id])
+  workshopId      String?
+  workshop        Workshop?   @relation(fields: [workshopId], references: [id])
+  fullName        String
+  email           String
+  phone           String
+  location        String
+  vehicle         String
+  serviceNeeded   String
+  urgency         String?
+  details         String?
+  status          LeadStatus  @default(NEW)
+  leadPrice       Int?
+  createdAt       DateTime    @default(now())
+}
+
+model Review {
+  id            String    @id @default(cuid())
+  workshopId    String
+  workshop      Workshop  @relation(fields: [workshopId], references: [id])
+  userId        String?
+  user          User?     @relation(fields: [userId], references: [id])
+  rating        Int
+  title         String?
+  body          String?
+  verifiedJob   Boolean   @default(false)
+  createdAt     DateTime  @default(now())
+}
+
+model PriceBenchmark {
+  id                String            @id @default(cuid())
+  serviceCategoryId String
+  vehicleMakeId     String
+  modelName         String
+  city              String
+  low               Int
+  independentAvg    Int
+  high              Int
+  dealershipAvg     Int
+  sampleSize        Int
+  confidence        String
+  category          ServiceCategory   @relation(fields: [serviceCategoryId], references: [id])
+  make              VehicleMake       @relation(fields: [vehicleMakeId], references: [id])
+}
+
+model WorkshopSubscription {
+  id              String            @id @default(cuid())
+  workshopId      String            @unique
+  workshop        Workshop          @relation(fields: [workshopId], references: [id])
+  tier            SubscriptionTier
+  startDate       DateTime
+  renewsAt        DateTime
+  status          String
+}
+
+model WorkshopMedia {
+  id           String    @id @default(cuid())
+  workshopId   String
+  workshop     Workshop  @relation(fields: [workshopId], references: [id])
+  type         String
+  url          String
+  createdAt    DateTime  @default(now())
+}
