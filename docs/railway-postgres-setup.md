@@ -9,7 +9,7 @@ This project is now optimized to go live quickly with Railway PostgreSQL and Pri
 3. Add a **PostgreSQL** service.
 4. Wait for Railway to finish provisioning the database.
 
-Railway will automatically create a `DATABASE_URL` for the Postgres service.
+Railway will automatically create a `DATABASE_URL` for the Postgres service. This app now only requires `DATABASE_URL` on Railway.
 
 ## 2. Wire the web app to the database
 
@@ -17,7 +17,6 @@ In your **web app service** on Railway, open **Variables** and add these values:
 
 ```env
 DATABASE_URL=${{Postgres.DATABASE_URL}}
-DIRECT_URL=${{Postgres.DATABASE_URL}}
 NEXT_PUBLIC_SITE_URL=https://${{RAILWAY_PUBLIC_DOMAIN}}
 ```
 
@@ -30,10 +29,9 @@ Create `.env.local` from `.env.example`.
 ```env
 NEXT_PUBLIC_SITE_URL="http://localhost:3000"
 DATABASE_URL="postgresql://postgres:postgres@127.0.0.1:5432/thebonnet"
-DIRECT_URL="postgresql://postgres:postgres@127.0.0.1:5432/thebonnet"
 ```
 
-For local development you can point both values at the same local PostgreSQL instance.
+For local development, point `DATABASE_URL` at your local PostgreSQL instance.
 
 ## 4. Deploy the schema with Prisma migrations
 
@@ -75,5 +73,4 @@ When `DATABASE_URL` is configured correctly, new quote requests are written to t
 
 - This repo does **not** require Supabase to go live.
 - Railway PostgreSQL is the fastest path for the current stack because the app and database can live in the same project.
-- `DIRECT_URL` can match `DATABASE_URL` on Railway for this starter.
-- Railway recommends generating a public domain in **Settings → Networking → Public Networking**.
+- - Railway recommends generating a public domain in **Settings → Networking → Public Networking**.
