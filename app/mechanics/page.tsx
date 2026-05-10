@@ -20,7 +20,7 @@ export default async function MechanicsPage({
 
   return (
     <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
-      <SectionHeading eyebrow="Mechanic directory" title="Browse mechanics by city, service type, and mobile support" description="These launch listings are sourced from public workshop information and organised into a cleaner client-facing marketplace for South African drivers." />
+      <SectionHeading eyebrow="Mechanic directory" title="Browse mechanics by city, service type, and mobile support" description="These listings are sourced from public workshop information and organised into a cleaner client-facing marketplace for South African drivers." />
 
       <div className="mt-10 rounded-[2rem] border border-slate-200 bg-white p-6 shadow-soft">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
@@ -69,7 +69,7 @@ export default async function MechanicsPage({
       <div className="mt-8 flex items-center justify-between gap-4">
         <div>
           <h2 className="text-2xl font-semibold text-slate-950">{filteredMechanics.length} workshops found</h2>
-          <p className="mt-1 text-sm text-slate-500">Public launch listings with customer-facing contact options.</p>
+          <p className="mt-1 text-sm text-slate-500">Public workshop listings with customer-facing contact options.</p>
         </div>
       </div>
 

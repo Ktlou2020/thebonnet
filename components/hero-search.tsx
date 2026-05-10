@@ -10,7 +10,7 @@ export function HeroSearch({
 }) {
   return (
     <div className="rounded-[2rem] border border-white/10 bg-white p-6 shadow-soft">
-      <p className="text-sm font-semibold uppercase tracking-[0.18em] text-accent">Live launch directory</p>
+      <p className="text-sm font-semibold uppercase tracking-[0.18em] text-accent">Customer-ready directory</p>
       <h2 className="mt-3 text-2xl font-semibold text-slate-950">Search by city, compare trusted workshops, and request quotes in one place.</h2>
       <p className="mt-3 text-sm leading-7 text-slate-600">
         The Bonnet gives South African drivers a cleaner way to find workshops, compare public listing details, and choose between in-store and mobile mechanics.

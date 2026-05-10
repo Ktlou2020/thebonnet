@@ -44,7 +44,7 @@ export const subscriptionPlans: SubscriptionPlan[] = [
     features: [
       "Claim your workshop listing",
       "Business phone and website links",
-      "Basic visibility in launch city pages",
+      "Basic visibility in city pages",
       "Email lead notifications"
     ],
     cta: "Claim profile"
@@ -118,17 +118,17 @@ function buildMetrics(items: Mechanic[]): Metric[] {
     {
       label: "Public workshop listings",
       value: `${items.length}`,
-      detail: "Launch inventory curated from public workshop listings and prepared for database seeding into Railway PostgreSQL."
+      detail: "Curated inventory from public workshop listings, prepared for database seeding into Railway PostgreSQL."
     },
     {
-      label: "Cities live at launch",
+      label: "Cities covered",
       value: `${cityCount}`,
       detail: "Coverage across key South African metros and regional centres where drivers actively search for mechanics."
     },
     {
       label: "Average public rating",
       value: averageRating.toFixed(1),
-      detail: "Average of the public ratings shown on the source workshop listings used for launch curation."
+      detail: "Average of the public ratings shown on the source workshop listings used for directory curation."
     },
     {
       label: "Mobile or 24/7 options",

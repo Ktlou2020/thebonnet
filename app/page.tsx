@@ -26,7 +26,7 @@ const steps = [
 ];
 
 const trustPoints = [
-  "Real launch data from public workshop listings",
+  "Real workshop data from public listings",
   "City-first browsing for South African drivers",
   "Direct call, website, and quote request paths",
   "Mobile and after-hours mechanic options where available"
@@ -43,7 +43,7 @@ export default async function HomePage() {
             <div>
               <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/90 backdrop-blur">
                 <ShieldCheck className="h-4 w-4 text-accent" />
-                South African mechanic marketplace — launch edition
+                South African mechanic marketplace — customer ready
               </div>
               <h1 className="mt-6 max-w-3xl text-5xl font-semibold tracking-tight text-white sm:text-6xl">
                 Find a mechanic faster, compare better, and get quotes without the directory chaos.
@@ -70,7 +70,7 @@ export default async function HomePage() {
       </section>
 
       <section className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
-        <SectionHeading eyebrow="How it works" title="A cleaner mechanic search journey for real customers" description="The launch product is intentionally simple: better browsing, clearer trust signals, and one quote form that can evolve into full lead routing as the marketplace grows." />
+        <SectionHeading eyebrow="How it works" title="A cleaner mechanic search journey for real customers" description="The Bonnet keeps the experience intentionally simple: better browsing, clearer trust signals, and one quote form that can evolve into full lead routing as the marketplace grows." />
         <div className="mt-12 grid gap-6 md:grid-cols-3">
           {steps.map((step) => {
             const Icon = step.icon;
@@ -88,7 +88,7 @@ export default async function HomePage() {
       <section className="bg-white py-20">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-            <SectionHeading eyebrow="Featured listings" title="Workshops customers can contact today" description="The launch homepage highlights workshop listings with public ratings, service tags, hours, and direct contact options instead of thin placeholder cards." />
+            <SectionHeading eyebrow="Featured listings" title="Workshops customers can contact today" description="The homepage highlights workshop listings with public ratings, service tags, hours, and direct contact options instead of thin placeholder cards." />
             <Link href="/mechanics" className="inline-flex items-center gap-2 text-sm font-semibold text-accent">Browse all cities <ArrowRight className="h-4 w-4" /></Link>
           </div>
           <div className="mt-12 grid gap-6 lg:grid-cols-2 xl:grid-cols-3">
@@ -99,7 +99,7 @@ export default async function HomePage() {
 
       <section className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
         <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-          <SectionHeading eyebrow="Coverage" title="Browse launch city coverage" description="The first release focuses on cities where workshop choice is broad and driver intent is already strong, giving the marketplace a practical base to grow from." />
+          <SectionHeading eyebrow="Coverage" title="Browse city coverage" description="The directory focuses on cities where workshop choice is broad and driver intent is already strong, giving customers a practical place to start." />
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {cityHighlights.map((item) => (
               <Link key={item.city} href={`/mechanics?city=${encodeURIComponent(item.city)}`} className="rounded-[1.75rem] border border-slate-200 bg-white p-5 shadow-soft transition hover:-translate-y-1">
@@ -119,7 +119,7 @@ export default async function HomePage() {
       <section className="bg-slate-50 py-20">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="grid gap-10 lg:grid-cols-[1fr_1fr] lg:items-start">
-            <SectionHeading eyebrow="Pricing beta" title="Fair Price Index is intentionally conservative at launch" description="Pricing only belongs on the platform where there is enough evidence. The Bonnet starts with a transparent beta benchmark and expands as more first-party quote data comes in." />
+            <SectionHeading eyebrow="Pricing beta" title="Fair Price Index is intentionally conservative for now" description="Pricing only belongs on the platform where there is enough evidence. The Bonnet starts with a transparent benchmark and expands as more first-party quote data comes in." />
             <div className="space-y-4">
               {priceBenchmarks.map((item) => <PriceCard key={item.id} item={item} />)}
               <div className="rounded-[1.5rem] border border-slate-200 bg-white p-5 text-sm leading-7 text-slate-600 shadow-soft">Each benchmark card should remain source-aware and conservative until the platform has enough real quote and invoice data to widen coverage.</div>

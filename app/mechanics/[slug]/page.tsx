@@ -72,7 +72,7 @@ export default async function MechanicDetailPage({ params }: { params: Promise<{
           </div>
           <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-soft">
             <h2 className="text-lg font-semibold text-slate-950">About this listing</h2>
-            <p className="mt-3 text-sm leading-7 text-slate-600">This profile is part of The Bonnet launch directory and is designed to make workshop discovery clearer, more trustworthy, and more useful for customers.</p>
+            <p className="mt-3 text-sm leading-7 text-slate-600">This profile is part of The Bonnet directory and is designed to make workshop discovery clearer, more trustworthy, and more useful for customers.</p>
           </div>
         </aside>
       </div>
