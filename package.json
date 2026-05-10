@@ -12,7 +12,8 @@
     "prisma:migrate": "prisma migrate dev",
     "prisma:deploy": "prisma migrate deploy",
     "prisma:push": "prisma db push",
-    "seed:real-data": "node scripts/seed-real-data.mjs"
+    "seed:real-data": "node scripts/seed-real-data.mjs",
+    "seed:super-admin": "node scripts/setup-super-admin.mjs"
   },
   "dependencies": {
     "@prisma/client": "^6.8.2",

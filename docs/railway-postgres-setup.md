@@ -18,6 +18,9 @@ In your **web app service** on Railway, open **Variables** and add these values:
 ```env
 DATABASE_URL=${{Postgres.DATABASE_URL}}
 NEXT_PUBLIC_SITE_URL=https://${{RAILWAY_PUBLIC_DOMAIN}}
+ADMIN_EMAIL=superadmin@thebonnet.co.za
+ADMIN_PASSWORD=your-private-password
+ADMIN_SESSION_SECRET=your-long-random-secret
 ```
 
 If your database service is not named `Postgres`, replace `Postgres` with the exact Railway service name.
@@ -38,7 +41,7 @@ For local development, point `DATABASE_URL` at your local PostgreSQL instance.
 This repo now includes an initial Prisma migration in `prisma/migrations`. After Railway connects your web service to PostgreSQL, set the Railway **Pre-deploy Command** to:
 
 ```bash
-npx prisma migrate deploy && npm run seed:real-data
+npx prisma migrate deploy && npm run seed:real-data && npm run seed:super-admin
 ```
 
 For local development, you can still use:
@@ -60,7 +63,7 @@ Useful endpoints:
 - `GET /api/health`
 - `POST /api/leads`
 
-When `DATABASE_URL` is configured correctly, new quote requests are written to the `leads` table and the launch workshop dataset can be seeded into Postgres.
+When `DATABASE_URL` is configured correctly, new quote requests are written to the `leads` table, the workshop dataset can be seeded into Postgres, and a private super admin profile can be synced automatically.
 
 ## 6. Recommended launch path
 

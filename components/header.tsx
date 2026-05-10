@@ -1,5 +1,6 @@
+import Image from "next/image";
 import Link from "next/link";
-import { MapPinned, Wrench } from "lucide-react";
+import { MapPinned } from "lucide-react";
 
 const nav = [
   { href: "/mechanics", label: "Directory" },
@@ -12,8 +13,8 @@ export function Header() {
     <header className="sticky top-0 z-50 border-b border-white/10 bg-ink/85 backdrop-blur">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
         <Link href="/" className="flex items-center gap-3 text-white">
-          <div className="rounded-2xl bg-accent/20 p-2 text-accent">
-            <Wrench className="h-5 w-5" />
+          <div className="rounded-2xl bg-white p-1.5 shadow-soft">
+            <Image src="/brand/the-bonnet-logo.png" alt="The Bonnet" width={44} height={44} className="h-11 w-11 object-contain" priority />
           </div>
           <div>
             <div className="text-lg font-semibold tracking-tight">The Bonnet</div>
