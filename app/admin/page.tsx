@@ -3,6 +3,7 @@ import { revalidatePath } from "next/cache";
 import {
   Activity,
   ArrowUpRight,
+  BarChart3,
   BadgeCheck,
   Building2,
   ChevronRight,
@@ -43,7 +44,7 @@ type LeadStatusFilter = (typeof leadStatuses)[number];
 type WorkshopStatusFilter = (typeof workshopStatuses)[number];
 type LeadSort = (typeof leadSortOptions)[number];
 type WorkshopSort = (typeof workshopSortOptions)[number];
-type ViewKey = "overview" | "leads" | "workshops" | "quotes" | "trust" | "users" | "settings";
+type ViewKey = "overview" | "leads" | "workshops" | "quotes" | "trust" | "analytics" | "users" | "settings";
 
 function formatCurrencyFromCents(value?: number | null) {
   return new Intl.NumberFormat("en-ZA", {
@@ -312,6 +313,7 @@ const navItems: Array<{ key: ViewKey; label: string; hint: string; icon: typeof 
   { key: "workshops", label: "Workshops", icon: Building2, hint: "Listings and visibility", permission: "manageWorkshops" },
   { key: "quotes", label: "Quotes", icon: ReceiptText, hint: "Routing and pipeline", permission: "manageQuotes" },
   { key: "trust", label: "Trust", icon: ShieldCheck, hint: "Accreditation review", permission: "manageTrust" },
+  { key: "analytics", label: "Analytics", icon: BarChart3, hint: "Demand and conversion", permission: "viewAnalytics" },
   { key: "users", label: "Admin users", icon: Users, hint: "Roles and access", permission: "manageAdminUsers" },
   { key: "settings", label: "Settings", icon: Settings, hint: "Environment and rollout", permission: "manageSettings" }
 ];
@@ -402,6 +404,40 @@ export default async function AdminPage({
   const totalPipelineValue = quoteAggregate._sum.totalCents || 0;
   const currentNav = availableNav.find((item) => item.key === view) || availableNav[0];
   const recentActivity = [...assignments.slice(0, 3), ...accreditations.slice(0, 3)];
+  const quoteSubmittedCount = assignments.filter((assignment) => assignment.quote).length;
+  const acceptedQuoteCount = assignments.filter((assignment) => assignment.quote?.status === "ACCEPTED").length;
+  const rejectedQuoteCount = assignments.filter((assignment) => assignment.quote?.status === "REJECTED").length;
+  const averageQuoteValue = quoteCount ? Math.round(totalPipelineValue / quoteCount) : 0;
+  const wonLeadCount = leads.filter((lead) => lead.status === "CLOSED_WON").length;
+  const lostLeadCount = leads.filter((lead) => lead.status === "CLOSED_LOST").length;
+  const verifiedWorkshopCount = workshops.filter((workshop) => workshop.status === "VERIFIED").length;
+  const mobileWorkshopCount = workshops.filter((workshop) => workshop.mobileService).length;
+  const averageWorkshopRating = workshops.length
+    ? workshops.reduce((sum, workshop) => sum + Number(workshop.ratingAverage || 0), 0) / workshops.length
+    : 0;
+  const activeAdminCount = adminUsers.filter((item) => item.status === "ACTIVE").length;
+  const recentAuditCount = auditLogs.filter((item) => Date.now() - item.createdAt.getTime() <= 1000 * 60 * 60 * 24).length;
+  const topDemandServices = Object.entries(
+    leads.reduce<Record<string, number>>((acc, lead) => {
+      acc[lead.serviceNeeded] = (acc[lead.serviceNeeded] || 0) + 1;
+      return acc;
+    }, {})
+  )
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 5);
+  const topDemandCities = Object.entries(
+    leads.reduce<Record<string, number>>((acc, lead) => {
+      const key = [lead.city, lead.province].filter(Boolean).join(", ") || lead.location || "Unknown";
+      acc[key] = (acc[key] || 0) + 1;
+      return acc;
+    }, {})
+  )
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 5);
+  const topRatedWorkshops = [...workshops]
+    .filter((workshop) => Number(workshop.ratingAverage) > 0)
+    .sort((a, b) => Number(b.ratingAverage) - Number(a.ratingAverage) || b.reviewCount - a.reviewCount)
+    .slice(0, 5);
 
   const cards = [
     { label: "Submitted quote requests", value: String(leadCount), detail: `${newLeadCount} new and ${activeLeadCount} in active routing.`, tone: "from-sky-500/15 to-sky-500/5" },
@@ -418,7 +454,7 @@ export default async function AdminPage({
             <div className="max-w-4xl">
               <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/90 backdrop-blur">
                 <Sparkles className="h-4 w-4 text-accent" />
-                Phase 2 admin access and permissions
+                Phase 2 shipped · Phase 3 analytics underway
               </div>
               <h1 className="mt-5 text-4xl font-semibold tracking-tight sm:text-5xl">Run marketplace operations with role-based team access.</h1>
               <p className="mt-4 max-w-3xl text-base leading-8 text-slate-300 sm:text-lg">
@@ -588,6 +624,73 @@ export default async function AdminPage({
                   <div className="space-y-4">{adminUsers.length ? adminUsers.map((item) => <div key={item.id} className="rounded-[1.5rem] border border-slate-200 p-5"><div className="flex flex-wrap items-start justify-between gap-3"><div><div className="text-lg font-semibold text-slate-950">{item.fullName}</div><div className="mt-1 text-sm text-slate-600">{item.email}</div></div><span className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ring-1 ${getAdminStatusBadge(item.status)}`}>{item.status}</span></div><div className="mt-3 text-xs text-slate-500">Last login {formatTimestamp(item.lastLoginAt)} · Created {formatTimestamp(item.createdAt)}</div><form action={updateAdminUser} className="mt-4 grid gap-3 sm:grid-cols-2"><input type="hidden" name="adminUserId" value={item.id} /><label className="text-xs font-semibold uppercase tracking-wide text-slate-500">Role<select name="role" defaultValue={item.role} className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700">{adminRoles.map((role) => <option key={role} value={role}>{getRoleLabel(role)}</option>)}</select></label><label className="text-xs font-semibold uppercase tracking-wide text-slate-500">Status<select name="status" defaultValue={item.status} className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700">{adminUserStatuses.map((status) => <option key={status} value={status}>{status}</option>)}</select></label><div className="sm:col-span-2"><button type="submit" className="rounded-full bg-ink px-4 py-2.5 text-sm font-semibold text-white">Save access</button></div></form></div>) : <div className="rounded-[1.5rem] border border-dashed border-slate-300 px-4 py-10 text-sm text-slate-500">No admin accounts found yet.</div>}</div>
                 </div>
                 <div className="mt-6 rounded-[1.5rem] bg-slate-50 p-5"><div className="flex items-center gap-2 text-sm font-semibold text-slate-950"><Clock3 className="h-4 w-4 text-accent" /> Recent audit log</div><div className="mt-4 space-y-3">{auditLogs.length ? auditLogs.map((item) => <div key={item.id} className="rounded-[1.25rem] bg-white px-4 py-4 text-sm text-slate-600"><div className="font-medium text-slate-950">{item.summary}</div><div className="mt-1 text-xs text-slate-500">{item.actor?.email || "System"} · {item.action} · {formatTimestamp(item.createdAt)}</div></div>) : <div className="rounded-[1.25rem] border border-dashed border-slate-300 px-4 py-8 text-sm text-slate-500">No audit events recorded yet.</div>}</div></div>
+              </section>
+            ) : null}
+
+            {view === "analytics" ? (
+              <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-soft">
+                <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
+                  <div>
+                    <div className="text-sm font-semibold uppercase tracking-[0.18em] text-accent">Operations analytics</div>
+                    <h2 className="mt-2 text-2xl font-semibold text-slate-950">Track marketplace demand, conversion, supply quality, and team activity.</h2>
+                  </div>
+                  <div className="rounded-full bg-slate-100 px-4 py-2 text-sm text-slate-700">Live admin summary</div>
+                </div>
+
+                <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+                  <div className="rounded-[1.5rem] bg-slate-50 p-5"><div className="text-xs uppercase tracking-wide text-slate-500">Quotes submitted</div><div className="mt-2 text-3xl font-semibold text-slate-950">{quoteSubmittedCount}</div><div className="mt-2 text-sm text-slate-600">Accepted {acceptedQuoteCount} · Rejected {rejectedQuoteCount}</div></div>
+                  <div className="rounded-[1.5rem] bg-slate-50 p-5"><div className="text-xs uppercase tracking-wide text-slate-500">Average quote value</div><div className="mt-2 text-3xl font-semibold text-slate-950">{formatCurrencyFromCents(averageQuoteValue)}</div><div className="mt-2 text-sm text-slate-600">Based on {quoteCount} stored quote{quoteCount === 1 ? "" : "s"}.</div></div>
+                  <div className="rounded-[1.5rem] bg-slate-50 p-5"><div className="text-xs uppercase tracking-wide text-slate-500">Verified supply</div><div className="mt-2 text-3xl font-semibold text-slate-950">{verifiedWorkshopCount}</div><div className="mt-2 text-sm text-slate-600">Mobile-enabled workshops: {mobileWorkshopCount}</div></div>
+                  <div className="rounded-[1.5rem] bg-slate-50 p-5"><div className="text-xs uppercase tracking-wide text-slate-500">Admin activity</div><div className="mt-2 text-3xl font-semibold text-slate-950">{activeAdminCount}</div><div className="mt-2 text-sm text-slate-600">{recentAuditCount} audit event{recentAuditCount === 1 ? "" : "s"} in the last 24h.</div></div>
+                </div>
+
+                <div className="mt-6 grid gap-6 xl:grid-cols-3">
+                  <div className="rounded-[1.5rem] border border-slate-200 p-5">
+                    <div className="text-sm font-semibold text-slate-950">Lead outcomes</div>
+                    <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-1">
+                      <div className="rounded-[1.25rem] bg-slate-50 px-4 py-4"><div className="text-xs uppercase tracking-wide text-slate-500">Closed won</div><div className="mt-2 text-2xl font-semibold text-slate-950">{wonLeadCount}</div></div>
+                      <div className="rounded-[1.25rem] bg-slate-50 px-4 py-4"><div className="text-xs uppercase tracking-wide text-slate-500">Closed lost</div><div className="mt-2 text-2xl font-semibold text-slate-950">{lostLeadCount}</div></div>
+                      <div className="rounded-[1.25rem] bg-slate-50 px-4 py-4"><div className="text-xs uppercase tracking-wide text-slate-500">Average workshop rating</div><div className="mt-2 text-2xl font-semibold text-slate-950">{averageWorkshopRating.toFixed(1)} ★</div></div>
+                    </div>
+                  </div>
+
+                  <div className="rounded-[1.5rem] border border-slate-200 p-5">
+                    <div className="text-sm font-semibold text-slate-950">Top demand services</div>
+                    <div className="mt-4 space-y-3">
+                      {topDemandServices.length ? topDemandServices.map(([service, count]) => (
+                        <div key={service} className="flex items-center justify-between rounded-[1.25rem] bg-slate-50 px-4 py-3 text-sm text-slate-700">
+                          <span>{service}</span>
+                          <span className="font-semibold text-slate-950">{count}</span>
+                        </div>
+                      )) : <div className="rounded-[1.25rem] border border-dashed border-slate-300 px-4 py-8 text-sm text-slate-500">No service demand data yet.</div>}
+                    </div>
+                  </div>
+
+                  <div className="rounded-[1.5rem] border border-slate-200 p-5">
+                    <div className="text-sm font-semibold text-slate-950">Top demand cities</div>
+                    <div className="mt-4 space-y-3">
+                      {topDemandCities.length ? topDemandCities.map(([city, count]) => (
+                        <div key={city} className="flex items-center justify-between rounded-[1.25rem] bg-slate-50 px-4 py-3 text-sm text-slate-700">
+                          <span>{city}</span>
+                          <span className="font-semibold text-slate-950">{count}</span>
+                        </div>
+                      )) : <div className="rounded-[1.25rem] border border-dashed border-slate-300 px-4 py-8 text-sm text-slate-500">No city demand data yet.</div>}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-6 rounded-[1.5rem] border border-slate-200 p-5">
+                  <div className="text-sm font-semibold text-slate-950">Top rated workshops in current admin dataset</div>
+                  <div className="mt-4 grid gap-3 lg:grid-cols-2 xl:grid-cols-3">
+                    {topRatedWorkshops.length ? topRatedWorkshops.map((workshop) => (
+                      <div key={workshop.id} className="rounded-[1.25rem] bg-slate-50 px-4 py-4 text-sm text-slate-700">
+                        <div className="font-semibold text-slate-950">{workshop.name}</div>
+                        <div className="mt-1 text-xs text-slate-500">{workshop.city}, {workshop.province}</div>
+                        <div className="mt-3 text-sm">{Number(workshop.ratingAverage).toFixed(1)} ★ · {workshop.reviewCount} review{workshop.reviewCount === 1 ? "" : "s"}</div>
+                      </div>
+                    )) : <div className="rounded-[1.25rem] border border-dashed border-slate-300 px-4 py-8 text-sm text-slate-500 lg:col-span-2 xl:col-span-3">No rated workshops available yet.</div>}
+                  </div>
+                </div>
               </section>
             ) : null}
 
