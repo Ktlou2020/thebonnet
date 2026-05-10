@@ -7,13 +7,13 @@ export async function POST(request: Request) {
   const password = String(formData.get("password") || "");
 
   if (!hasAdminCredentials()) {
-    return NextResponse.redirect(new URL("/admin/login?error=disabled", request.url));
+    return NextResponse.redirect(new URL("/admin/login?error=disabled", request.url), 303);
   }
 
   if (!verifyAdminCredentials(email, password)) {
-    return NextResponse.redirect(new URL("/admin/login?error=invalid", request.url));
+    return NextResponse.redirect(new URL("/admin/login?error=invalid", request.url), 303);
   }
 
-  const response = NextResponse.redirect(new URL("/admin", request.url));
+  const response = NextResponse.redirect(new URL("/admin", request.url), 303);
   return attachAdminSession(response, email);
 }
