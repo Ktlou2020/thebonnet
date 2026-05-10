@@ -1,0 +1,20 @@
+{
+  "name": "The Bonnet",
+  "short_name": "The Bonnet",
+  "description": "Find trusted mechanics in South Africa.",
+  "theme_color": "#08111f",
+  "background_color": "#08111f",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "/icons/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
