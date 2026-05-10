@@ -91,6 +91,10 @@ model Workshop {
   phone             String?
   email             String?
   website           String?
+  hoursText         String?
+  sourceName        String?              @default("Google Maps")
+  externalPlaceId   String?
+  listingTypes      String[]             @default([])
   status            WorkshopStatus       @default(PENDING)
   subscriptionTier  SubscriptionTier     @default(FREE)
   featured          Boolean              @default(false)

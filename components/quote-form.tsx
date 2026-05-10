@@ -1,20 +1,35 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useMemo, useState } from "react";
+import { ServiceCategory } from "@/lib/types";
 
-const initialState = {
-  fullName: "",
-  phone: "",
-  email: "",
-  location: "",
-  vehicle: "",
-  serviceNeeded: "",
-  urgency: "This week",
-  details: ""
-};
+function buildInitialState(initialCity?: string, initialService?: string) {
+  return {
+    fullName: "",
+    phone: "",
+    email: "",
+    city: initialCity ?? "",
+    location: initialCity ?? "",
+    vehicle: "",
+    serviceNeeded: initialService ?? "",
+    urgency: "This week",
+    details: ""
+  };
+}
 
-export function QuoteForm() {
-  const [form, setForm] = useState(initialState);
+export function QuoteForm({
+  cityOptions,
+  serviceOptions,
+  initialCity,
+  initialService
+}: {
+  cityOptions: string[];
+  serviceOptions: ServiceCategory[];
+  initialCity?: string;
+  initialService?: string;
+}) {
+  const startingState = useMemo(() => buildInitialState(initialCity, initialService), [initialCity, initialService]);
+  const [form, setForm] = useState(startingState);
   const [status, setStatus] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -30,8 +45,8 @@ export function QuoteForm() {
         body: JSON.stringify(form)
       });
       const payload = await response.json();
-      setStatus(payload.message ?? "Lead captured successfully.");
-      setForm(initialState);
+      setStatus(payload.message ?? "Your request has been received.");
+      setForm(buildInitialState(initialCity, initialService));
     } catch {
       setStatus("Something went wrong. Please try again.");
     } finally {
@@ -42,23 +57,35 @@ export function QuoteForm() {
   return (
     <form onSubmit={onSubmit} className="grid gap-4 rounded-[2rem] border border-slate-200 bg-white p-6 shadow-soft">
       <div className="grid gap-4 md:grid-cols-2">
-        <input value={form.fullName} onChange={(e) => setForm({ ...form, fullName: e.target.value })} placeholder="Full name" className="rounded-2xl border border-slate-200 px-4 py-3 outline-none focus:ring-2 focus:ring-accent" required />
-        <input value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} placeholder="WhatsApp / phone" className="rounded-2xl border border-slate-200 px-4 py-3 outline-none focus:ring-2 focus:ring-accent" required />
-        <input value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="Email address" className="rounded-2xl border border-slate-200 px-4 py-3 outline-none focus:ring-2 focus:ring-accent" required />
-        <input value={form.location} onChange={(e) => setForm({ ...form, location: e.target.value })} placeholder="City / suburb" className="rounded-2xl border border-slate-200 px-4 py-3 outline-none focus:ring-2 focus:ring-accent" required />
-        <input value={form.vehicle} onChange={(e) => setForm({ ...form, vehicle: e.target.value })} placeholder="Vehicle make / model / year" className="rounded-2xl border border-slate-200 px-4 py-3 outline-none focus:ring-2 focus:ring-accent" required />
-        <select value={form.urgency} onChange={(e) => setForm({ ...form, urgency: e.target.value })} className="rounded-2xl border border-slate-200 px-4 py-3 outline-none focus:ring-2 focus:ring-accent">
+        <input value={form.fullName} onChange={(event) => setForm({ ...form, fullName: event.target.value })} placeholder="Full name" className="rounded-2xl border border-slate-200 px-4 py-3 outline-none focus:ring-2 focus:ring-accent" required />
+        <input value={form.phone} onChange={(event) => setForm({ ...form, phone: event.target.value })} placeholder="WhatsApp or phone" className="rounded-2xl border border-slate-200 px-4 py-3 outline-none focus:ring-2 focus:ring-accent" required />
+        <input value={form.email} onChange={(event) => setForm({ ...form, email: event.target.value })} placeholder="Email address" className="rounded-2xl border border-slate-200 px-4 py-3 outline-none focus:ring-2 focus:ring-accent" required />
+        <select value={form.city} onChange={(event) => { const city = event.target.value; setForm({ ...form, city, location: form.location || city }); }} className="rounded-2xl border border-slate-200 px-4 py-3 outline-none focus:ring-2 focus:ring-accent">
+          <option value="">Select city</option>
+          {cityOptions.map((city) => (
+            <option key={city} value={city}>{city}</option>
+          ))}
+        </select>
+        <input value={form.location} onChange={(event) => setForm({ ...form, location: event.target.value })} placeholder="Suburb or area" className="rounded-2xl border border-slate-200 px-4 py-3 outline-none focus:ring-2 focus:ring-accent" required />
+        <input value={form.vehicle} onChange={(event) => setForm({ ...form, vehicle: event.target.value })} placeholder="Vehicle make, model, and year" className="rounded-2xl border border-slate-200 px-4 py-3 outline-none focus:ring-2 focus:ring-accent" required />
+        <select value={form.serviceNeeded} onChange={(event) => setForm({ ...form, serviceNeeded: event.target.value })} className="rounded-2xl border border-slate-200 px-4 py-3 outline-none focus:ring-2 focus:ring-accent" required>
+          <option value="">Select service needed</option>
+          {serviceOptions.map((service) => (
+            <option key={service} value={service}>{service}</option>
+          ))}
+          <option value="Other">Other</option>
+        </select>
+        <select value={form.urgency} onChange={(event) => setForm({ ...form, urgency: event.target.value })} className="rounded-2xl border border-slate-200 px-4 py-3 outline-none focus:ring-2 focus:ring-accent">
           <option>Today</option>
           <option>This week</option>
           <option>Flexible</option>
         </select>
       </div>
-      <input value={form.serviceNeeded} onChange={(e) => setForm({ ...form, serviceNeeded: e.target.value })} placeholder="Service needed / issue" className="rounded-2xl border border-slate-200 px-4 py-3 outline-none focus:ring-2 focus:ring-accent" required />
-      <textarea value={form.details} onChange={(e) => setForm({ ...form, details: e.target.value })} placeholder="Describe the problem, symptoms, or upload flow you would add later" rows={5} className="rounded-3xl border border-slate-200 px-4 py-3 outline-none focus:ring-2 focus:ring-accent" />
+      <textarea value={form.details} onChange={(event) => setForm({ ...form, details: event.target.value })} placeholder="Describe the issue, symptoms, warning lights, noises, or anything the mechanic should know" rows={5} className="rounded-3xl border border-slate-200 px-4 py-3 outline-none focus:ring-2 focus:ring-accent" />
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-sm text-slate-500">This demo posts to an API route and returns a mocked lead confirmation for the GitHub starter.</p>
+        <p className="text-sm text-slate-500">Your request is stored in the platform database when connected and can be routed to matching workshops as The Bonnet grows.</p>
         <button type="submit" disabled={loading} className="rounded-full bg-ink px-5 py-3 text-sm font-semibold text-white transition hover:bg-bonnet disabled:opacity-60">
-          {loading ? "Capturing lead..." : "Submit lead"}
+          {loading ? "Sending request..." : "Request quotes"}
         </button>
       </div>
       {status ? <div className="rounded-2xl bg-emerald-50 px-4 py-3 text-sm text-emerald-800">{status}</div> : null}

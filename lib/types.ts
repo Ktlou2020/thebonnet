@@ -1,5 +1,3 @@
-export type Accreditation = "MIWA" | "RMI" | "R2R" | "AA Quality Assured";
-
 export type ServiceCategory =
   | "General Service"
   | "Brakes"
@@ -17,30 +15,30 @@ export interface Metric {
   detail: string;
 }
 
+export interface CityHighlight {
+  city: string;
+  province: string;
+  count: number;
+  slug: string;
+}
+
 export interface Mechanic {
   id: string;
   slug: string;
   name: string;
   city: string;
   province: string;
-  serviceRadiusKm: number;
+  address: string;
+  phone?: string;
+  website?: string;
   rating: number;
-  reviewCount: number;
-  yearsInBusiness: number;
-  responseTime: string;
-  priceLevel: "Budget" | "Fair" | "Premium";
-  hourlyRate: number;
-  verified: boolean;
-  mobile: boolean;
-  whatsapp: string;
-  badges: string[];
-  accreditations: Accreditation[];
-  makes: string[];
+  hours: string;
+  types: string[];
   services: ServiceCategory[];
-  warranty: string;
-  about: string;
-  leadPlan: "Free" | "Growth" | "Pro";
+  mobile: boolean;
   featured: boolean;
+  source: string;
+  placeId: string;
 }
 
 export interface PriceBenchmark {
@@ -52,6 +50,9 @@ export interface PriceBenchmark {
   high: number;
   dealershipAverage: number;
   confidence: "High" | "Medium";
+  note: string;
+  source: string;
+  sourceUrl: string;
 }
 
 export interface SubscriptionPlan {

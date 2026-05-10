@@ -1,12 +1,10 @@
 import Link from "next/link";
-import { Wrench, MapPinned } from "lucide-react";
+import { MapPinned, Wrench } from "lucide-react";
 
 const nav = [
-  { href: "/mechanics", label: "Mechanics" },
-  { href: "/fair-price", label: "Fair Price Index" },
-  { href: "/for-mechanics", label: "For Mechanics" },
-  { href: "/dashboard", label: "Dashboard" },
-  { href: "/admin", label: "Admin" }
+  { href: "/mechanics", label: "Directory" },
+  { href: "/fair-price", label: "Pricing beta" },
+  { href: "/for-mechanics", label: "For mechanics" }
 ];
 
 export function Header() {
@@ -32,12 +30,9 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-3">
-          <Link
-            href="/mechanics"
-            className="hidden rounded-full border border-white/15 px-4 py-2 text-sm text-white transition hover:border-white/30 sm:inline-flex"
-          >
+          <Link href="/mechanics" className="hidden rounded-full border border-white/15 px-4 py-2 text-sm text-white transition hover:border-white/30 sm:inline-flex">
             <MapPinned className="mr-2 h-4 w-4" />
-            Near me
+            Browse cities
           </Link>
           <Link href="/request-quote" className="rounded-full bg-accent px-4 py-2 text-sm font-semibold text-ink transition hover:bg-accent/90">
             Get quotes

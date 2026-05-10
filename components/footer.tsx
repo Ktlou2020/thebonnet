@@ -7,29 +7,28 @@ export function Footer() {
         <div>
           <h3 className="text-base font-semibold text-slate-900">The Bonnet</h3>
           <p className="mt-3 leading-7">
-            Verified mechanics, fair prices, and a scalable lead generation engine for South African workshops.
+            Real workshop listings, cleaner search, and a customer-first path to getting quotes from mechanics across South Africa.
           </p>
         </div>
         <div>
           <h4 className="font-semibold text-slate-900">Explore</h4>
           <ul className="mt-3 space-y-2">
             <li><Link href="/mechanics">Find mechanics</Link></li>
-            <li><Link href="/fair-price">Fair Price Index</Link></li>
+            <li><Link href="/fair-price">Fair Price Index beta</Link></li>
             <li><Link href="/request-quote">Request a quote</Link></li>
           </ul>
         </div>
         <div>
           <h4 className="font-semibold text-slate-900">For workshops</h4>
           <ul className="mt-3 space-y-2">
-            <li><Link href="/for-mechanics">Plans and ROI</Link></li>
+            <li><Link href="/for-mechanics">Plans and pricing</Link></li>
             <li><Link href="/claim">Claim your workshop</Link></li>
-            <li><Link href="/dashboard">Lead dashboard</Link></li>
           </ul>
         </div>
         <div>
-          <h4 className="font-semibold text-slate-900">Future layers</h4>
+          <h4 className="font-semibold text-slate-900">What&apos;s next</h4>
           <p className="mt-3 leading-7">
-            Add parts commerce, tyres, batteries, fleet servicing, inspections, and roadside assistance without changing the core marketplace.
+            The next product layers are richer quote routing, verified reviews, city landing pages, and later ecommerce for parts, tyres, and batteries.
           </p>
         </div>
       </div>

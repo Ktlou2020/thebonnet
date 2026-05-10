@@ -1,84 +1,78 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { BadgeCheck, Clock3, MapPin, PhoneCall, ShieldCheck } from "lucide-react";
-import { mechanics } from "@/lib/data";
-import { formatCurrency } from "@/lib/utils";
+import { Globe, MapPin, PhoneCall, ShieldCheck, Star } from "lucide-react";
+import { getMechanicBySlug, getRelatedMechanics } from "@/lib/workshops";
 
 export default async function MechanicDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const mechanic = mechanics.find((item) => item.slug === slug);
+  const mechanic = await getMechanicBySlug(slug);
 
-  if (!mechanic) {
-    notFound();
-  }
+  if (!mechanic) notFound();
+
+  const related = await getRelatedMechanics(mechanic, 3);
+  const telHref = mechanic.phone ? `tel:${mechanic.phone.replace(/\s+/g, "")}` : null;
+  const quoteHref = `/request-quote?${new URLSearchParams({ city: mechanic.city, service: mechanic.services[0] ?? "General Service" }).toString()}`;
 
   return (
     <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
       <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr]">
         <div className="rounded-[2rem] border border-slate-200 bg-white p-8 shadow-soft">
           <div className="flex flex-wrap items-center gap-3">
-            {mechanic.badges.map((badge) => (
-              <span key={badge} className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-700">{badge}</span>
-            ))}
+            {mechanic.featured ? <span className="rounded-full bg-gold/15 px-3 py-1 text-xs font-semibold text-amber-700">Featured listing</span> : null}
+            {mechanic.mobile ? <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">Mobile support</span> : null}
+            <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-700">{mechanic.source}</span>
           </div>
+
           <h1 className="mt-5 text-4xl font-semibold tracking-tight text-slate-950">{mechanic.name}</h1>
           <div className="mt-4 grid gap-3 text-sm text-slate-600 sm:grid-cols-2">
-            <div className="flex items-center gap-2"><MapPin className="h-4 w-4 text-accent" /> {mechanic.city}, {mechanic.province}</div>
-            <div className="flex items-center gap-2"><Clock3 className="h-4 w-4 text-accent" /> Responds in {mechanic.responseTime}</div>
-            <div className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-accent" /> {mechanic.accreditations.join(", ")}</div>
-            <div className="flex items-center gap-2"><BadgeCheck className="h-4 w-4 text-accent" /> {mechanic.warranty}</div>
+            <div className="flex items-start gap-2"><MapPin className="mt-0.5 h-4 w-4 shrink-0 text-accent" /><span>{mechanic.address}</span></div>
+            <div className="flex items-center gap-2"><Star className="h-4 w-4 fill-gold text-gold" />{mechanic.rating.toFixed(1)} public rating</div>
+            <div className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-accent" />{mechanic.city}, {mechanic.province}</div>
+            <div className="flex items-center gap-2">Listing type: {mechanic.types.slice(0, 2).join(", ")}</div>
           </div>
-          <p className="mt-6 text-base leading-8 text-slate-600">{mechanic.about}</p>
+
+          <div className="mt-8 rounded-[1.5rem] bg-slate-50 p-5">
+            <h2 className="text-lg font-semibold text-slate-950">Opening hours</h2>
+            <p className="mt-3 text-sm leading-7 text-slate-600">{mechanic.hours}</p>
+          </div>
 
           <div className="mt-8 grid gap-6 md:grid-cols-2">
             <div className="rounded-[1.5rem] bg-slate-50 p-5">
-              <h2 className="text-lg font-semibold text-slate-950">What this listing proves</h2>
-              <ul className="mt-4 space-y-3 text-sm leading-7 text-slate-600">
-                <li>• Manual workshop review rather than scraped junk data</li>
-                <li>• Brand and service specialization for better matching</li>
-                <li>• Lead monetization readiness via plan tier: {mechanic.leadPlan}</li>
-                <li>• Price and response transparency baked into ranking logic</li>
-              </ul>
+              <h2 className="text-lg font-semibold text-slate-950">Service categories</h2>
+              <div className="mt-4 flex flex-wrap gap-2">{mechanic.services.map((service) => <span key={service} className="rounded-full bg-white px-3 py-1 text-xs font-medium text-slate-700">{service}</span>)}</div>
             </div>
             <div className="rounded-[1.5rem] bg-slate-50 p-5">
-              <h2 className="text-lg font-semibold text-slate-950">Supported makes</h2>
-              <div className="mt-4 flex flex-wrap gap-2">
-                {mechanic.makes.map((make) => (
-                  <span key={make} className="rounded-full bg-white px-3 py-1 text-xs font-medium text-slate-700">{make}</span>
-                ))}
-              </div>
-              <h2 className="mt-6 text-lg font-semibold text-slate-950">Services</h2>
-              <div className="mt-4 flex flex-wrap gap-2">
-                {mechanic.services.map((service) => (
-                  <span key={service} className="rounded-full bg-white px-3 py-1 text-xs font-medium text-slate-700">{service}</span>
-                ))}
-              </div>
+              <h2 className="text-lg font-semibold text-slate-950">Workshop profile</h2>
+              <div className="mt-4 flex flex-wrap gap-2">{mechanic.types.map((type) => <span key={type} className="rounded-full bg-white px-3 py-1 text-xs font-medium text-slate-700">{type}</span>)}</div>
             </div>
           </div>
+
+          {related.length ? (
+            <div className="mt-10">
+              <h2 className="text-lg font-semibold text-slate-950">More workshops in {mechanic.city}</h2>
+              <div className="mt-4 flex flex-wrap gap-3">{related.map((item) => <Link key={item.slug} href={`/mechanics/${item.slug}`} className="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700">{item.name}</Link>)}</div>
+            </div>
+          ) : null}
         </div>
 
         <aside className="space-y-6">
           <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-soft">
-            <p className="text-sm font-semibold uppercase tracking-[0.15em] text-accent">Commercial profile</p>
-            <div className="mt-3 text-4xl font-semibold text-slate-950">{formatCurrency(mechanic.hourlyRate)}/hr</div>
-            <p className="mt-3 text-sm leading-7 text-slate-600">This card is ready for ranking multipliers, premium boosts, lead billing, and conversion reporting.</p>
+            <p className="text-sm font-semibold uppercase tracking-[0.15em] text-accent">Contact this workshop</p>
+            <p className="mt-3 text-sm leading-7 text-slate-600">Use the public contact details below or send one quote request through The Bonnet so you do not need to message workshops one by one.</p>
             <div className="mt-6 space-y-3 text-sm text-slate-600">
-              <div>Plan tier: <span className="font-semibold text-slate-950">{mechanic.leadPlan}</span></div>
-              <div>Mobile service: <span className="font-semibold text-slate-950">{mechanic.mobile ? "Yes" : "Workshop only"}</span></div>
-              <div>Service radius: <span className="font-semibold text-slate-950">{mechanic.serviceRadiusKm} km</span></div>
+              {mechanic.phone ? <div>Phone: <span className="font-semibold text-slate-950">{mechanic.phone}</span></div> : null}
+              {mechanic.website ? <div className="break-all">Website: <span className="font-semibold text-slate-950">{mechanic.website}</span></div> : null}
+              <div>Source: <span className="font-semibold text-slate-950">{mechanic.source}</span></div>
             </div>
             <div className="mt-6 flex flex-col gap-3">
-              <Link href="/request-quote" className="rounded-full bg-ink px-4 py-3 text-center text-sm font-semibold text-white">Request quote</Link>
-              <a href={`https://wa.me/${mechanic.whatsapp.replace(/[^\d]/g, "")}`} className="rounded-full border border-slate-200 px-4 py-3 text-center text-sm font-semibold text-slate-700">
-                <PhoneCall className="mr-2 inline-flex h-4 w-4" /> WhatsApp lead
-              </a>
+              <Link href={quoteHref} className="rounded-full bg-ink px-4 py-3 text-center text-sm font-semibold text-white">Request quotes in {mechanic.city}</Link>
+              {telHref ? <a href={telHref} className="rounded-full border border-slate-200 px-4 py-3 text-center text-sm font-semibold text-slate-700"><PhoneCall className="mr-2 inline-flex h-4 w-4" />Call workshop</a> : null}
+              {mechanic.website ? <a href={mechanic.website} target="_blank" rel="noreferrer" className="rounded-full border border-slate-200 px-4 py-3 text-center text-sm font-semibold text-slate-700"><Globe className="mr-2 inline-flex h-4 w-4" />Visit website</a> : null}
             </div>
           </div>
           <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-soft">
-            <h2 className="text-lg font-semibold text-slate-950">Why this matters for the platform</h2>
-            <p className="mt-3 text-sm leading-7 text-slate-600">
-              Detailed listings reduce trust friction, improve SEO, and let you charge mechanics for premium visibility without looking like a thin lead-gen site.
-            </p>
+            <h2 className="text-lg font-semibold text-slate-950">About this listing</h2>
+            <p className="mt-3 text-sm leading-7 text-slate-600">This profile is part of The Bonnet launch directory and is designed to make workshop discovery clearer, more trustworthy, and more useful for customers.</p>
           </div>
         </aside>
       </div>

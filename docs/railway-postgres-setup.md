@@ -38,7 +38,7 @@ For local development, point `DATABASE_URL` at your local PostgreSQL instance.
 This repo now includes an initial Prisma migration in `prisma/migrations`. After Railway connects your web service to PostgreSQL, set the Railway **Pre-deploy Command** to:
 
 ```bash
-npx prisma migrate deploy
+npx prisma migrate deploy && npm run seed:real-data
 ```
 
 For local development, you can still use:
@@ -60,7 +60,7 @@ Useful endpoints:
 - `GET /api/health`
 - `POST /api/leads`
 
-When `DATABASE_URL` is configured correctly, new quote requests are written to the `leads` table.
+When `DATABASE_URL` is configured correctly, new quote requests are written to the `leads` table and the launch workshop dataset can be seeded into Postgres.
 
 ## 6. Recommended launch path
 

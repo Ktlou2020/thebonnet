@@ -25,15 +25,12 @@ export async function POST(request: Request) {
     return NextResponse.json({
       ok: true,
       persisted: false,
-      message:
-        "Lead captured in demo mode. Add Railway PostgreSQL DATABASE_URL and DIRECT_URL to persist leads to Postgres.",
+      message: "Your request has been received in preview mode. Connect the production database to persist quote requests automatically.",
       lead: leadData
     });
   }
 
-  const lead = await prisma.lead.create({
-    data: leadData
-  });
+  const lead = await prisma.lead.create({ data: leadData });
 
   return NextResponse.json({
     ok: true,

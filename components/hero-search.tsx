@@ -1,32 +1,51 @@
 import Link from "next/link";
+import { CityHighlight, ServiceCategory } from "@/lib/types";
 
-export function HeroSearch() {
+export function HeroSearch({
+  cityHighlights,
+  serviceCategories
+}: {
+  cityHighlights: CityHighlight[];
+  serviceCategories: ServiceCategory[];
+}) {
   return (
-    <div className="rounded-[2rem] border border-white/10 bg-white p-5 shadow-soft">
-      <div className="grid gap-4 lg:grid-cols-[1.2fr_1fr_1fr_auto]">
-        <label className="grid gap-2 text-sm font-medium text-slate-700">
-          Vehicle / make / model
-          <input defaultValue="VW Polo / Toyota Hilux / Ford Ranger" className="rounded-2xl border border-slate-200 px-4 py-3 outline-none ring-accent transition focus:ring-2" />
-        </label>
-        <label className="grid gap-2 text-sm font-medium text-slate-700">
-          Service or symptom
-          <input defaultValue="Brakes, service, no-start, oil leak" className="rounded-2xl border border-slate-200 px-4 py-3 outline-none ring-accent transition focus:ring-2" />
-        </label>
-        <label className="grid gap-2 text-sm font-medium text-slate-700">
-          City / suburb
-          <input defaultValue="Johannesburg, Sandton, Durbanville" className="rounded-2xl border border-slate-200 px-4 py-3 outline-none ring-accent transition focus:ring-2" />
-        </label>
-        <div className="flex items-end">
-          <Link href="/request-quote" className="w-full rounded-2xl bg-ink px-5 py-3 text-center text-sm font-semibold text-white transition hover:bg-bonnet">
-            Match me now
-          </Link>
+    <div className="rounded-[2rem] border border-white/10 bg-white p-6 shadow-soft">
+      <p className="text-sm font-semibold uppercase tracking-[0.18em] text-accent">Live launch directory</p>
+      <h2 className="mt-3 text-2xl font-semibold text-slate-950">Search by city, compare trusted workshops, and request quotes in one place.</h2>
+      <p className="mt-3 text-sm leading-7 text-slate-600">
+        The Bonnet gives South African drivers a cleaner way to find workshops, compare public listing details, and choose between in-store and mobile mechanics.
+      </p>
+
+      <div className="mt-6 grid gap-4 md:grid-cols-2">
+        <div className="rounded-3xl bg-slate-50 p-4">
+          <p className="text-xs font-semibold uppercase tracking-[0.15em] text-slate-500">Popular cities</p>
+          <div className="mt-3 flex flex-wrap gap-2">
+            {cityHighlights.slice(0, 6).map((item) => (
+              <Link key={item.city} href={`/mechanics?city=${encodeURIComponent(item.city)}`} className="rounded-full bg-white px-3 py-1 text-xs font-medium text-slate-700 transition hover:bg-slate-100">
+                {item.city} · {item.count}
+              </Link>
+            ))}
+          </div>
+        </div>
+        <div className="rounded-3xl bg-slate-50 p-4">
+          <p className="text-xs font-semibold uppercase tracking-[0.15em] text-slate-500">Popular services</p>
+          <div className="mt-3 flex flex-wrap gap-2">
+            {serviceCategories.slice(0, 6).map((item) => (
+              <Link key={item} href={`/mechanics?service=${encodeURIComponent(item)}`} className="rounded-full bg-white px-3 py-1 text-xs font-medium text-slate-700 transition hover:bg-slate-100">
+                {item}
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
-      <div className="mt-4 flex flex-wrap gap-2 text-xs text-slate-500">
-        <span className="rounded-full bg-slate-100 px-3 py-1">Upload photos</span>
-        <span className="rounded-full bg-slate-100 px-3 py-1">Voice note issue descriptions</span>
-        <span className="rounded-full bg-slate-100 px-3 py-1">WhatsApp quote routing</span>
-        <span className="rounded-full bg-slate-100 px-3 py-1">Dealer vs independent price check</span>
+
+      <div className="mt-6 flex flex-wrap gap-3">
+        <Link href="/mechanics" className="rounded-full bg-ink px-5 py-3 text-sm font-semibold text-white transition hover:bg-bonnet">
+          Browse mechanics
+        </Link>
+        <Link href="/request-quote" className="rounded-full border border-slate-200 px-5 py-3 text-sm font-semibold text-slate-700 transition hover:border-slate-300">
+          Request a quote
+        </Link>
       </div>
     </div>
   );
