@@ -1,28 +1,65 @@
-import { AppRole, PrismaClient } from "@prisma/client";
+import crypto from "node:crypto";
+import { promisify } from "node:util";
+import { AdminRole, AdminUserStatus, AppRole, PrismaClient } from "@prisma/client";
+
+const scryptAsync = promisify(crypto.scrypt);
+
+function normalizeEmail(value) {
+  return String(value || "").trim().toLowerCase();
+}
+
+async function hashAdminPassword(password) {
+  const salt = crypto.randomBytes(16).toString("hex");
+  const derivedKey = await scryptAsync(password, salt, 64);
+  return `scrypt:${salt}:${Buffer.from(derivedKey).toString("hex")}`;
+}
 
 async function main() {
-  if (!process.env.DATABASE_URL || !process.env.ADMIN_EMAIL) {
-    console.log("[admin] DATABASE_URL or ADMIN_EMAIL missing, skipping super admin sync.");
+  const adminEmail = normalizeEmail(process.env.ADMIN_EMAIL);
+  const adminPassword = process.env.ADMIN_PASSWORD || "";
+  const adminFullName = process.env.ADMIN_FULL_NAME || "The Bonnet Super Admin";
+
+  if (!process.env.DATABASE_URL || !adminEmail || !adminPassword) {
+    console.log("[admin] DATABASE_URL, ADMIN_EMAIL, or ADMIN_PASSWORD missing. Skipping super admin sync.");
     return;
   }
 
   const prisma = new PrismaClient();
 
   try {
-    await prisma.profile.upsert({
-      where: { email: process.env.ADMIN_EMAIL.trim().toLowerCase() },
+    const passwordHash = await hashAdminPassword(adminPassword);
+
+    await prisma.adminUser.upsert({
+      where: { email: adminEmail },
       update: {
-        fullName: "The Bonnet Super Admin",
+        fullName: adminFullName,
+        passwordHash,
+        role: AdminRole.SUPER_ADMIN,
+        status: AdminUserStatus.ACTIVE
+      },
+      create: {
+        email: adminEmail,
+        fullName: adminFullName,
+        passwordHash,
+        role: AdminRole.SUPER_ADMIN,
+        status: AdminUserStatus.ACTIVE
+      }
+    });
+
+    await prisma.profile.upsert({
+      where: { email: adminEmail },
+      update: {
+        fullName: adminFullName,
         role: AppRole.ADMIN
       },
       create: {
-        email: process.env.ADMIN_EMAIL.trim().toLowerCase(),
-        fullName: "The Bonnet Super Admin",
+        email: adminEmail,
+        fullName: adminFullName,
         role: AppRole.ADMIN
       }
     });
 
-    console.log(`[admin] Super admin synced for ${process.env.ADMIN_EMAIL.trim().toLowerCase()}.`);
+    console.log(`[admin] Super admin synced for ${adminEmail}.`);
   } finally {
     await prisma.$disconnect();
   }

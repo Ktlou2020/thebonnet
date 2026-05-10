@@ -13,6 +13,20 @@ enum AppRole {
   ADMIN
 }
 
+enum AdminRole {
+  SUPER_ADMIN
+  OPERATIONS_ADMIN
+  SUPPORT_ADMIN
+  CONTENT_ADMIN
+  FINANCE_ADMIN
+}
+
+enum AdminUserStatus {
+  ACTIVE
+  INVITED
+  DISABLED
+}
+
 enum WorkshopStatus {
   PENDING
   VERIFIED
@@ -71,6 +85,41 @@ model Profile {
   updatedAt   DateTime    @updatedAt @db.Timestamptz(6)
 
   @@map("profiles")
+}
+
+model AdminUser {
+  id            String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email         String            @unique
+  fullName      String
+  passwordHash  String
+  role          AdminRole         @default(SUPPORT_ADMIN)
+  status        AdminUserStatus   @default(ACTIVE)
+  lastLoginAt   DateTime?         @db.Timestamptz(6)
+  invitedById   String?           @db.Uuid
+  invitedBy     AdminUser?        @relation("AdminInvites", fields: [invitedById], references: [id], onDelete: SetNull)
+  invitedUsers  AdminUser[]       @relation("AdminInvites")
+  auditLogs     AdminAuditLog[]   @relation("AuditActor")
+  createdAt     DateTime          @default(now()) @db.Timestamptz(6)
+  updatedAt     DateTime          @updatedAt @db.Timestamptz(6)
+
+  @@index([role, status])
+  @@map("admin_users")
+}
+
+model AdminAuditLog {
+  id          String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  actorId     String?     @db.Uuid
+  action      String
+  entityType  String
+  entityId    String?
+  summary     String
+  metadata    Json?
+  createdAt   DateTime    @default(now()) @db.Timestamptz(6)
+  actor       AdminUser?  @relation("AuditActor", fields: [actorId], references: [id], onDelete: SetNull)
+
+  @@index([entityType, entityId])
+  @@index([createdAt])
+  @@map("admin_audit_logs")
 }
 
 model Workshop {
@@ -223,19 +272,19 @@ model LeadAssignment {
 }
 
 model Quote {
-  id                 String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  assignmentId       String         @unique @db.Uuid
-  labourCents        Int
-  partsCents         Int
-  vatCents           Int             @default(0)
-  totalCents         Int
-  etaText            String?
-  warrantyText       String?
-  notes              String?
-  status             QuoteStatus     @default(SUBMITTED)
-  createdAt          DateTime        @default(now()) @db.Timestamptz(6)
-  updatedAt          DateTime        @updatedAt @db.Timestamptz(6)
-  assignment         LeadAssignment  @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
+  id                   String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  assignmentId         String          @unique @db.Uuid
+  labourCents          Int
+  partsCents           Int
+  vatCents             Int             @default(0)
+  totalCents           Int
+  etaText              String?
+  warrantyText         String?
+  notes                String?
+  status               QuoteStatus     @default(SUBMITTED)
+  createdAt            DateTime        @default(now()) @db.Timestamptz(6)
+  updatedAt            DateTime        @updatedAt @db.Timestamptz(6)
+  assignment           LeadAssignment  @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
 
   @@index([status, createdAt])
   @@map("quotes")
@@ -258,21 +307,21 @@ model Review {
 }
 
 model PriceBenchmark {
-  id                String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  serviceCategoryId String            @db.Uuid
-  vehicleMakeId     String            @db.Uuid
-  vehicleModel      String
-  city              String
-  lowCents          Int
-  independentAvgCents Int
-  highCents         Int
-  dealershipAvgCents Int
-  sampleSize        Int               @default(0)
-  confidenceLabel   String            @default("Medium")
-  createdAt         DateTime          @default(now()) @db.Timestamptz(6)
-  updatedAt         DateTime          @updatedAt @db.Timestamptz(6)
-  category          ServiceCategory   @relation(fields: [serviceCategoryId], references: [id], onDelete: Cascade)
-  make              VehicleMake       @relation(fields: [vehicleMakeId], references: [id], onDelete: Cascade)
+  id                   String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  serviceCategoryId    String            @db.Uuid
+  vehicleMakeId        String            @db.Uuid
+  vehicleModel         String
+  city                 String
+  lowCents             Int
+  independentAvgCents  Int
+  highCents            Int
+  dealershipAvgCents   Int
+  sampleSize           Int               @default(0)
+  confidenceLabel      String            @default("Medium")
+  createdAt            DateTime          @default(now()) @db.Timestamptz(6)
+  updatedAt            DateTime          @updatedAt @db.Timestamptz(6)
+  category             ServiceCategory   @relation(fields: [serviceCategoryId], references: [id], onDelete: Cascade)
+  make                 VehicleMake       @relation(fields: [vehicleMakeId], references: [id], onDelete: Cascade)
 
   @@unique([serviceCategoryId, vehicleMakeId, vehicleModel, city])
   @@map("price_benchmarks")

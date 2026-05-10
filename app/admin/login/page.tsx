@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { redirect } from "next/navigation";
-import { getAdminSession, hasAdminCredentials } from "@/lib/admin-auth";
+import { getCurrentAdminUser, isAdminAuthConfigured } from "@/lib/admin-auth";
 
 export const metadata = {
   title: "Admin Login | The Bonnet"
@@ -11,14 +11,14 @@ export default async function AdminLoginPage({
 }: {
   searchParams?: Promise<{ error?: string }>;
 }) {
-  const session = await getAdminSession();
+  const adminUser = await getCurrentAdminUser();
 
-  if (session) {
+  if (adminUser) {
     redirect("/admin");
   }
 
   const params = (await searchParams) ?? {};
-  const disabled = !hasAdminCredentials();
+  const disabled = !(await isAdminAuthConfigured());
 
   return (
     <div className="mx-auto flex min-h-[calc(100vh-160px)] max-w-5xl items-center px-6 py-16 lg:px-8">
@@ -26,27 +26,33 @@ export default async function AdminLoginPage({
         <div className="rounded-[2rem] bg-[radial-gradient(circle_at_top,#183968,transparent_45%),linear-gradient(180deg,#08111f,#0b1730)] p-8 text-white shadow-soft">
           <div className="inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/85">
             <Image src="/brand/the-bonnet-logo.png" alt="The Bonnet" width={28} height={28} className="h-7 w-7 object-contain" />
-            Private admin access
+            Team admin access
           </div>
-          <h1 className="mt-6 text-4xl font-semibold tracking-tight">Manage leads, listings, and marketplace trust operations.</h1>
+          <h1 className="mt-6 text-4xl font-semibold tracking-tight">Sign in to the operations workspace.</h1>
           <p className="mt-4 max-w-xl text-base leading-8 text-slate-300">
-            Sign in to review quote requests, manage workshop visibility, and control the customer-facing directory without exposing any admin functions on the public site.
+            Phase 2 introduces database-backed admin accounts, role permissions, and audit-friendly access for operations, marketplace, support, and finance workflows.
           </p>
+          <div className="mt-8 grid gap-3 text-sm text-slate-200 sm:grid-cols-2">
+            <div className="rounded-[1.25rem] border border-white/10 bg-white/5 px-4 py-3">Role-based access control</div>
+            <div className="rounded-[1.25rem] border border-white/10 bg-white/5 px-4 py-3">Multi-user admin accounts</div>
+            <div className="rounded-[1.25rem] border border-white/10 bg-white/5 px-4 py-3">Audit-ready sign-ins</div>
+            <div className="rounded-[1.25rem] border border-white/10 bg-white/5 px-4 py-3">Private console only</div>
+          </div>
         </div>
 
         <div className="rounded-[2rem] border border-slate-200 bg-white p-8 shadow-soft">
-          <h2 className="text-2xl font-semibold text-slate-950">Super admin login</h2>
+          <h2 className="text-2xl font-semibold text-slate-950">Admin team login</h2>
           <p className="mt-3 text-sm leading-7 text-slate-600">
-            This page is intentionally not linked from the public navigation. Use your private credentials to continue.
+            Use your assigned admin credentials to access marketplace operations. Public visitors cannot reach this workspace from the main navigation.
           </p>
 
           {params.error === "invalid" ? (
-            <div className="mt-6 rounded-2xl bg-rose-50 px-4 py-3 text-sm text-rose-700">The email or password was not correct.</div>
+            <div className="mt-6 rounded-2xl bg-rose-50 px-4 py-3 text-sm text-rose-700">The email or password was not correct, or your admin account is inactive.</div>
           ) : null}
 
           {params.error === "disabled" ? (
             <div className="mt-6 rounded-2xl bg-amber-50 px-4 py-3 text-sm text-amber-800">
-              Admin credentials are not configured yet. Add the admin environment variables in Railway first.
+              Admin authentication is not configured yet. Add Railway variables, run the admin migration, and seed the first super admin account.
             </div>
           ) : null}
 
