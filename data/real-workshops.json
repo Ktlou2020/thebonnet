@@ -5,7 +5,7 @@
     "city": "Bloemfontein",
     "province": "Free State",
     "address": "121 Klaradyn Ave, Pellissier, Bloemfontein, 9301, South Africa",
-    "phone": "+27 82 400 3838",
+    "phone": "+27824003838",
     "website": "https://buksiesauto.co.za/",
     "rating": 5,
     "hours": "Mon-Fri 8:30 AM-4 PM, Sat-Sun Closed",
@@ -26,7 +26,7 @@
     "city": "Bloemfontein",
     "province": "Free State",
     "address": "5 Grey St, Hilton, Bloemfontein, 9301, South Africa",
-    "phone": "+27 72 907 0775",
+    "phone": "+27729070775",
     "website": "https://repairshs.wixsite.com/mechanical-shop-land",
     "rating": 4.9,
     "hours": "Mon-Fri 8 AM-5 PM, Sat 8 AM-12 PM, Sun Closed",
@@ -36,9 +36,10 @@
       "Truck repair shop"
     ],
     "services": [
-      "General Service"
+      "General Service",
+      "Mobile Mechanic"
     ],
-    "mobile": false,
+    "mobile": true,
     "featured": true,
     "source": "Google Maps",
     "placeId": "ChIJ1WCt5A_Qjx4R4zlJRakLJSk"
@@ -49,7 +50,7 @@
     "city": "Bloemfontein",
     "province": "Free State",
     "address": "29 Lombard St, Hilton, Bloemfontein, 9301, South Africa",
-    "phone": "+27 51 430 4023",
+    "phone": "+27514304023",
     "website": "https://www.e-car.co.za/workshops/free-state/bloemfontein/motor-tune-ups/",
     "rating": 4.8,
     "hours": "Mon-Fri 7:30 AM-5 PM, Sat-Sun Closed",
@@ -72,59 +73,12 @@
     "placeId": "ChIJFYZzol_Fjx4RfBmyJDDnyM4"
   },
   {
-    "slug": "car-service-city-bloemfontein-bloemfontein",
-    "name": "Car Service City - Bloemfontein",
-    "city": "Bloemfontein",
-    "province": "Free State",
-    "address": "74 Nelson Mandela Dr, Bloemfontein Central, Bloemfontein, 9301, South Africa",
-    "phone": "+27 10 009 6969",
-    "website": "https://carservicecity.net/find-a-branch/bloemfontein/",
-    "rating": 4.2,
-    "hours": "Mon-Fri 7 AM-5:30 PM, Sat 8 AM-1 PM, Sun Closed",
-    "types": [
-      "Car repair and maintenance service",
-      "Auto repair shop",
-      "Mechanic"
-    ],
-    "services": [
-      "General Service"
-    ],
-    "mobile": false,
-    "featured": true,
-    "source": "Google Maps",
-    "placeId": "ChIJ04VPF13Fjx4RD99qhQJcc1M"
-  },
-  {
-    "slug": "dyno-tech-car-repairs-bloemfontein-bloemfontein",
-    "name": "Dyno-Tech Car Repairs Bloemfontein",
-    "city": "Bloemfontein",
-    "province": "Free State",
-    "address": "95 Watkey St, Oranjesig, Bloemfontein, 9301, South Africa",
-    "phone": "+27 51 448 2631",
-    "website": "",
-    "rating": 4.2,
-    "hours": "Mon-Thu 7:30 AM-5 PM, Fri 7:30 AM-4:30 PM, Sat-Sun Closed",
-    "types": [
-      "Car repair and maintenance service",
-      "Auto electrical service",
-      "Auto repair shop"
-    ],
-    "services": [
-      "General Service",
-      "Diagnostics"
-    ],
-    "mobile": false,
-    "featured": true,
-    "source": "Google Maps",
-    "placeId": "ChIJhT2lBnrFjx4RnpgOgpeub8k"
-  },
-  {
     "slug": "auto-pedigree-service-centre-bloemfontein-bloemfontein",
     "name": "Auto Pedigree Service Centre Bloemfontein",
     "city": "Bloemfontein",
     "province": "Free State",
     "address": "89 Oliver Tambo Rd, Oranjesig, Bloemfontein, 9301, South Africa",
-    "phone": "+27 51 816 0300",
+    "phone": "+27518160300",
     "website": "https://www.autopedigree.co.za/services-centre/bloemfontein-service-centre/4?utm_medium=referal&utm_source=localisation&utm_campaign=Bloemfontein%20Service%20Centre",
     "rating": 4.7,
     "hours": "Mon-Fri 7 AM-5 PM, Sat-Sun Closed",
@@ -148,7 +102,7 @@
     "city": "Bloemfontein",
     "province": "Free State",
     "address": "4A Louw Wepener Straat, Dan Pienaar, Bloemfontein, 9301, South Africa",
-    "phone": "+27 78 947 6881",
+    "phone": "+27789476881",
     "website": "",
     "rating": 4.6,
     "hours": "Open daily 7 AM-5 PM",
@@ -169,7 +123,7 @@
     "city": "Bloemfontein",
     "province": "Free State",
     "address": "Henry St and W Burger St, Bloemfontein Central, Bloemfontein, 9301, South Africa",
-    "phone": "+27 51 430 0783",
+    "phone": "+27514300783",
     "website": "http://swedo.co.za/",
     "rating": 4.5,
     "hours": "Mon-Thu 7:30 AM-5 PM, Fri 7:30 AM-4:30 PM, Sat-Sun Closed",
@@ -191,7 +145,7 @@
     "city": "Bloemfontein",
     "province": "Free State",
     "address": "31 Zastron St, Bloemfontein Central, Bloemfontein, 9301, South Africa",
-    "phone": "+27 83 409 7369",
+    "phone": "+27834097369",
     "website": "https://www.autoclinique.co.za/",
     "rating": 4.4,
     "hours": "Mon-Fri 7:30 AM-5 PM, Sat 8 AM-12 PM, Sun Closed",
@@ -213,7 +167,7 @@
     "city": "Bloemfontein",
     "province": "Free State",
     "address": "Shop 555, 11 Hill St, Bloemfontein Central, Bloemfontein, 9301, South Africa",
-    "phone": "+27 51 430 4749",
+    "phone": "+27514304749",
     "website": "https://sites.google.com/view/jjmotors-bloem",
     "rating": 4.3,
     "hours": "Mon-Fri 7:30 AM-5 PM, Sat 8 AM-1 PM, Sun Closed",
@@ -236,12 +190,59 @@
     "placeId": "ChIJbwRUuF3Fjx4Rs3BoGTiHKWI"
   },
   {
+    "slug": "car-service-city-bloemfontein-bloemfontein",
+    "name": "Car Service City - Bloemfontein",
+    "city": "Bloemfontein",
+    "province": "Free State",
+    "address": "74 Nelson Mandela Dr, Bloemfontein Central, Bloemfontein, 9301, South Africa",
+    "phone": "+27100096969",
+    "website": "https://carservicecity.net/find-a-branch/bloemfontein/",
+    "rating": 4.2,
+    "hours": "Mon-Fri 7 AM-5:30 PM, Sat 8 AM-1 PM, Sun Closed",
+    "types": [
+      "Car repair and maintenance service",
+      "Auto repair shop",
+      "Mechanic"
+    ],
+    "services": [
+      "General Service"
+    ],
+    "mobile": false,
+    "featured": false,
+    "source": "Google Maps",
+    "placeId": "ChIJ04VPF13Fjx4RD99qhQJcc1M"
+  },
+  {
+    "slug": "dyno-tech-car-repairs-bloemfontein-bloemfontein",
+    "name": "Dyno-Tech Car Repairs Bloemfontein",
+    "city": "Bloemfontein",
+    "province": "Free State",
+    "address": "95 Watkey St, Oranjesig, Bloemfontein, 9301, South Africa",
+    "phone": "+27514482631",
+    "website": "",
+    "rating": 4.2,
+    "hours": "Mon-Thu 7:30 AM-5 PM, Fri 7:30 AM-4:30 PM, Sat-Sun Closed",
+    "types": [
+      "Car repair and maintenance service",
+      "Auto electrical service",
+      "Auto repair shop"
+    ],
+    "services": [
+      "General Service",
+      "Diagnostics"
+    ],
+    "mobile": false,
+    "featured": false,
+    "source": "Google Maps",
+    "placeId": "ChIJhT2lBnrFjx4RnpgOgpeub8k"
+  },
+  {
     "slug": "car-service-city-loop-street-cape-town",
     "name": "Car Service City - Loop Street",
     "city": "Cape Town",
     "province": "Western Cape",
     "address": "49 Loop St, Cape Town City Centre, Cape Town, 8000, South Africa",
-    "phone": "+27 10 009 6963",
+    "phone": "+27100096963",
     "website": "https://carservicecity.net/find-a-branch/cape-town-loop-street/",
     "rating": 4.8,
     "hours": "Mon-Fri 7 AM-5:30 PM, Sat 8 AM-1 PM, Sun Closed",
@@ -262,7 +263,7 @@
     "city": "Cape Town",
     "province": "Western Cape",
     "address": "Central Car Repairs @ Community Motors, 400 Albert Rd, Salt River, Cape Town, 7925, South Africa",
-    "phone": "+27 21 447 3824",
+    "phone": "+27214473824",
     "website": "http://www.central-car-repairs.co.za/",
     "rating": 4.8,
     "hours": "Mon-Fri 8 AM-5 PM, Sat-Sun Closed",
@@ -286,7 +287,7 @@
     "city": "Cape Town",
     "province": "Western Cape",
     "address": "East Block, Centennial Place, Century Blvd, Century City, Cape Town, 7441, South Africa",
-    "phone": "+27 10 824 7947",
+    "phone": "+27108247947",
     "website": "http://www.servicemycar.co.za/",
     "rating": 4.8,
     "hours": "Open 24 hours",
@@ -304,34 +305,12 @@
     "placeId": "ChIJ-ZMNFgBdzB0RYKCDpO6NEcU"
   },
   {
-    "slug": "autoworks-salt-river-cape-town",
-    "name": "AutoWorks Salt River",
-    "city": "Cape Town",
-    "province": "Western Cape",
-    "address": "19 Durham Ave, Salt River, Cape Town, 7925, South Africa",
-    "phone": "+27 21 447 9862",
-    "website": "http://www.autoworks.co.za/",
-    "rating": 4.5,
-    "hours": "Mon-Tue, Wed-Fri 7:30 AM-5:30 PM, Sat-Sun Closed",
-    "types": [
-      "Auto repair shop",
-      "Car repair and maintenance service"
-    ],
-    "services": [
-      "General Service"
-    ],
-    "mobile": false,
-    "featured": true,
-    "source": "Google Maps",
-    "placeId": "ChIJz2V8Vw9dzB0ROPCusVWj5r0"
-  },
-  {
     "slug": "auto-monkey-cape-town",
     "name": "Auto Monkey",
     "city": "Cape Town",
     "province": "Western Cape",
     "address": "22 Albert Rd, Woodstock, Cape Town, 7925, South Africa",
-    "phone": "+27 83 271 7162",
+    "phone": "+27832717162",
     "website": "http://www.automonkey.co.za/",
     "rating": 4.7,
     "hours": "Mon-Fri 8 AM-5:30 PM, Sat 8 AM-1 PM, Sun Closed",
@@ -359,7 +338,7 @@
     "city": "Cape Town",
     "province": "Western Cape",
     "address": "1st workshop, 43 Somerset Rd, Green Point, Cape Town, 8005, South Africa",
-    "phone": "+27 21 569 4680",
+    "phone": "+27215694680",
     "website": "http://www.marksautocare.co.za/",
     "rating": 4.7,
     "hours": "Mon-Fri 7 AM-5:30 PM, Sat 8 AM-1 PM, Sun Closed",
@@ -375,12 +354,34 @@
     "placeId": "ChIJWQ_tuytnzB0R3VK_-3Q65aE"
   },
   {
+    "slug": "autoworks-salt-river-cape-town",
+    "name": "AutoWorks Salt River",
+    "city": "Cape Town",
+    "province": "Western Cape",
+    "address": "19 Durham Ave, Salt River, Cape Town, 7925, South Africa",
+    "phone": "+27214479862",
+    "website": "http://www.autoworks.co.za/",
+    "rating": 4.5,
+    "hours": "Mon-Tue, Wed-Fri 7:30 AM-5:30 PM, Sat-Sun Closed",
+    "types": [
+      "Auto repair shop",
+      "Car repair and maintenance service"
+    ],
+    "services": [
+      "General Service"
+    ],
+    "mobile": false,
+    "featured": false,
+    "source": "Google Maps",
+    "placeId": "ChIJz2V8Vw9dzB0ROPCusVWj5r0"
+  },
+  {
     "slug": "cape-city-auto-care-cape-town",
     "name": "Cape City Auto Care",
     "city": "Cape Town",
     "province": "Western Cape",
     "address": "88 Buitengracht St, Cape Town City Centre, Cape Town, 8000, South Africa",
-    "phone": "+27 21 424 5370",
+    "phone": "+27214245370",
     "website": "https://valuetyre.co.za/",
     "rating": 4.5,
     "hours": "Mon-Fri 8 AM-5 PM, Sat 8 AM-1 PM, Sun Closed",
@@ -392,7 +393,8 @@
     ],
     "services": [
       "General Service",
-      "Brakes"
+      "Brakes",
+      "Suspension"
     ],
     "mobile": false,
     "featured": false,
@@ -405,7 +407,7 @@
     "city": "Cape Town",
     "province": "Western Cape",
     "address": "450 Koeberg Rd, Marconi Beam, Cape Town, 7435, South Africa",
-    "phone": "+27 21 007 5832",
+    "phone": "+27210075832",
     "website": "https://www.saccape.co.za/",
     "rating": 4.4,
     "hours": "Mon-Thu 7 AM-5 PM, Fri 7:30 AM-4 PM, Sat-Sun Closed",
@@ -432,7 +434,7 @@
     "city": "Cape Town",
     "province": "Western Cape",
     "address": "Shop 2, Centre Court Corner Bosmansdam and Koeberg Rd, Milnerton, Cape Town, 7441, South Africa",
-    "phone": "+27 21 551 1257",
+    "phone": "+27215511257",
     "website": "http://www.autoworks.co.za/",
     "rating": 4.3,
     "hours": "Mon-Fri 7:30 AM-5:30 PM, Sat-Sun Closed",
@@ -454,7 +456,7 @@
     "city": "Cape Town",
     "province": "Western Cape",
     "address": "130 Buitenkant St, Gardens, Cape Town, 8001, South Africa",
-    "phone": "+27 21 462 6662",
+    "phone": "+27214626662",
     "website": "",
     "rating": 4.3,
     "hours": "Mon-Fri 7:30 AM-5 PM, Sat-Sun Closed",
@@ -478,9 +480,9 @@
     "slug": "bosch-car-service-dna-auto-durban",
     "name": "Bosch Car Service DNA Auto",
     "city": "Durban",
-    "province": "KwaZulu-Natal",
+    "province": "Kwazulu-Natal",
     "address": "Unit 13, Marseilles Park, 25 Marseilles Cres, Briardene, Durban, 4051, South Africa",
-    "phone": "+27 31 569 1417",
+    "phone": "+27315691417",
     "website": "https://dnaautocentre.co.za/",
     "rating": 4.9,
     "hours": "Mon-Fri 7 AM-5 PM, Sat 7 AM-1 PM, Sun Closed",
@@ -501,12 +503,34 @@
     "placeId": "ChIJHR6zrZwG9x4RAEQA55DP89o"
   },
   {
+    "slug": "svk-auto-mobile-mechanics-durban",
+    "name": "SVK Auto Mobile Mechanics",
+    "city": "Durban",
+    "province": "Kwazulu-Natal",
+    "address": "19 Hayhurst Pl, Montclair, Durban, 4001, South Africa",
+    "phone": "+27813143776",
+    "website": "",
+    "rating": 4.9,
+    "hours": "Open 24 hours",
+    "types": [
+      "Mechanic"
+    ],
+    "services": [
+      "General Service",
+      "Mobile Mechanic"
+    ],
+    "mobile": true,
+    "featured": true,
+    "source": "Google Maps",
+    "placeId": "ChIJu-3T2vKr9x4RktSE3m9Oqtk"
+  },
+  {
     "slug": "bosch-car-service-kzn-repair-centre-durban",
     "name": "Bosch Car Service KZN Repair Centre",
     "city": "Durban",
-    "province": "KwaZulu-Natal",
+    "province": "Kwazulu-Natal",
     "address": "969 Umgeni Rd, Morningside, Berea, Durban, 4001, South Africa",
-    "phone": "+27 31 072 0115",
+    "phone": "+27310720115",
     "website": "https://rmsbosch.co.za/bosch-car-service-kzn-repair-centre-car-repairs/",
     "rating": 4.8,
     "hours": "Open 24 hours Monday-Saturday, Sunday Closed",
@@ -519,10 +543,10 @@
     ],
     "services": [
       "General Service",
-      "Mobile Mechanic",
       "Diagnostics",
+      "Panel & Paint",
       "Aircon",
-      "Panel & Paint"
+      "Mobile Mechanic"
     ],
     "mobile": true,
     "featured": true,
@@ -533,9 +557,9 @@
     "slug": "car-guyz-service-centre-durban",
     "name": "Car Guyz Service Centre",
     "city": "Durban",
-    "province": "KwaZulu-Natal",
+    "province": "Kwazulu-Natal",
     "address": "449 Bluff Rd, Bluff, Durban, 4026, South Africa",
-    "phone": "+27 31 467 4989",
+    "phone": "+27314674989",
     "website": "http://www.carguyz.co.za/",
     "rating": 4.8,
     "hours": "Mon-Fri 7:30 AM-5 PM, Sat 8 AM-1 PM, Sun Closed",
@@ -547,8 +571,8 @@
     ],
     "services": [
       "General Service",
-      "Transmission",
-      "Suspension"
+      "Suspension",
+      "Transmission"
     ],
     "mobile": false,
     "featured": true,
@@ -556,12 +580,35 @@
     "placeId": "ChIJ88mIu1qp9x4RCPsZ3cOMbYY"
   },
   {
+    "slug": "s-k-auto-electrical-and-mobile-repairs-diagnostic-test-done-to-most-vehicles-durban",
+    "name": "S. K. Auto Electrical and Mobile Repairs .Diagnostic Test Done To Most Vehicles.",
+    "city": "Durban",
+    "province": "Kwazulu-Natal",
+    "address": "439 Mountbatten Dr, Reservoir Hills, Durban, 4091, South Africa",
+    "phone": "+27835601592",
+    "website": "",
+    "rating": 4.8,
+    "hours": "Mon-Fri 7 AM-5 PM, Sat 8:30 AM-3 PM, Sun 9 AM-2:30 PM",
+    "types": [
+      "Auto repair shop"
+    ],
+    "services": [
+      "General Service",
+      "Diagnostics",
+      "Mobile Mechanic"
+    ],
+    "mobile": true,
+    "featured": false,
+    "source": "Google Maps",
+    "placeId": "ChIJr3XD1BEB9x4Rtp8AhA8_gXI"
+  },
+  {
     "slug": "zah-auto-repair-and-engineering-t-a-german-auto-repair-durban",
     "name": "ZAH Auto Repair & Engineering T/A German Auto Repair",
     "city": "Durban",
-    "province": "KwaZulu-Natal",
+    "province": "Kwazulu-Natal",
     "address": "375 S Coast Rd, Rossburgh, Durban, 4063, South Africa",
-    "phone": "+27 72 626 5920",
+    "phone": "+27726265920",
     "website": "http://www.germanautorepairs.co.za/",
     "rating": 4.8,
     "hours": "Mon-Fri 7 AM-5 PM, Sat 7 AM-1:30 PM, Sun Closed",
@@ -578,57 +625,12 @@
     "placeId": "ChIJqxVGDGap9x4RQj-3RZF9Fiw"
   },
   {
-    "slug": "svk-auto-mobile-mechanics-durban",
-    "name": "SVK Auto Mobile Mechanics",
-    "city": "Durban",
-    "province": "KwaZulu-Natal",
-    "address": "19 Hayhurst Pl, Montclair, Durban, 4001, South Africa",
-    "phone": "+27 81 314 3776",
-    "website": "",
-    "rating": 4.9,
-    "hours": "Open 24 hours",
-    "types": [
-      "Mechanic"
-    ],
-    "services": [
-      "General Service",
-      "Mobile Mechanic"
-    ],
-    "mobile": true,
-    "featured": false,
-    "source": "Google Maps",
-    "placeId": "ChIJu-3T2vKr9x4RktSE3m9Oqtk"
-  },
-  {
-    "slug": "s-k-auto-electrical-and-mobile-repairs-diagnostic-test-done-to-most-vehicles-durban",
-    "name": "S. K. Auto Electrical and Mobile Repairs .Diagnostic Test Done To Most Vehicles.",
-    "city": "Durban",
-    "province": "KwaZulu-Natal",
-    "address": "439 Mountbatten Dr, Reservoir Hills, Durban, 4091, South Africa",
-    "phone": "+27 83 560 1592",
-    "website": "",
-    "rating": 4.8,
-    "hours": "Mon-Fri 7 AM-5 PM, Sat 8:30 AM-3 PM, Sun 9 AM-2:30 PM",
-    "types": [
-      "Auto repair shop"
-    ],
-    "services": [
-      "General Service",
-      "Mobile Mechanic",
-      "Diagnostics"
-    ],
-    "mobile": true,
-    "featured": false,
-    "source": "Google Maps",
-    "placeId": "ChIJr3XD1BEB9x4Rtp8AhA8_gXI"
-  },
-  {
     "slug": "kinetic-garage-durban",
     "name": "Kinetic Garage",
     "city": "Durban",
-    "province": "KwaZulu-Natal",
+    "province": "Kwazulu-Natal",
     "address": "Unit 7, Reach Park, 28 Cordova Cl, Briardene, Durban, 4051, South Africa",
-    "phone": "+27 84 999 1860",
+    "phone": "+27849991860",
     "website": "http://www.kineticgarage.co.za/",
     "rating": 4.7,
     "hours": "Mon-Fri 8 AM-5 PM, Sat 8 AM-1:30 PM, Sun Closed",
@@ -647,9 +649,9 @@
     "slug": "cgs-auto-repairs-and-services-durban",
     "name": "CGS AUTO REPAIRS AND SERVICES",
     "city": "Durban",
-    "province": "KwaZulu-Natal",
+    "province": "Kwazulu-Natal",
     "address": "20 Kent Rd, Greyville, Durban, 4000, South Africa",
-    "phone": "+27 87 265 2889",
+    "phone": "+27872652889",
     "website": "http://www.cgsauto.co.za/",
     "rating": 4.6,
     "hours": "Mon-Fri 8 AM-5:30 PM, Sat Closed, Sun 8 AM-1:30 PM",
@@ -668,9 +670,9 @@
     "slug": "rp-auto-general-durban",
     "name": "RP Auto General",
     "city": "Durban",
-    "province": "KwaZulu-Natal",
+    "province": "Kwazulu-Natal",
     "address": "48 Stalwart Simelane St, South Beach, Durban, 4001, South Africa",
-    "phone": "+27 74 747 3051",
+    "phone": "+27747473051",
     "website": "https://rpautogeneral.co.za/",
     "rating": 4.6,
     "hours": "Mon-Fri 7 AM-5 PM, Sat 7 AM-3 PM, Sun Closed",
@@ -683,7 +685,8 @@
     ],
     "services": [
       "General Service",
-      "Diagnostics"
+      "Diagnostics",
+      "Suspension"
     ],
     "mobile": false,
     "featured": false,
@@ -694,9 +697,9 @@
     "slug": "cartime-morningside-umgeni-road-durban",
     "name": "CARtime Morningside Umgeni Road",
     "city": "Durban",
-    "province": "KwaZulu-Natal",
+    "province": "Kwazulu-Natal",
     "address": "501 Umgeni Rd, Morningside, Durban, 4001, South Africa",
-    "phone": "+27 31 312 9612",
+    "phone": "+27313129612",
     "website": "https://cartime.co.za/find-a-branch/morningside-branch/",
     "rating": 4.3,
     "hours": "Mon-Fri 7:30 AM-5:30 PM, Sat 8 AM-1 PM, Sun Closed",
@@ -723,7 +726,7 @@
     "city": "East London",
     "province": "Eastern Cape",
     "address": "13B Settlers Wy, Gately, KuGompo City, 5209, South Africa",
-    "phone": "+27 81 528 8371",
+    "phone": "+27815288371",
     "website": "https://www.facebook.com/share/1CYkAByLKT/?mibextid=wwXIfr",
     "rating": 5,
     "hours": "Mon-Fri 7:30 AM-4:30 PM, Sat-Sun Closed",
@@ -738,8 +741,8 @@
       "General Service",
       "Brakes",
       "Diagnostics",
-      "Panel & Paint",
-      "Suspension"
+      "Suspension",
+      "Panel & Paint"
     ],
     "mobile": false,
     "featured": true,
@@ -752,7 +755,7 @@
     "city": "East London",
     "province": "Eastern Cape",
     "address": "53 Paterson St, Arcadia, KuGompo City, 5201, South Africa",
-    "phone": "+27 43 722 0525",
+    "phone": "+27437220525",
     "website": "http://www.cliffiesauto.co.za/",
     "rating": 4.8,
     "hours": "Mon-Thu 7:30 AM-4:45 PM, Fri 7:30 AM-4 PM, Sat-Sun Closed",
@@ -772,34 +775,12 @@
     "placeId": "ChIJ21q3Q7nhZh4RAU1U7GtG-4U"
   },
   {
-    "slug": "ian-s-auto-clinic-east-london",
-    "name": "Ian's Auto Clinic",
-    "city": "East London",
-    "province": "Eastern Cape",
-    "address": "18 Moore St, Quigney, KuGompo City, 5201, South Africa",
-    "phone": "+27 43 726 9266",
-    "website": "http://www.iansauto.co.za/",
-    "rating": 4.5,
-    "hours": "Mon-Fri 8 AM-5 PM, Sat-Sun Closed",
-    "types": [
-      "Mechanic",
-      "Repair service"
-    ],
-    "services": [
-      "General Service"
-    ],
-    "mobile": false,
-    "featured": true,
-    "source": "Google Maps",
-    "placeId": "ChIJR3aZxzngZh4RW2WiVoO70qc"
-  },
-  {
     "slug": "auto-service-gonubie-east-london",
     "name": "Auto Service Gonubie",
     "city": "East London",
     "province": "Eastern Cape",
     "address": "3 4th St, Gonubie, East London, 5247, South Africa",
-    "phone": "+27 62 981 9506",
+    "phone": "+27629819506",
     "website": "",
     "rating": 4.7,
     "hours": "Mon-Fri 7:30 AM-5 PM, Sat-Sun Closed",
@@ -820,7 +801,7 @@
     "city": "East London",
     "province": "Eastern Cape",
     "address": "31 Manchester Rd, Chiselhurst, KuGompo City, 5247, South Africa",
-    "phone": "+27 43 726 8530",
+    "phone": "+27437268530",
     "website": "",
     "rating": 4.6,
     "hours": "Mon-Fri 7:30 AM-5 PM, Sat-Sun Closed",
@@ -842,7 +823,7 @@
     "city": "East London",
     "province": "Eastern Cape",
     "address": "5 4th St, Gonubie, KuGompo City, 5256, South Africa",
-    "phone": "+27 43 008 5088",
+    "phone": "+27430085088",
     "website": "https://cartime.co.za/find-a-branch/gonubie-east-london-branch/",
     "rating": 4.6,
     "hours": "Mon-Fri 7:30 AM-5:30 PM, Sat 8 AM-1 PM, Sun Closed",
@@ -869,7 +850,7 @@
     "city": "East London",
     "province": "Eastern Cape",
     "address": "6 Casey Ln, Abbotsford, KuGompo City, 5201, South Africa",
-    "phone": "+27 73 543 0231",
+    "phone": "+27735430231",
     "website": "",
     "rating": 4.5,
     "hours": "Open 24 hours",
@@ -880,8 +861,8 @@
     ],
     "services": [
       "General Service",
-      "Mobile Mechanic",
-      "Diagnostics"
+      "Diagnostics",
+      "Mobile Mechanic"
     ],
     "mobile": true,
     "featured": false,
@@ -894,7 +875,7 @@
     "city": "East London",
     "province": "Eastern Cape",
     "address": "Shop 2, Western Park Shopping Centre, Western Ave, Vincent, KuGompo City, 5217, South Africa",
-    "phone": "+27 43 726 6625",
+    "phone": "+27437266625",
     "website": "https://carservicecity.net/find-a-branch/east-london-vincent-park/",
     "rating": 4.5,
     "hours": "Mon-Fri 7 AM-5:30 PM, Sat 8 AM-1 PM, Sun Closed",
@@ -910,12 +891,34 @@
     "placeId": "ChIJO6zrGUfgZh4RRr6BErAWwjA"
   },
   {
+    "slug": "ian-s-auto-clinic-east-london",
+    "name": "Ian's Auto Clinic",
+    "city": "East London",
+    "province": "Eastern Cape",
+    "address": "18 Moore St, Quigney, KuGompo City, 5201, South Africa",
+    "phone": "+27437269266",
+    "website": "http://www.iansauto.co.za/",
+    "rating": 4.5,
+    "hours": "Mon-Fri 8 AM-5 PM, Sat-Sun Closed",
+    "types": [
+      "Mechanic",
+      "Repair service"
+    ],
+    "services": [
+      "General Service"
+    ],
+    "mobile": false,
+    "featured": false,
+    "source": "Google Maps",
+    "placeId": "ChIJR3aZxzngZh4RW2WiVoO70qc"
+  },
+  {
     "slug": "legend-motors-east-london",
     "name": "Legend Motors",
     "city": "East London",
     "province": "Eastern Cape",
     "address": "21 St Johns Rd, North End, KuGompo City, 5201, South Africa",
-    "phone": "+27 43 001 0060",
+    "phone": "+27430010060",
     "website": "http://legendmotors.co.za/",
     "rating": 4.2,
     "hours": "Mon-Fri 7:30 AM-5 PM, Sat-Sun Closed",
@@ -937,7 +940,7 @@
     "city": "East London",
     "province": "Eastern Cape",
     "address": "Shop 1, 83 Old Transkei Rd, Nahoon, KuGompo City, 5210, South Africa",
-    "phone": "+27 43 008 5019",
+    "phone": "+27430085019",
     "website": "https://cartime.co.za/find-a-branch/nahoon-branch/",
     "rating": 4.1,
     "hours": "Mon-Fri 7:30 AM-5:30 PM, Sat 8 AM-1 PM, Sun Closed",
@@ -964,7 +967,7 @@
     "city": "Gqeberha",
     "province": "Eastern Cape",
     "address": "41 5th Ave, Newton Park, Gqeberha, 6001, South Africa",
-    "phone": "+27 41 364 2699",
+    "phone": "+27413642699",
     "website": "http://www.extramileauto.co.za/",
     "rating": 4.9,
     "hours": "Mon-Thu 7:30 AM-4:30 PM, Fri 7:30 AM-2 PM, Sat-Sun Closed",
@@ -980,12 +983,33 @@
     "placeId": "ChIJgbYc0nPSeh4RefZBfvcyzSI"
   },
   {
+    "slug": "jk-automotive-pty-ltd-gqeberha",
+    "name": "JK Automotive (Pty) Ltd",
+    "city": "Gqeberha",
+    "province": "Eastern Cape",
+    "address": "134 Kempston Road, 34 Larch Rd, Korsten, Gqeberha, 6001, South Africa",
+    "phone": "+27814465632",
+    "website": "",
+    "rating": 4.9,
+    "hours": "Mon-Thu 7 AM-5 PM, Fri 7 AM-3:30 PM, Sat-Sun Closed",
+    "types": [
+      "Mechanic"
+    ],
+    "services": [
+      "General Service"
+    ],
+    "mobile": false,
+    "featured": true,
+    "source": "Google Maps",
+    "placeId": "ChIJoYo6e9XTeh4RAcltb7FiRIs"
+  },
+  {
     "slug": "car-service-city-fairview-gqeberha",
     "name": "Car Service City - Fairview",
     "city": "Gqeberha",
     "province": "Eastern Cape",
     "address": "The Willow Road Shopping Centre, Circular Dr, Fairview, Gqeberha, 6070, South Africa",
-    "phone": "+27 41 004 0464",
+    "phone": "+27410040464",
     "website": "https://carservicecity.net/find-a-branch/fairview-gqeberha/",
     "rating": 4.8,
     "hours": "Mon-Fri 7 AM-5:30 PM, Sat 8 AM-1 PM, Sun Closed",
@@ -1007,7 +1031,7 @@
     "city": "Gqeberha",
     "province": "Eastern Cape",
     "address": "155 Main Rd, Walmer, Gqeberha, 6065, South Africa",
-    "phone": "+27 41 813 8659",
+    "phone": "+27418138659",
     "website": "https://hudsonauto.co.za/",
     "rating": 4.8,
     "hours": "Mon-Fri 7 AM-5 PM, Sat-Sun Closed",
@@ -1028,7 +1052,7 @@
     "city": "Gqeberha",
     "province": "Eastern Cape",
     "address": "172 Heugh Rd, Walmer, Gqeberha, 6070, South Africa",
-    "phone": "+27 41 581 6648",
+    "phone": "+27415816648",
     "website": "https://m.facebook.com/pages/category/Automotive-Repair-Shop/KS-Auto-Service-Centre-106072697744016/",
     "rating": 4.8,
     "hours": "Mon-Fri 7:45 AM-5 PM, Sat-Sun Closed",
@@ -1049,7 +1073,7 @@
     "city": "Gqeberha",
     "province": "Eastern Cape",
     "address": "724 Govan Mbeki St, North End, Gqeberha, 6001, South Africa",
-    "phone": "+27 10 003 2291",
+    "phone": "+27100032291",
     "website": "https://carservicecity.net/find-a-branch/north-end-gqeberha/",
     "rating": 4.7,
     "hours": "Mon-Fri 7 AM-5:30 PM, Sat 8 AM-1 PM, Sun Closed",
@@ -1060,30 +1084,9 @@
       "General Service"
     ],
     "mobile": false,
-    "featured": true,
-    "source": "Google Maps",
-    "placeId": "ChIJA5tFikQkex4Rl9_Ug9TDAI8"
-  },
-  {
-    "slug": "jk-automotive-pty-ltd-gqeberha",
-    "name": "JK Automotive (Pty) Ltd",
-    "city": "Gqeberha",
-    "province": "Eastern Cape",
-    "address": "134 Kempston Road, 34 Larch Rd, Korsten, Gqeberha, 6001, South Africa",
-    "phone": "+27 81 446 5632",
-    "website": "",
-    "rating": 4.9,
-    "hours": "Mon-Thu 7 AM-5 PM, Fri 7 AM-3:30 PM, Sat-Sun Closed",
-    "types": [
-      "Mechanic"
-    ],
-    "services": [
-      "General Service"
-    ],
-    "mobile": false,
     "featured": false,
     "source": "Google Maps",
-    "placeId": "ChIJoYo6e9XTeh4RAcltb7FiRIs"
+    "placeId": "ChIJA5tFikQkex4Rl9_Ug9TDAI8"
   },
   {
     "slug": "kent-automotive-repair-and-service-gqeberha",
@@ -1091,7 +1094,7 @@
     "city": "Gqeberha",
     "province": "Eastern Cape",
     "address": "Unit 3 Aeropark, c/o Lockhead Street and De Havilland St, Walmer, Gqeberha, 6001, South Africa",
-    "phone": "+27 82 698 8228",
+    "phone": "+27826988228",
     "website": "",
     "rating": 4.7,
     "hours": "Mon-Thu 7:45 AM-4:45 PM, Fri 7:45 AM-3:30 PM, Sat-Sun Closed",
@@ -1112,7 +1115,7 @@
     "city": "Gqeberha",
     "province": "Eastern Cape",
     "address": "25 9th Ave, Walmer, Gqeberha, 6001, South Africa",
-    "phone": "+27 41 004 0349",
+    "phone": "+27410040349",
     "website": "http://popsauto.co.za/",
     "rating": 4.7,
     "hours": "Mon-Fri 7:30 AM-5 PM, Sat 7:30 AM-12:30 PM, Sun Closed",
@@ -1133,7 +1136,7 @@
     "city": "Gqeberha",
     "province": "Eastern Cape",
     "address": "15 Newton St, Newton Park, Gqeberha, 6045, South Africa",
-    "phone": "+27 41 813 8654",
+    "phone": "+27418138654",
     "website": "https://hudsonauto.co.za/",
     "rating": 4.5,
     "hours": "Mon-Fri 7 AM-5 PM, Sat-Sun Closed",
@@ -1159,7 +1162,7 @@
     "city": "Gqeberha",
     "province": "Eastern Cape",
     "address": "30 1st Ave, Walmer, Gqeberha, 6070, South Africa",
-    "phone": "+27 41 581 1513",
+    "phone": "+27415811513",
     "website": "http://www.finnauto.co.za/",
     "rating": 4,
     "hours": "Mon-Fri 7:30 AM-5:30 PM, Sat-Sun Closed",
@@ -1182,7 +1185,7 @@
     "city": "Johannesburg",
     "province": "Gauteng",
     "address": "81 New Ave, Bramley, Johannesburg, 2090, South Africa",
-    "phone": "+27 73 107 3779",
+    "phone": "+27731073779",
     "website": "http://www.ricmobilemechanic.co.za/",
     "rating": 5,
     "hours": "Open 24 hours",
@@ -1204,7 +1207,7 @@
     "city": "Johannesburg",
     "province": "Gauteng",
     "address": "92 Lilian Ngoyi St, Newtown, Johannesburg, 2113, South Africa",
-    "phone": "+27 82 815 6624",
+    "phone": "+27828156624",
     "website": "http://www.joburgautotech.co.za/",
     "rating": 4.9,
     "hours": "Call or visit website for hours",
@@ -1220,78 +1223,12 @@
     "placeId": "ChIJM8c0I6gOlR4R5g10SIsEyAs"
   },
   {
-    "slug": "lesmaf-auto-repair-and-service-johannesburg",
-    "name": "LesMaf Auto Repair and Service",
-    "city": "Johannesburg",
-    "province": "Gauteng",
-    "address": "9 St Georges St, Lake View Estate, Johannesburg, 2091, South Africa",
-    "phone": "+27 76 538 1073",
-    "website": "http://lesmaf.co.za/",
-    "rating": 4.8,
-    "hours": "Mon-Fri 8 AM-5 PM, Sat-Sun Closed",
-    "types": [
-      "Car repair and maintenance service"
-    ],
-    "services": [
-      "General Service"
-    ],
-    "mobile": false,
-    "featured": true,
-    "source": "Google Maps",
-    "placeId": "ChIJ1fJoVy0KlR4RxT-69KzfLXs"
-  },
-  {
-    "slug": "car-service-city-eloff-johannesburg",
-    "name": "Car Service City - Eloff",
-    "city": "Johannesburg",
-    "province": "Gauteng",
-    "address": "30 Eloff St, Marshalltown, Johannesburg, 2107, South Africa",
-    "phone": "+27 11 331 6849",
-    "website": "https://carservicecity.net/find-a-branch/eloff/",
-    "rating": 4.6,
-    "hours": "Mon-Fri 7 AM-5:30 PM, Sat 8 AM-1 PM, Sun Closed",
-    "types": [
-      "Car repair and maintenance service"
-    ],
-    "services": [
-      "General Service"
-    ],
-    "mobile": false,
-    "featured": true,
-    "source": "Google Maps",
-    "placeId": "ChIJS-5lMpgOlR4R_EojnOdh0Gg"
-  },
-  {
-    "slug": "rs-service-centre-car-services-and-mechanics-johannesburg",
-    "name": "RS Service Centre - Car Services and Mechanics",
-    "city": "Johannesburg",
-    "province": "Gauteng",
-    "address": "42 6th St, Wynberg, Sandton, 2090, South Africa",
-    "phone": "+27 11 885 1654",
-    "website": "http://www.rsservice.co.za/",
-    "rating": 4.6,
-    "hours": "Mon-Tue, Wed-Thu 7:30 AM-5 PM, Fri 7:30 AM-3 PM, Sat 8 AM-1 PM, Sun Closed",
-    "types": [
-      "Car repair and maintenance service",
-      "Auto repair shop",
-      "Chauffeur service",
-      "Mechanic"
-    ],
-    "services": [
-      "General Service"
-    ],
-    "mobile": false,
-    "featured": true,
-    "source": "Google Maps",
-    "placeId": "ChIJZYmyYjENlR4R2KHGk44WGJg"
-  },
-  {
     "slug": "nk-auto-repairs-johannesburg",
     "name": "NK Auto Repairs",
     "city": "Johannesburg",
     "province": "Gauteng",
     "address": "85 Subway St, Johannesburg, 2000, South Africa",
-    "phone": "+27 79 469 3979",
+    "phone": "+27794693979",
     "website": "",
     "rating": 4.9,
     "hours": "Mon-Fri 8 AM-5 PM, Sat 9 AM-3 PM, Sun 9 AM-4 PM",
@@ -1312,7 +1249,7 @@
     "city": "Johannesburg",
     "province": "Gauteng",
     "address": "97 Third Street, cnr 4th Ave, Booysens Reserve, Johannesburg South, 2091, South Africa",
-    "phone": "+27 84 782 7349",
+    "phone": "+27847827349",
     "website": "",
     "rating": 4.9,
     "hours": "Mon-Fri 8:30 AM-5 PM, Sat-Sun Closed",
@@ -1328,12 +1265,33 @@
     "placeId": "ChIJ9c82jzcJlR4RJfRsDvJ5lZc"
   },
   {
+    "slug": "lesmaf-auto-repair-and-service-johannesburg",
+    "name": "LesMaf Auto Repair and Service",
+    "city": "Johannesburg",
+    "province": "Gauteng",
+    "address": "9 St Georges St, Lake View Estate, Johannesburg, 2091, South Africa",
+    "phone": "+27765381073",
+    "website": "http://lesmaf.co.za/",
+    "rating": 4.8,
+    "hours": "Mon-Fri 8 AM-5 PM, Sat-Sun Closed",
+    "types": [
+      "Car repair and maintenance service"
+    ],
+    "services": [
+      "General Service"
+    ],
+    "mobile": false,
+    "featured": true,
+    "source": "Google Maps",
+    "placeId": "ChIJ1fJoVy0KlR4RxT-69KzfLXs"
+  },
+  {
     "slug": "auto-care-workshop-auckland-park-johannesburg",
     "name": "Auto Care Workshop Auckland Park",
     "city": "Johannesburg",
     "province": "Gauteng",
     "address": "4 Marie Rd, Richmond, Johannesburg, 2092, South Africa",
-    "phone": "+27 11 482 1738",
+    "phone": "+27114821738",
     "website": "http://acworkshop.co.za/",
     "rating": 4.6,
     "hours": "Mon-Fri 7:30 AM-5 PM, Sat 8 AM-1 PM, Sun Closed",
@@ -1351,12 +1309,57 @@
     "placeId": "ChIJXwfxOVQLlR4RwYZO_tW7xsA"
   },
   {
+    "slug": "car-service-city-eloff-johannesburg",
+    "name": "Car Service City - Eloff",
+    "city": "Johannesburg",
+    "province": "Gauteng",
+    "address": "30 Eloff St, Marshalltown, Johannesburg, 2107, South Africa",
+    "phone": "+27113316849",
+    "website": "https://carservicecity.net/find-a-branch/eloff/",
+    "rating": 4.6,
+    "hours": "Mon-Fri 7 AM-5:30 PM, Sat 8 AM-1 PM, Sun Closed",
+    "types": [
+      "Car repair and maintenance service"
+    ],
+    "services": [
+      "General Service"
+    ],
+    "mobile": false,
+    "featured": false,
+    "source": "Google Maps",
+    "placeId": "ChIJS-5lMpgOlR4R_EojnOdh0Gg"
+  },
+  {
+    "slug": "rs-service-centre-car-services-and-mechanics-johannesburg",
+    "name": "RS Service Centre - Car Services and Mechanics",
+    "city": "Johannesburg",
+    "province": "Gauteng",
+    "address": "42 6th St, Wynberg, Sandton, 2090, South Africa",
+    "phone": "+27118851654",
+    "website": "http://www.rsservice.co.za/",
+    "rating": 4.6,
+    "hours": "Mon-Tue, Wed-Thu 7:30 AM-5 PM, Fri 7:30 AM-3 PM, Sat 8 AM-1 PM, Sun Closed",
+    "types": [
+      "Car repair and maintenance service",
+      "Auto repair shop",
+      "Chauffeur service",
+      "Mechanic"
+    ],
+    "services": [
+      "General Service"
+    ],
+    "mobile": false,
+    "featured": false,
+    "source": "Google Maps",
+    "placeId": "ChIJZYmyYjENlR4R2KHGk44WGJg"
+  },
+  {
     "slug": "tune-tech-johannesburg",
     "name": "TUNE-TECH",
     "city": "Johannesburg",
     "province": "Gauteng",
     "address": "13 Lang St, Judith's Paarl, Johannesburg, 2094, South Africa",
-    "phone": "+27 11 614 4782",
+    "phone": "+27116144782",
     "website": "http://www.tunetech.co.za/",
     "rating": 4.5,
     "hours": "Mon-Thu 6:40 AM-4:30 PM, Fri 6:40 AM-1 PM, Sat-Sun Closed",
@@ -1381,7 +1384,7 @@
     "city": "Johannesburg",
     "province": "Gauteng",
     "address": "115 Albert St, City and Suburban, Johannesburg, 2001, South Africa",
-    "phone": "+27 11 334 8951",
+    "phone": "+27113348951",
     "website": "http://www.technocar.co.za/",
     "rating": 4.2,
     "hours": "Mon-Thu 7:30 AM-5 PM, Fri 8 AM-3:30 PM, Sat-Sun Closed",
@@ -1404,84 +1407,12 @@
     "placeId": "ChIJJ-FOCJAOlR4Rtf1DYVidk4A"
   },
   {
-    "slug": "impact-auto-electrical-and-truck-repairs-kimberley",
-    "name": "Impact auto electrical & truck repairs",
-    "city": "Kimberley",
-    "province": "Northern Cape",
-    "address": "11 John Schoeman St, El Toro Park, Kimberley, 8301, South Africa",
-    "phone": "+27 73 447 8326",
-    "website": "https://impactmobile.co.za/",
-    "rating": 4.9,
-    "hours": "Open 24 hours",
-    "types": [
-      "Auto electrical service",
-      "Truck repair shop"
-    ],
-    "services": [
-      "General Service",
-      "Mobile Mechanic",
-      "Diagnostics"
-    ],
-    "mobile": true,
-    "featured": true,
-    "source": "Google Maps",
-    "placeId": "ChIJWyy_OgEbmx4R4KGRrKOIK8U"
-  },
-  {
-    "slug": "car-service-city-kimberley-kimberley",
-    "name": "Car Service City - Kimberley",
-    "city": "Kimberley",
-    "province": "Northern Cape",
-    "address": "5 Stone St, Kimberley, 8301, South Africa",
-    "phone": "+27 53 004 0316",
-    "website": "https://carservicecity.net/find-a-branch/kimberley/",
-    "rating": 4.7,
-    "hours": "Mon-Fri 7 AM-5:30 PM, Sat 8 AM-1 PM, Sun Closed",
-    "types": [
-      "Car repair and maintenance service"
-    ],
-    "services": [
-      "General Service"
-    ],
-    "mobile": false,
-    "featured": true,
-    "source": "Google Maps",
-    "placeId": "ChIJFR7MyJ8bmx4RjR0O8eEzs20"
-  },
-  {
-    "slug": "danie-s-auto-and-tune-up-clinic-kimberley",
-    "name": "Danie's Auto & Tune Up Clinic",
-    "city": "Kimberley",
-    "province": "Northern Cape",
-    "address": "20 Brand St, Albertynshof, Kimberley, 8301, South Africa",
-    "phone": "+27 53 832 9078",
-    "website": "http://www.daniesauto.co.za/",
-    "rating": 4.4,
-    "hours": "Mon-Fri 7:30 AM-5 PM, Sat 7:30 AM-1 PM, Sun Closed",
-    "types": [
-      "Auto repair shop",
-      "Auto spring shop",
-      "Car repair and maintenance service",
-      "Diagnostic center",
-      "Diesel engine repair service"
-    ],
-    "services": [
-      "General Service",
-      "Diagnostics",
-      "Suspension"
-    ],
-    "mobile": false,
-    "featured": true,
-    "source": "Google Maps",
-    "placeId": "ChIJTWy39FMamx4Rz3TpdPaz69g"
-  },
-  {
     "slug": "auto-repairs-kimberley-kimberley",
     "name": "Auto Repairs Kimberley",
     "city": "Kimberley",
     "province": "Northern Cape",
     "address": "13 Hogsback Ave, Carters Glen, Kimberley, 8301, South Africa",
-    "phone": "+27 53 861 4984",
+    "phone": "+27538614984",
     "website": "",
     "rating": 5,
     "hours": "Mon-Fri 7 AM-5 PM, Sat-Sun Closed",
@@ -1492,7 +1423,7 @@
       "General Service"
     ],
     "mobile": false,
-    "featured": false,
+    "featured": true,
     "source": "Google Maps",
     "placeId": "ChIJFf07G3Aamx4RSsbdIjnlS2A"
   },
@@ -1515,7 +1446,7 @@
       "Mobile Mechanic"
     ],
     "mobile": true,
-    "featured": false,
+    "featured": true,
     "source": "Google Maps",
     "placeId": "ChIJdVvwN2Mbmx4RYhmZ2rWsuVs"
   },
@@ -1525,7 +1456,7 @@
     "city": "Kimberley",
     "province": "Northern Cape",
     "address": "33 S Circular Rd, Kimberley, 8301, South Africa",
-    "phone": "+27 82 404 7200",
+    "phone": "+27824047200",
     "website": "",
     "rating": 4.9,
     "hours": "Mon-Thu 8 AM-5 PM, Fri 8 AM-1 PM, Sat 8 AM-5 PM, Sun Closed",
@@ -1541,12 +1472,36 @@
     "placeId": "ChIJFWcXsJ0bmx4R-1uAftIqou0"
   },
   {
+    "slug": "impact-auto-electrical-and-truck-repairs-kimberley",
+    "name": "Impact auto electrical & truck repairs",
+    "city": "Kimberley",
+    "province": "Northern Cape",
+    "address": "11 John Schoeman St, El Toro Park, Kimberley, 8301, South Africa",
+    "phone": "+27734478326",
+    "website": "https://impactmobile.co.za/",
+    "rating": 4.9,
+    "hours": "Open 24 hours",
+    "types": [
+      "Auto electrical service",
+      "Truck repair shop"
+    ],
+    "services": [
+      "General Service",
+      "Diagnostics",
+      "Mobile Mechanic"
+    ],
+    "mobile": true,
+    "featured": true,
+    "source": "Google Maps",
+    "placeId": "ChIJWyy_OgEbmx4R4KGRrKOIK8U"
+  },
+  {
     "slug": "n12-motors-and-engineering-kimberley",
     "name": "N12 Motors & Engineering",
     "city": "Kimberley",
     "province": "Northern Cape",
     "address": "Corner of Landbou and Memorial Road, N12 Cape Town Road, Volvo Complex Unit 2, South Ridge, Kimberley, 8301, South Africa",
-    "phone": "+27 72 370 5012",
+    "phone": "+27723705012",
     "website": "",
     "rating": 4.9,
     "hours": "Mon-Fri 8 AM-5 PM, Sat-Sun Closed",
@@ -1569,7 +1524,7 @@
     "city": "Kimberley",
     "province": "Northern Cape",
     "address": "8 Delfos St, Kimdustria, Kimberley, 8301, South Africa",
-    "phone": "+27 53 841 0129",
+    "phone": "+27538410129",
     "website": "https://www.kimberley.co.za/places/kimberley/panelbeaters/car-magic-autobody/",
     "rating": 4.7,
     "hours": "Mon-Fri 7:30 AM-4:30 PM, Sat-Sun Closed",
@@ -1586,12 +1541,33 @@
     "placeId": "ChIJz9EyCs8bmx4ROjChjqwn0lo"
   },
   {
+    "slug": "car-service-city-kimberley-kimberley",
+    "name": "Car Service City - Kimberley",
+    "city": "Kimberley",
+    "province": "Northern Cape",
+    "address": "5 Stone St, Kimberley, 8301, South Africa",
+    "phone": "+27530040316",
+    "website": "https://carservicecity.net/find-a-branch/kimberley/",
+    "rating": 4.7,
+    "hours": "Mon-Fri 7 AM-5:30 PM, Sat 8 AM-1 PM, Sun Closed",
+    "types": [
+      "Car repair and maintenance service"
+    ],
+    "services": [
+      "General Service"
+    ],
+    "mobile": false,
+    "featured": false,
+    "source": "Google Maps",
+    "placeId": "ChIJFR7MyJ8bmx4RjR0O8eEzs20"
+  },
+  {
     "slug": "a1-tommie-s-services-and-repairs-kimberley",
     "name": "A1 Tommie’s Services & Repairs",
     "city": "Kimberley",
     "province": "Northern Cape",
     "address": "13 Hogsback Ave, Carters Glen, Kimberley, 8301, South Africa",
-    "phone": "+27 82 678 5139",
+    "phone": "+27826785139",
     "website": "https://www.kimberley.co.za/places/kimberley/auto-repairs/a1-tommies-services-repairs/",
     "rating": 4.6,
     "hours": "Mon-Fri 7 AM-5 PM, Sat-Sun Closed",
@@ -1617,7 +1593,7 @@
     "city": "Kimberley",
     "province": "Northern Cape",
     "address": "6 S Circular Rd, Kimberley, 8301, South Africa",
-    "phone": "+27 65 834 4528",
+    "phone": "+27658344528",
     "website": "",
     "rating": 4.5,
     "hours": "Mon-Thu 7 AM-5:30 PM, Fri 7 AM-5 PM, Sat 8 AM-12 AM, Sun Closed",
@@ -1633,12 +1609,82 @@
     "placeId": "ChIJGbcqk0wbmx4ResXaEaP_qHY"
   },
   {
+    "slug": "danie-s-auto-and-tune-up-clinic-kimberley",
+    "name": "Danie's Auto & Tune Up Clinic",
+    "city": "Kimberley",
+    "province": "Northern Cape",
+    "address": "20 Brand St, Albertynshof, Kimberley, 8301, South Africa",
+    "phone": "+27538329078",
+    "website": "http://www.daniesauto.co.za/",
+    "rating": 4.4,
+    "hours": "Mon-Fri 7:30 AM-5 PM, Sat 7:30 AM-1 PM, Sun Closed",
+    "types": [
+      "Auto repair shop",
+      "Auto spring shop",
+      "Car repair and maintenance service",
+      "Diagnostic center",
+      "Diesel engine repair service"
+    ],
+    "services": [
+      "General Service",
+      "Diagnostics",
+      "Suspension"
+    ],
+    "mobile": false,
+    "featured": false,
+    "source": "Google Maps",
+    "placeId": "ChIJTWy39FMamx4Rz3TpdPaz69g"
+  },
+  {
+    "slug": "ben-s-auto-nelspruit",
+    "name": "Ben's Auto",
+    "city": "Nelspruit",
+    "province": "Mpumalanga",
+    "address": "2 Meidlinger St, Mbombela, 1201, South Africa",
+    "phone": "+27795171358",
+    "website": "",
+    "rating": 4.9,
+    "hours": "Mon-Fri 7 AM-5 PM, Sat 8 AM-12 PM, Sun Closed",
+    "types": [
+      "Auto tune up service"
+    ],
+    "services": [
+      "General Service",
+      "Diagnostics"
+    ],
+    "mobile": false,
+    "featured": true,
+    "source": "Google Maps",
+    "placeId": "ChIJxUcP9vc16B4RNPgXKAERQLc"
+  },
+  {
+    "slug": "dart-mechanics-nelspruit",
+    "name": "Dart Mechanics",
+    "city": "Nelspruit",
+    "province": "Mpumalanga",
+    "address": "13 Bosch St, Mbombela, 1200, South Africa",
+    "phone": "+27137533750",
+    "website": "",
+    "rating": 4.9,
+    "hours": "Mon-Fri 7:30 AM-5 PM, Sat-Sun Closed",
+    "types": [
+      "Auto repair shop"
+    ],
+    "services": [
+      "General Service"
+    ],
+    "mobile": false,
+    "featured": true,
+    "source": "Google Maps",
+    "placeId": "ChIJX7R-GfhL6B4RXkYmqTbtEqY"
+  },
+  {
     "slug": "jc-auto-service-nelspruit-pty-ltd-nelspruit",
     "name": "JC Auto Service Nelspruit Pty. Ltd",
     "city": "Nelspruit",
     "province": "Mpumalanga",
     "address": "Unit 3, 23 Waterfall Ave, Riverside, Mbombela, 1201, South Africa",
-    "phone": "+27 72 321 0777",
+    "phone": "+27723210777",
     "website": "",
     "rating": 4.9,
     "hours": "Mon-Fri 7:30 AM-5 PM, Sat-Sun Closed",
@@ -1649,7 +1695,7 @@
       "General Service"
     ],
     "mobile": false,
-    "featured": true,
+    "featured": false,
     "source": "Google Maps",
     "placeId": "ChIJk5NQ0cg16B4R6vx59GZfKKY"
   },
@@ -1659,7 +1705,7 @@
     "city": "Nelspruit",
     "province": "Mpumalanga",
     "address": "5 Mystic Crescent, Riverside Park, Mbombela, 1201, South Africa",
-    "phone": "+27 13 753 3764",
+    "phone": "+27137533764",
     "website": "http://mteknelspruit.co.za/",
     "rating": 4.9,
     "hours": "Mon-Tue 7 AM-5 PM, Wed-Fri 7:30 AM-5 PM, Sat-Sun Closed",
@@ -1679,76 +1725,12 @@
     "placeId": "ChIJLdJGx9dL6B4Rcn603m1X2QM"
   },
   {
-    "slug": "car-service-city-nelspruit-nelspruit",
-    "name": "Car Service City - Nelspruit",
-    "city": "Nelspruit",
-    "province": "Mpumalanga",
-    "address": "18 Rapid St, Riverside Industrial, Mbombela, 1201, South Africa",
-    "phone": "+27 13 752 4478",
-    "website": "https://carservicecity.net/find-a-branch/nelspruit/",
-    "rating": 4.2,
-    "hours": "Mon-Fri 7 AM-5:30 PM, Sat 8 AM-1 PM, Sun Closed",
-    "types": [
-      "Car repair and maintenance service"
-    ],
-    "services": [
-      "General Service"
-    ],
-    "mobile": false,
-    "featured": true,
-    "source": "Google Maps",
-    "placeId": "ChIJVVVVxcM16B4R8IN-qNQbhd8"
-  },
-  {
-    "slug": "ben-s-auto-nelspruit",
-    "name": "Ben's Auto",
-    "city": "Nelspruit",
-    "province": "Mpumalanga",
-    "address": "2 Meidlinger St, Mbombela, 1201, South Africa",
-    "phone": "+27 79 517 1358",
-    "website": "",
-    "rating": 4.9,
-    "hours": "Mon-Fri 7 AM-5 PM, Sat 8 AM-12 PM, Sun Closed",
-    "types": [
-      "Auto tune up service"
-    ],
-    "services": [
-      "General Service",
-      "Diagnostics"
-    ],
-    "mobile": false,
-    "featured": false,
-    "source": "Google Maps",
-    "placeId": "ChIJxUcP9vc16B4RNPgXKAERQLc"
-  },
-  {
-    "slug": "dart-mechanics-nelspruit",
-    "name": "Dart Mechanics",
-    "city": "Nelspruit",
-    "province": "Mpumalanga",
-    "address": "13 Bosch St, Mbombela, 1200, South Africa",
-    "phone": "+27 13 753 3750",
-    "website": "",
-    "rating": 4.9,
-    "hours": "Mon-Fri 7:30 AM-5 PM, Sat-Sun Closed",
-    "types": [
-      "Auto repair shop"
-    ],
-    "services": [
-      "General Service"
-    ],
-    "mobile": false,
-    "featured": false,
-    "source": "Google Maps",
-    "placeId": "ChIJX7R-GfhL6B4RXkYmqTbtEqY"
-  },
-  {
     "slug": "wm-auto-repair-centre-nelspruit",
     "name": "WM Auto Repair Centre",
     "city": "Nelspruit",
     "province": "Mpumalanga",
     "address": "11 Fuchia Street, Valencia Rd, Mbombela, 1200, South Africa",
-    "phone": "+27 81 541 5412",
+    "phone": "+27815415412",
     "website": "",
     "rating": 4.8,
     "hours": "Mon-Fri 8 AM-5 PM, Sat 8 AM-1 PM, Sun Closed",
@@ -1764,12 +1746,12 @@
     "placeId": "ChIJUVsT2q1J6B4RRflYO3LpVzg"
   },
   {
-    "slug": "bandj-motors-nelspruit",
+    "slug": "b-and-j-motors-nelspruit",
     "name": "B&J Motors",
     "city": "Nelspruit",
     "province": "Mpumalanga",
     "address": "Samora Machel St, Mbombela, 1201, South Africa",
-    "phone": "+27 13 755 1889",
+    "phone": "+27137551889",
     "website": "https://www.brabys.com/za/mpumalanga/mbombela/used-car-dealers/b-j-motors",
     "rating": 4.7,
     "hours": "Mon-Fri 8 AM-6 PM, Sat-Sun Closed",
@@ -1790,7 +1772,7 @@
     "city": "Nelspruit",
     "province": "Mpumalanga",
     "address": "Bester St, Mbombela Central, Mbombela, 1201, South Africa",
-    "phone": "+27 13 753 3337",
+    "phone": "+27137533337",
     "website": "https://www.assist247.co.za/Search/service-provider.aspx?sp_id=2437990&name=hi-tech-auto-repairs",
     "rating": 4.7,
     "hours": "Mon-Fri 7:30 AM-5 PM, Sat-Sun Closed",
@@ -1811,7 +1793,7 @@
     "city": "Nelspruit",
     "province": "Mpumalanga",
     "address": "6 Rapid St, Riverside Industrial, Mbombela, 1201, South Africa",
-    "phone": "+27 13 110 1724",
+    "phone": "+27131101724",
     "website": "https://www.fastlaneautorepairs.co.za/",
     "rating": 4.6,
     "hours": "Mon-Fri 7:30 AM-5 PM, Sat 8:30 AM-12 PM, Sun Closed",
@@ -1832,7 +1814,7 @@
     "city": "Nelspruit",
     "province": "Mpumalanga",
     "address": "Quo Vadis St, Mbombela, 1201, South Africa",
-    "phone": "+27 13 285 0104",
+    "phone": "+27132850104",
     "website": "",
     "rating": 4.2,
     "hours": "Mon-Fri 7 AM-5 PM, Sat 7 AM-1 PM, Sun Closed",
@@ -1848,12 +1830,33 @@
     "placeId": "ChIJ4egPWgtK6B4RDOpqciq0ANY"
   },
   {
+    "slug": "car-service-city-nelspruit-nelspruit",
+    "name": "Car Service City - Nelspruit",
+    "city": "Nelspruit",
+    "province": "Mpumalanga",
+    "address": "18 Rapid St, Riverside Industrial, Mbombela, 1201, South Africa",
+    "phone": "+27137524478",
+    "website": "https://carservicecity.net/find-a-branch/nelspruit/",
+    "rating": 4.2,
+    "hours": "Mon-Fri 7 AM-5:30 PM, Sat 8 AM-1 PM, Sun Closed",
+    "types": [
+      "Car repair and maintenance service"
+    ],
+    "services": [
+      "General Service"
+    ],
+    "mobile": false,
+    "featured": false,
+    "source": "Google Maps",
+    "placeId": "ChIJVVVVxcM16B4R8IN-qNQbhd8"
+  },
+  {
     "slug": "c-c-automotive-repairs-e-car-polokwane",
     "name": "C.C Automotive Repairs e-CAR",
     "city": "Polokwane",
     "province": "Limpopo",
     "address": "35 Staal St, Ladine, Polokwane, 0700, South Africa",
-    "phone": "+27 82 804 8012",
+    "phone": "+27828048012",
     "website": "http://www.e-car.co.za/",
     "rating": 4.9,
     "hours": "Mon-Fri 7:30 AM-5 PM, Sat-Sun Closed",
@@ -1892,72 +1895,6 @@
     "placeId": "ChIJ5_xHRJvZxh4R2SCMZd19tIk"
   },
   {
-    "slug": "apex-mechanical-rmi-workshop-and-auto-detailing-polokwane",
-    "name": "Apex Mechanical RMI Workshop & Auto Detailing",
-    "city": "Polokwane",
-    "province": "Limpopo",
-    "address": "18 Industria St, Polokwane Ext 2, Polokwane, 0699, South Africa",
-    "phone": "+27 83 501 1020",
-    "website": "https://wa.me/27835011020",
-    "rating": 4.8,
-    "hours": "Open 24 hours",
-    "types": [
-      "Mechanic"
-    ],
-    "services": [
-      "General Service",
-      "Mobile Mechanic"
-    ],
-    "mobile": true,
-    "featured": true,
-    "source": "Google Maps",
-    "placeId": "ChIJn9qbdZ7Zxh4R5MmqQmdjecY"
-  },
-  {
-    "slug": "autodrive-parts-and-service-centre-rmi-approved-car-service-and-repairs-polokwane",
-    "name": "Autodrive Parts and Service Centre(RMI Approved Car service & repairs)",
-    "city": "Polokwane",
-    "province": "Limpopo",
-    "address": "15 Natrium St, Ladine, Polokwane, 0699, South Africa",
-    "phone": "+27 69 830 8266",
-    "website": "https://autodrivegroup.base44.app/",
-    "rating": 4.8,
-    "hours": "Mon-Fri 7:30 AM-5 PM, Sat-Sun Closed",
-    "types": [
-      "Car repair and maintenance service"
-    ],
-    "services": [
-      "General Service"
-    ],
-    "mobile": false,
-    "featured": true,
-    "source": "Google Maps",
-    "placeId": "ChIJ8Tz0Sh3Zxh4RSAeBFRzbuLU"
-  },
-  {
-    "slug": "car-service-city-polokwane-polokwane",
-    "name": "Car Service City - Polokwane",
-    "city": "Polokwane",
-    "province": "Limpopo",
-    "address": "29 Nikkel St, Polokwane Ext 13, Polokwane, 0700, South Africa",
-    "phone": "+27 15 590 1205",
-    "website": "https://carservicecity.net/find-a-branch/polokwane/",
-    "rating": 4.3,
-    "hours": "Mon-Fri 7 AM-5:30 PM, Sat 8 AM-1 PM, Sun Closed",
-    "types": [
-      "Car repair and maintenance service",
-      "Auto repair shop",
-      "Mechanic"
-    ],
-    "services": [
-      "General Service"
-    ],
-    "mobile": false,
-    "featured": true,
-    "source": "Google Maps",
-    "placeId": "ChIJaSeZ7SHYxh4R2CWZhbb1nzA"
-  },
-  {
     "slug": "makhura-auto-repair-shop-polokwane",
     "name": "Makhura auto Repair Shop",
     "city": "Polokwane",
@@ -1980,12 +1917,55 @@
     "placeId": "ChIJE36zPebZxh4RqWmvpEwDMR4"
   },
   {
+    "slug": "apex-mechanical-rmi-workshop-and-auto-detailing-polokwane",
+    "name": "Apex Mechanical RMI Workshop & Auto Detailing",
+    "city": "Polokwane",
+    "province": "Limpopo",
+    "address": "18 Industria St, Polokwane Ext 2, Polokwane, 0699, South Africa",
+    "phone": "+27835011020",
+    "website": "https://wa.me/27835011020",
+    "rating": 4.8,
+    "hours": "Open 24 hours",
+    "types": [
+      "Mechanic"
+    ],
+    "services": [
+      "General Service",
+      "Mobile Mechanic"
+    ],
+    "mobile": true,
+    "featured": true,
+    "source": "Google Maps",
+    "placeId": "ChIJn9qbdZ7Zxh4R5MmqQmdjecY"
+  },
+  {
+    "slug": "autodrive-parts-and-service-centre-rmi-approved-car-service-and-repairs-polokwane",
+    "name": "Autodrive Parts and Service Centre(RMI Approved Car service & repairs)",
+    "city": "Polokwane",
+    "province": "Limpopo",
+    "address": "15 Natrium St, Ladine, Polokwane, 0699, South Africa",
+    "phone": "+27698308266",
+    "website": "https://autodrivegroup.base44.app/",
+    "rating": 4.8,
+    "hours": "Mon-Fri 7:30 AM-5 PM, Sat-Sun Closed",
+    "types": [
+      "Car repair and maintenance service"
+    ],
+    "services": [
+      "General Service"
+    ],
+    "mobile": false,
+    "featured": true,
+    "source": "Google Maps",
+    "placeId": "ChIJ8Tz0Sh3Zxh4RSAeBFRzbuLU"
+  },
+  {
     "slug": "auto-pedigree-service-centre-polokwane-polokwane",
     "name": "Auto Pedigree Service Centre Polokwane",
     "city": "Polokwane",
     "province": "Limpopo",
     "address": "Cnr Thabo Mbeki and Campbell St N1 Circle, Polokwane, 0699, South Africa",
-    "phone": "+27 15 297 7664",
+    "phone": "+27152977664",
     "website": "https://www.autopedigree.co.za/services-centre/polokwane-service-centre/2?utm_medium=referal&utm_source=localisation&utm_campaign=Polokwane%20Service%20Centre",
     "rating": 4.7,
     "hours": "Mon-Fri 7 AM-5 PM, Sat-Sun Closed",
@@ -2009,7 +1989,7 @@
     "city": "Polokwane",
     "province": "Limpopo",
     "address": "101 Schoeman St, Polokwane Central, Polokwane, 0699, South Africa",
-    "phone": "+27 15 297 6303",
+    "phone": "+27152976303",
     "website": "https://www.facebook.com/Mario-Mechanical-Repairs-Subaru-653983714698743/?ti=as",
     "rating": 4.7,
     "hours": "Mon-Fri 8 AM-5 PM, Sat-Sun Closed",
@@ -2031,7 +2011,7 @@
     "city": "Polokwane",
     "province": "Limpopo",
     "address": "41 Corundum St, Polokwane Ext 9, Polokwane, 0699, South Africa",
-    "phone": "+27 15 293 2397",
+    "phone": "+27152932397",
     "website": "",
     "rating": 4.5,
     "hours": "Mon-Fri 7:30 AM-5 PM, Sat-Sun Closed",
@@ -2047,12 +2027,35 @@
     "placeId": "ChIJ79l3DGHYxh4RWzzuYkvFUqs"
   },
   {
+    "slug": "car-service-city-polokwane-polokwane",
+    "name": "Car Service City - Polokwane",
+    "city": "Polokwane",
+    "province": "Limpopo",
+    "address": "29 Nikkel St, Polokwane Ext 13, Polokwane, 0700, South Africa",
+    "phone": "+27155901205",
+    "website": "https://carservicecity.net/find-a-branch/polokwane/",
+    "rating": 4.3,
+    "hours": "Mon-Fri 7 AM-5:30 PM, Sat 8 AM-1 PM, Sun Closed",
+    "types": [
+      "Car repair and maintenance service",
+      "Auto repair shop",
+      "Mechanic"
+    ],
+    "services": [
+      "General Service"
+    ],
+    "mobile": false,
+    "featured": false,
+    "source": "Google Maps",
+    "placeId": "ChIJaSeZ7SHYxh4R2CWZhbb1nzA"
+  },
+  {
     "slug": "kredi-car-auto-clinic-polokwane",
     "name": "Kredi-Car Auto Clinic",
     "city": "Polokwane",
     "province": "Limpopo",
     "address": "58A Dahl St, Polokwane Central, Polokwane, 0699, South Africa",
-    "phone": "+27 15 295 7310",
+    "phone": "+27152957310",
     "website": "",
     "rating": 4.3,
     "hours": "Mon-Fri 7:30 AM-5 PM, Sat-Sun Closed",
@@ -2073,7 +2076,7 @@
     "city": "Pretoria",
     "province": "Gauteng",
     "address": "Unit 2, 80 Silvergrass St, Montana, Pretoria, 0186, South Africa",
-    "phone": "+27 10 023 2548",
+    "phone": "+27100232548",
     "website": "https://jmauto.my.canva.site/jm-auto-repairs",
     "rating": 5,
     "hours": "Mon-Fri 8 AM-5 PM, Sat 8 AM-1 PM, Sun Closed",
@@ -2093,12 +2096,39 @@
     "placeId": "ChIJEWkw173fvx4RjyTYM_lpM6U"
   },
   {
+    "slug": "daylite-auto-center-mobile-assistance-pretoria",
+    "name": "Daylite auto center (mobile assistance)",
+    "city": "Pretoria",
+    "province": "Gauteng",
+    "address": "580 Steve Biko Rd, Gezina, Pretoria, 0186, South Africa",
+    "phone": "+27642424824",
+    "website": "",
+    "rating": 4.9,
+    "hours": "Open 24 hours",
+    "types": [
+      "Mechanic",
+      "Air conditioning store",
+      "Auto electrical service",
+      "Truck repair shop"
+    ],
+    "services": [
+      "General Service",
+      "Diagnostics",
+      "Aircon",
+      "Mobile Mechanic"
+    ],
+    "mobile": true,
+    "featured": true,
+    "source": "Google Maps",
+    "placeId": "ChIJw0BWrQPZvx4RXryqJ_rpk5Y"
+  },
+  {
     "slug": "kollies-auto-repair-pretoria",
     "name": "Kollies Auto Repair",
     "city": "Pretoria",
     "province": "Gauteng",
     "address": "649 Margate St, Garsfontein, Pretoria, 0081, South Africa",
-    "phone": "+27 82 557 4712",
+    "phone": "+27825574712",
     "website": "http://www.kollies.com/",
     "rating": 4.9,
     "hours": "Mon, Wed-Fri 8 AM-5 PM, Tue 9:30 AM-5 PM, Sat-Sun Closed",
@@ -2115,12 +2145,12 @@
     "placeId": "ChIJlYTloQdelR4RJyGE81swvaw"
   },
   {
-    "slug": "qanda-auto-repairs-pretoria",
+    "slug": "q-and-a-auto-repairs-pretoria",
     "name": "Q&A Auto Repairs",
     "city": "Pretoria",
     "province": "Gauteng",
     "address": "46 Selati St, Ashlea Gardens, Pretoria, 0081, South Africa",
-    "phone": "+27 12 346 8600",
+    "phone": "+27123468600",
     "website": "",
     "rating": 4.9,
     "hours": "Mon-Fri 7 AM-5 PM, Sat-Sun Closed",
@@ -2131,7 +2161,7 @@
       "General Service"
     ],
     "mobile": false,
-    "featured": true,
+    "featured": false,
     "source": "Google Maps",
     "placeId": "ChIJx5ct--dglR4R93C1yN_EN8Y"
   },
@@ -2141,7 +2171,7 @@
     "city": "Pretoria",
     "province": "Gauteng",
     "address": "241 Luttig St, Pretoria West, Pretoria, 0183, South Africa",
-    "phone": "+27 72 297 8337",
+    "phone": "+27722978337",
     "website": "https://tshwaneautoservice.com/",
     "rating": 4.8,
     "hours": "Mon-Fri 8 AM-6 PM, Sat 8 AM-1 PM, Sun 11 AM-5 PM",
@@ -2155,8 +2185,8 @@
     "services": [
       "General Service",
       "Diagnostics",
-      "Aircon",
-      "Suspension"
+      "Suspension",
+      "Aircon"
     ],
     "mobile": false,
     "featured": true,
@@ -2169,7 +2199,7 @@
     "city": "Pretoria",
     "province": "Gauteng",
     "address": "74 Braam Pretorius St, Wonderboom, Pretoria, 0182, South Africa",
-    "phone": "+27 12 567 1653",
+    "phone": "+27125671653",
     "website": "http://www.wcarservice.co.za/",
     "rating": 4.8,
     "hours": "Mon-Fri 7:30 AM-5:15 PM, Sat 8 AM-12:45 PM, Sun Closed",
@@ -2197,7 +2227,7 @@
     "city": "Pretoria",
     "province": "Gauteng",
     "address": "564 Steve Biko Rd, Gezina, Pretoria, 0084, South Africa",
-    "phone": "+27 12 335 5737",
+    "phone": "+27123355737",
     "website": "https://boschcarservicepretoria.co.za/",
     "rating": 4.7,
     "hours": "Mon-Fri 7:30 AM-5 PM, Sat 8:30 AM-1 PM, Sun Closed",
@@ -2213,36 +2243,9 @@
       "Diagnostics"
     ],
     "mobile": false,
-    "featured": true,
-    "source": "Google Maps",
-    "placeId": "ChIJyWP5crPYvx4RBGNvqIoce6w"
-  },
-  {
-    "slug": "daylite-auto-center-mobile-assistance-pretoria",
-    "name": "Daylite auto center (mobile assistance)",
-    "city": "Pretoria",
-    "province": "Gauteng",
-    "address": "580 Steve Biko Rd, Gezina, Pretoria, 0186, South Africa",
-    "phone": "+27 64 242 4824",
-    "website": "",
-    "rating": 4.9,
-    "hours": "Open 24 hours",
-    "types": [
-      "Mechanic",
-      "Air conditioning store",
-      "Auto electrical service",
-      "Truck repair shop"
-    ],
-    "services": [
-      "General Service",
-      "Mobile Mechanic",
-      "Diagnostics",
-      "Aircon"
-    ],
-    "mobile": true,
     "featured": false,
     "source": "Google Maps",
-    "placeId": "ChIJw0BWrQPZvx4RXryqJ_rpk5Y"
+    "placeId": "ChIJyWP5crPYvx4RBGNvqIoce6w"
   },
   {
     "slug": "brilliant-automobile-mechanics-pretoria",
@@ -2250,7 +2253,7 @@
     "city": "Pretoria",
     "province": "Gauteng",
     "address": "645 Steve Biko Rd, Gezina, Pretoria, 0080, South Africa",
-    "phone": "+27 74 368 4232",
+    "phone": "+27743684232",
     "website": "",
     "rating": 4.7,
     "hours": "Open 24 hours",
@@ -2272,7 +2275,7 @@
     "city": "Pretoria",
     "province": "Gauteng",
     "address": "552 Ella St, Gezina, Pretoria, 0084, South Africa",
-    "phone": "+27 12 329 1410",
+    "phone": "+27123291410",
     "website": "",
     "rating": 4.5,
     "hours": "Mon-Fri 7 AM-5 PM, Sat 7 AM-1 PM, Sun Closed",
@@ -2298,7 +2301,7 @@
     "city": "Pretoria",
     "province": "Gauteng",
     "address": "275 Bali St, Menlyn, Pretoria, 0049, South Africa",
-    "phone": "+27 12 348 3090",
+    "phone": "+27123483090",
     "website": "https://e-carmenlyn.co.za/",
     "rating": 4.4,
     "hours": "Mon-Fri 6:30 AM-5 PM, Sat 7:30 AM-1 PM, Sun Closed",
@@ -2313,8 +2316,8 @@
       "General Service",
       "Brakes",
       "Diagnostics",
-      "Aircon",
-      "Suspension"
+      "Suspension",
+      "Aircon"
     ],
     "mobile": false,
     "featured": false,

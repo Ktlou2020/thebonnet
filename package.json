@@ -12,6 +12,10 @@
     "prisma:migrate": "prisma migrate dev",
     "prisma:deploy": "prisma migrate deploy",
     "prisma:push": "prisma db push",
+    "workshops:scrape:manifest": "node scripts/build-workshop-scrape-manifest.mjs",
+    "workshops:import": "node scripts/import-workshops.mjs",
+    "workshops:build": "node scripts/build-workshop-seed.mjs",
+    "workshops:refresh": "npm run workshops:import && npm run workshops:build",
     "seed:real-data": "node scripts/seed-real-data.mjs",
     "seed:super-admin": "node scripts/setup-super-admin.mjs"
   },

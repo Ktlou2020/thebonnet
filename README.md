@@ -63,6 +63,36 @@ npm run dev
 
 Then open `http://localhost:3000`.
 
+## Workshop data pipeline
+
+The workshop inventory now supports a repeatable scrape/import pipeline with normalization and deduping.
+
+1. Generate scrape targets for the current launch cities:
+
+```bash
+npm run workshops:scrape:manifest
+```
+
+2. Run your scraper against the jobs in `data/workshop-scrape-manifest.json` and save the raw exports into `data/imports/workshops/` as `.json`, `.jsonl`, or `.csv` files.
+
+3. Merge, normalize, dedupe, and rebuild the public dataset:
+
+```bash
+npm run workshops:refresh
+```
+
+4. Push the final workshop dataset into PostgreSQL when you are ready:
+
+```bash
+npm run seed:real-data
+```
+
+Notes:
+
+- `npm run workshops:import -- --fresh` rebuilds the curated source file from raw imports only.
+- Dedupe keys use `placeId`, website, phone, and business identity fallbacks.
+- Normalization standardizes city, province, phone, website, service categories, and mobile-mechanic tagging before seeding.
+
 ## Deployment
 
 ### Railway

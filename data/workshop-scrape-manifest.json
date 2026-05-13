@@ -1,0 +1,246 @@
+{
+  "generatedAt": "2026-05-13T11:26:28.695Z",
+  "description": "Repeatable workshop scrape targets for South African city coverage growth.",
+  "jobs": [
+    {
+      "id": "johannesburg-1",
+      "city": "Johannesburg",
+      "province": "Gauteng",
+      "source": "Google Maps",
+      "query": "car mechanic Johannesburg South Africa",
+      "outputHint": "data/imports/workshops/johannesburg-1.json"
+    },
+    {
+      "id": "johannesburg-2",
+      "city": "Johannesburg",
+      "province": "Gauteng",
+      "source": "Google Maps",
+      "query": "auto repair shop Johannesburg South Africa",
+      "outputHint": "data/imports/workshops/johannesburg-2.json"
+    },
+    {
+      "id": "johannesburg-3",
+      "city": "Johannesburg",
+      "province": "Gauteng",
+      "source": "Google Maps",
+      "query": "mobile mechanic Johannesburg South Africa",
+      "outputHint": "data/imports/workshops/johannesburg-3.json"
+    },
+    {
+      "id": "cape-town-1",
+      "city": "Cape Town",
+      "province": "Western Cape",
+      "source": "Google Maps",
+      "query": "car mechanic Cape Town South Africa",
+      "outputHint": "data/imports/workshops/cape-town-1.json"
+    },
+    {
+      "id": "cape-town-2",
+      "city": "Cape Town",
+      "province": "Western Cape",
+      "source": "Google Maps",
+      "query": "auto repair shop Cape Town South Africa",
+      "outputHint": "data/imports/workshops/cape-town-2.json"
+    },
+    {
+      "id": "cape-town-3",
+      "city": "Cape Town",
+      "province": "Western Cape",
+      "source": "Google Maps",
+      "query": "mobile mechanic Cape Town South Africa",
+      "outputHint": "data/imports/workshops/cape-town-3.json"
+    },
+    {
+      "id": "durban-1",
+      "city": "Durban",
+      "province": "KwaZulu-Natal",
+      "source": "Google Maps",
+      "query": "car mechanic Durban South Africa",
+      "outputHint": "data/imports/workshops/durban-1.json"
+    },
+    {
+      "id": "durban-2",
+      "city": "Durban",
+      "province": "KwaZulu-Natal",
+      "source": "Google Maps",
+      "query": "auto repair shop Durban South Africa",
+      "outputHint": "data/imports/workshops/durban-2.json"
+    },
+    {
+      "id": "durban-3",
+      "city": "Durban",
+      "province": "KwaZulu-Natal",
+      "source": "Google Maps",
+      "query": "mobile mechanic Durban South Africa",
+      "outputHint": "data/imports/workshops/durban-3.json"
+    },
+    {
+      "id": "pretoria-1",
+      "city": "Pretoria",
+      "province": "Gauteng",
+      "source": "Google Maps",
+      "query": "car mechanic Pretoria South Africa",
+      "outputHint": "data/imports/workshops/pretoria-1.json"
+    },
+    {
+      "id": "pretoria-2",
+      "city": "Pretoria",
+      "province": "Gauteng",
+      "source": "Google Maps",
+      "query": "auto repair shop Pretoria South Africa",
+      "outputHint": "data/imports/workshops/pretoria-2.json"
+    },
+    {
+      "id": "pretoria-3",
+      "city": "Pretoria",
+      "province": "Gauteng",
+      "source": "Google Maps",
+      "query": "mobile mechanic Pretoria South Africa",
+      "outputHint": "data/imports/workshops/pretoria-3.json"
+    },
+    {
+      "id": "gqeberha-1",
+      "city": "Gqeberha",
+      "province": "Eastern Cape",
+      "source": "Google Maps",
+      "query": "car mechanic Gqeberha South Africa",
+      "outputHint": "data/imports/workshops/gqeberha-1.json"
+    },
+    {
+      "id": "gqeberha-2",
+      "city": "Gqeberha",
+      "province": "Eastern Cape",
+      "source": "Google Maps",
+      "query": "auto repair shop Gqeberha South Africa",
+      "outputHint": "data/imports/workshops/gqeberha-2.json"
+    },
+    {
+      "id": "gqeberha-3",
+      "city": "Gqeberha",
+      "province": "Eastern Cape",
+      "source": "Google Maps",
+      "query": "mobile mechanic Gqeberha South Africa",
+      "outputHint": "data/imports/workshops/gqeberha-3.json"
+    },
+    {
+      "id": "bloemfontein-1",
+      "city": "Bloemfontein",
+      "province": "Free State",
+      "source": "Google Maps",
+      "query": "car mechanic Bloemfontein South Africa",
+      "outputHint": "data/imports/workshops/bloemfontein-1.json"
+    },
+    {
+      "id": "bloemfontein-2",
+      "city": "Bloemfontein",
+      "province": "Free State",
+      "source": "Google Maps",
+      "query": "auto repair shop Bloemfontein South Africa",
+      "outputHint": "data/imports/workshops/bloemfontein-2.json"
+    },
+    {
+      "id": "bloemfontein-3",
+      "city": "Bloemfontein",
+      "province": "Free State",
+      "source": "Google Maps",
+      "query": "mobile mechanic Bloemfontein South Africa",
+      "outputHint": "data/imports/workshops/bloemfontein-3.json"
+    },
+    {
+      "id": "east-london-1",
+      "city": "East London",
+      "province": "Eastern Cape",
+      "source": "Google Maps",
+      "query": "car mechanic East London South Africa",
+      "outputHint": "data/imports/workshops/east-london-1.json"
+    },
+    {
+      "id": "east-london-2",
+      "city": "East London",
+      "province": "Eastern Cape",
+      "source": "Google Maps",
+      "query": "auto repair shop East London South Africa",
+      "outputHint": "data/imports/workshops/east-london-2.json"
+    },
+    {
+      "id": "east-london-3",
+      "city": "East London",
+      "province": "Eastern Cape",
+      "source": "Google Maps",
+      "query": "mobile mechanic East London South Africa",
+      "outputHint": "data/imports/workshops/east-london-3.json"
+    },
+    {
+      "id": "polokwane-1",
+      "city": "Polokwane",
+      "province": "Limpopo",
+      "source": "Google Maps",
+      "query": "car mechanic Polokwane South Africa",
+      "outputHint": "data/imports/workshops/polokwane-1.json"
+    },
+    {
+      "id": "polokwane-2",
+      "city": "Polokwane",
+      "province": "Limpopo",
+      "source": "Google Maps",
+      "query": "auto repair shop Polokwane South Africa",
+      "outputHint": "data/imports/workshops/polokwane-2.json"
+    },
+    {
+      "id": "polokwane-3",
+      "city": "Polokwane",
+      "province": "Limpopo",
+      "source": "Google Maps",
+      "query": "mobile mechanic Polokwane South Africa",
+      "outputHint": "data/imports/workshops/polokwane-3.json"
+    },
+    {
+      "id": "nelspruit-1",
+      "city": "Nelspruit",
+      "province": "Mpumalanga",
+      "source": "Google Maps",
+      "query": "car mechanic Nelspruit South Africa",
+      "outputHint": "data/imports/workshops/nelspruit-1.json"
+    },
+    {
+      "id": "nelspruit-2",
+      "city": "Nelspruit",
+      "province": "Mpumalanga",
+      "source": "Google Maps",
+      "query": "auto repair shop Nelspruit South Africa",
+      "outputHint": "data/imports/workshops/nelspruit-2.json"
+    },
+    {
+      "id": "nelspruit-3",
+      "city": "Nelspruit",
+      "province": "Mpumalanga",
+      "source": "Google Maps",
+      "query": "mobile mechanic Nelspruit South Africa",
+      "outputHint": "data/imports/workshops/nelspruit-3.json"
+    },
+    {
+      "id": "kimberley-1",
+      "city": "Kimberley",
+      "province": "Northern Cape",
+      "source": "Google Maps",
+      "query": "car mechanic Kimberley South Africa",
+      "outputHint": "data/imports/workshops/kimberley-1.json"
+    },
+    {
+      "id": "kimberley-2",
+      "city": "Kimberley",
+      "province": "Northern Cape",
+      "source": "Google Maps",
+      "query": "auto repair shop Kimberley South Africa",
+      "outputHint": "data/imports/workshops/kimberley-2.json"
+    },
+    {
+      "id": "kimberley-3",
+      "city": "Kimberley",
+      "province": "Northern Cape",
+      "source": "Google Maps",
+      "query": "mobile mechanic Kimberley South Africa",
+      "outputHint": "data/imports/workshops/kimberley-3.json"
+    }
+  ]
+}
