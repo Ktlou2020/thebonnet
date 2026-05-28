@@ -10,23 +10,23 @@ export function MechanicCard({ mechanic }: { mechanic: Mechanic }) {
   }).toString()}`;
 
   return (
-    <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-soft transition hover:-translate-y-1">
+    <div className="group rounded-[2rem] border border-slate-200 bg-white p-6 shadow-soft transition hover:-translate-y-1 hover:border-fire/20">
       <div className="flex flex-wrap items-center gap-2">
-        {mechanic.featured ? <span className="rounded-full bg-gold/15 px-3 py-1 text-xs font-semibold text-amber-700">Featured</span> : null}
+        {mechanic.featured ? <span className="rounded-full bg-fire/10 px-3 py-1 text-xs font-semibold text-fire">Featured</span> : null}
         {mechanic.mobile ? <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">Mobile support</span> : null}
-        <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-700">{mechanic.source}</span>
+        <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">{mechanic.source}</span>
       </div>
 
       <div className="mt-5 flex items-start justify-between gap-4">
         <div>
-          <h3 className="text-xl font-semibold tracking-tight text-slate-950">{mechanic.name}</h3>
+          <h3 className="text-xl font-bold tracking-tight text-slate-950">{mechanic.name}</h3>
           <p className="mt-2 flex items-start gap-2 text-sm text-slate-500">
-            <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
+            <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-fire" />
             <span>{mechanic.address}</span>
           </p>
         </div>
-        <div className="rounded-2xl bg-slate-50 px-3 py-2 text-right">
-          <div className="flex items-center justify-end gap-1 text-sm font-semibold text-slate-900">
+        <div className="shrink-0 rounded-2xl bg-amber-50 px-3 py-2 text-right">
+          <div className="flex items-center justify-end gap-1 text-sm font-bold text-amber-700">
             <Star className="h-4 w-4 fill-gold text-gold" />
             {mechanic.rating.toFixed(1)}
           </div>
@@ -34,17 +34,17 @@ export function MechanicCard({ mechanic }: { mechanic: Mechanic }) {
         </div>
       </div>
 
-      <p className="mt-4 text-sm leading-7 text-slate-600">{mechanic.hours}</p>
+      <p className="mt-4 text-sm leading-6 text-slate-500">{mechanic.hours}</p>
 
       <div className="mt-5 flex flex-wrap gap-2">
         {mechanic.services.map((service) => (
-          <span key={service} className="rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-600">
+          <span key={service} className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">
             {service}
           </span>
         ))}
       </div>
 
-      <div className="mt-4 flex flex-wrap gap-2">
+      <div className="mt-3 flex flex-wrap gap-2">
         {mechanic.types.slice(0, 3).map((type) => (
           <span key={type} className="rounded-full border border-slate-200 px-3 py-1 text-xs text-slate-500">
             {type}
@@ -56,17 +56,17 @@ export function MechanicCard({ mechanic }: { mechanic: Mechanic }) {
         <Link href={`/mechanics/${mechanic.slug}`} className="rounded-full bg-ink px-4 py-2 text-sm font-semibold text-white transition hover:bg-bonnet">
           View listing
         </Link>
-        <Link href={quoteHref} className="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-slate-300">
+        <Link href={quoteHref} className="rounded-full bg-fire px-4 py-2 text-sm font-semibold text-white shadow-glow-fire transition hover:bg-fire/90">
           Request quote
         </Link>
         {telHref ? (
-          <a href={telHref} className="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-slate-300">
+          <a href={telHref} className="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-600 transition hover:border-slate-300">
             <PhoneCall className="mr-2 inline-flex h-4 w-4" />
             Call
           </a>
         ) : null}
         {mechanic.website ? (
-          <a href={mechanic.website} target="_blank" rel="noreferrer" className="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-slate-300">
+          <a href={mechanic.website} target="_blank" rel="noreferrer" className="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-600 transition hover:border-slate-300">
             <Globe className="mr-2 inline-flex h-4 w-4" />
             Website
           </a>
