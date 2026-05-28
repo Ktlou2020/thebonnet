@@ -58,7 +58,68 @@ export interface PriceBenchmark {
 export interface SubscriptionPlan {
   name: string;
   price: string;
+  period?: string;
   description: string;
   features: string[];
   cta: string;
+  highlighted?: boolean;
 }
+
+export type ConsumerPlan = {
+  name: string;
+  price: string;
+  description: string;
+  features: string[];
+  cta: string;
+  highlighted?: boolean;
+};
+
+export type GarageVehicle = {
+  id: string;
+  make: string;
+  model: string;
+  year: number;
+  variant?: string;
+  colour?: string;
+  nickname?: string;
+  registrationNo?: string;
+  currentMileage?: number;
+  notes?: string;
+  createdAt: string;
+};
+
+export type GarageServiceRecord = {
+  id: string;
+  vehicleId: string;
+  serviceType: string;
+  date: string;
+  mileageAtService?: number;
+  workshopName?: string;
+  city?: string;
+  totalCostCents?: number;
+  labourCents?: number;
+  partsCents?: number;
+  notes?: string;
+  createdAt: string;
+};
+
+export type UrgencyLevel = "routine" | "soon" | "urgent" | "emergency";
+
+export type AiDiagnosisResult = {
+  likelyCauses: Array<{
+    cause: string;
+    likelihood: "high" | "medium" | "low";
+    explanation: string;
+  }>;
+  urgencyLevel: UrgencyLevel;
+  urgencyNote: string;
+  estimatedCost: {
+    low: number;
+    high: number;
+    currency: string;
+    note: string;
+  };
+  partsInvolved: string[];
+  questionsToAsk: string[];
+  mechanicBrief: string;
+};
