@@ -38,6 +38,7 @@ enum SubscriptionTier {
   FREE
   GROWTH
   PRO
+  PLUS
 }
 
 enum AccreditationStatus {
@@ -81,10 +82,88 @@ model Profile {
   workshops Workshop[]
   leads     Lead[]
   reviews   Review[]
+  vehicles  Vehicle[]
+  xp        UserXP?
   createdAt DateTime   @default(now()) @db.Timestamptz(6)
   updatedAt DateTime   @updatedAt @db.Timestamptz(6)
 
   @@map("profiles")
+}
+
+model Vehicle {
+  id               String          @id @default(uuid()) @db.Uuid
+  profileId        String          @db.Uuid
+  make             String
+  model            String
+  year             Int
+  variant          String?
+  colour           String?
+  nickname         String?
+  registrationNo   String?
+  vinNumber        String?
+  purchaseDate     DateTime?       @db.Timestamptz
+  currentMileage   Int?
+  imageUrl         String?
+  notes            String?
+  isArchived       Boolean         @default(false)
+  profile          Profile         @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  serviceRecords   ServiceRecord[]
+  aiDiagnoses      AiDiagnosis[]
+  createdAt        DateTime        @default(now()) @db.Timestamptz
+  updatedAt        DateTime        @updatedAt @db.Timestamptz
+  @@index([profileId])
+  @@map("vehicles")
+}
+
+model ServiceRecord {
+  id                String    @id @default(uuid()) @db.Uuid
+  vehicleId         String    @db.Uuid
+  serviceType       String
+  date              DateTime  @db.Timestamptz
+  mileageAtService  Int?
+  workshopName      String?
+  city              String?
+  labourCents       Int?
+  partsCents        Int?
+  totalCostCents    Int?
+  notes             String?
+  receiptUrl        String?
+  leadId            String?   @db.Uuid
+  vehicle           Vehicle   @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+  createdAt         DateTime  @default(now()) @db.Timestamptz
+  updatedAt         DateTime  @updatedAt @db.Timestamptz
+  @@index([vehicleId, date])
+  @@map("service_records")
+}
+
+model AiDiagnosis {
+  id               String    @id @default(uuid()) @db.Uuid
+  profileId        String?   @db.Uuid
+  vehicleId        String?   @db.Uuid
+  vehicleMake      String
+  vehicleModel     String
+  vehicleYear      Int?
+  issueDescription String
+  aiResponse       Json
+  tokensUsed       Int?
+  vehicle          Vehicle?  @relation(fields: [vehicleId], references: [id], onDelete: SetNull)
+  createdAt        DateTime  @default(now()) @db.Timestamptz
+  @@index([profileId, createdAt])
+  @@map("ai_diagnoses")
+}
+
+model UserXP {
+  id           String    @id @default(uuid()) @db.Uuid
+  profileId    String    @unique @db.Uuid
+  totalXp      Int       @default(0)
+  level        Int       @default(1)
+  badges       Json      @default("[]")
+  streakDays   Int       @default(0)
+  lastActivity DateTime? @db.Timestamptz
+  profile      Profile   @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  createdAt    DateTime  @default(now()) @db.Timestamptz
+  updatedAt    DateTime  @updatedAt @db.Timestamptz
+  @@map("user_xp")
 }
 
 model AdminUser {
