@@ -1,6 +1,6 @@
 import listings from "@/data/real-workshops.json";
 import { getPrisma } from "@/lib/db";
-import { CityHighlight, Mechanic, Metric, PriceBenchmark, ServiceCategory, SubscriptionPlan } from "@/lib/types";
+import { CityHighlight, ConsumerPlan, Mechanic, Metric, PriceBenchmark, ServiceCategory, SubscriptionPlan } from "@/lib/types";
 
 const serviceCategoryOrder: ServiceCategory[] = [
   "General Service",
@@ -40,39 +40,80 @@ export const subscriptionPlans: SubscriptionPlan[] = [
   {
     name: "Free",
     price: "R0",
-    description: "Create a workshop profile and appear in city results with public contact links.",
+    period: "forever",
+    description: "Get discovered. No upfront cost.",
     features: [
-      "Claim your workshop listing",
-      "Business phone and website links",
-      "Basic visibility in city pages",
-      "Email lead notifications"
+      "Claim your listing",
+      "Basic visibility in directory",
+      "Up to 3 lead credits/month",
+      "Customer reviews & ratings",
     ],
-    cta: "Claim profile"
+    cta: "Claim free listing",
+    highlighted: false,
   },
   {
     name: "Growth",
-    price: "R799/mo",
-    description: "For independent workshops that want more visibility and more qualified quote requests.",
+    price: "R799",
+    period: "month",
+    description: "For active workshops ready to grow.",
     features: [
-      "Priority ranking in city pages",
-      "Featured service badges",
-      "Lead routing and follow-up workflows",
-      "Performance reporting by city and category"
+      "50 lead credits included",
+      "R25 per additional lead",
+      "Priority ranking in search",
+      "Performance dashboard",
+      "WhatsApp lead notifications",
+      "Response time badge",
     ],
-    cta: "Start Growth"
+    cta: "Start Growth plan",
+    highlighted: true,
   },
   {
     name: "Pro",
-    price: "R1,499/mo",
-    description: "For multi-branch workshops, specialists, and lead buyers who want premium exposure.",
+    price: "R1,499",
+    period: "month",
+    description: "For high-volume workshops and multi-branch operations.",
     features: [
-      "Sponsored placements",
-      "Emergency and fleet lead access",
-      "Multi-branch support",
-      "Advanced trust and verification cards"
+      "Unlimited leads at R15 each",
+      "Sponsored placement",
+      "Fleet & emergency dispatch access",
+      "Multi-branch management",
+      "API access",
+      "Dedicated account manager",
     ],
-    cta: "Start Pro"
-  }
+    cta: "Go Pro",
+    highlighted: false,
+  },
+];
+
+export const consumerPlans: ConsumerPlan[] = [
+  {
+    name: "Free",
+    price: "R0",
+    description: "Find mechanics, get started.",
+    features: [
+      "Search the full directory",
+      "3 AI diagnoses per month",
+      "1 garage vehicle",
+      "Request quotes",
+    ],
+    cta: "Get started free",
+    highlighted: false,
+  },
+  {
+    name: "Bonnet Plus",
+    price: "R49",
+    description: "Own your car's health.",
+    features: [
+      "Unlimited AI diagnoses",
+      "Unlimited garage vehicles",
+      "Full service history & cost tracker",
+      "Priority quote routing",
+      "Maintenance reminders",
+      "Quote archive",
+    ],
+    cta: "Upgrade to Plus",
+    highlighted: true,
+  },
 ];
 
 function slugify(value: string) {

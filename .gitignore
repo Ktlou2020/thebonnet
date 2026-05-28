@@ -7,3 +7,4 @@ out
 *.log
 coverage
 data/imports/workshops/.last-import-summary.json
+.claude/
