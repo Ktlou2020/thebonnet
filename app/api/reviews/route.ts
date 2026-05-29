@@ -2,8 +2,17 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import { sendWhatsApp } from "@/lib/whatsapp";
+import { rateLimit } from "@/lib/rate-limit";
+import { sendReviewNotificationEmail } from "@/lib/email";
+import { headers } from "next/headers";
+import { trackServerEvent } from "@/lib/posthog";
 
 export async function POST(req: NextRequest) {
+  const ip = (await headers()).get("x-forwarded-for") ?? "anonymous";
+  if (!rateLimit(`reviews:${ip}`, 3, 300_000)) {
+    return NextResponse.json({ error: "Too many requests." }, { status: 429 });
+  }
+
   const session = await auth();
   if (!session?.user?.email) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -45,12 +54,28 @@ export async function POST(req: NextRequest) {
 
   const review = { ...baseReview, authorName, jobType: body.jobType, costCents: body.costCents };
 
+  trackServerEvent(profile.id, "review_submitted", { rating: body.rating });
+
   const phone = workshop.whatsapp ?? workshop.phone;
   if (phone) {
     await sendWhatsApp({
       to: phone,
       body: `⭐ New ${review.rating}-star review for ${workshop.name} on The Bonnet.\n\nView and respond: https://thebonnet.co.za/dashboard/reviews`,
     }).catch(() => null);
+  }
+
+  // Email notification to workshop owner
+  try {
+    const owner = await db.profile.findUnique({ where: { id: workshop.ownerId }, select: { email: true } });
+    if (owner?.email) {
+      await sendReviewNotificationEmail(owner.email, {
+        workshopName: workshop.name,
+        rating: review.rating,
+        reviewUrl: `https://thebonnet.co.za/dashboard/reviews`,
+      });
+    }
+  } catch {
+    // Don't fail the request if email fails
   }
 
   return NextResponse.json({ ok: true, review });

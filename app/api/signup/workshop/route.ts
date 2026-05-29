@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
+import { sendWelcomeEmail } from "@/lib/email";
 
 function slugify(str: string): string {
   return str
@@ -63,6 +64,13 @@ export async function POST(req: NextRequest) {
       listingTypes: services ?? [],
     },
   });
+
+  // Welcome email
+  try {
+    await sendWelcomeEmail(email, contactName ?? businessName, true);
+  } catch {
+    // Don't fail the request if email fails
+  }
 
   return NextResponse.json({ ok: true, workshopId: workshop.id });
 }

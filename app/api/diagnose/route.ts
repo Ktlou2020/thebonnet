@@ -1,7 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { AiDiagnosisResult } from "@/lib/types";
+import { rateLimit } from "@/lib/rate-limit";
+import { headers } from "next/headers";
+import { trackServerEvent } from "@/lib/posthog";
 
 export async function POST(req: NextRequest) {
+  const ip = (await headers()).get("x-forwarded-for") ?? "anonymous";
+  if (!rateLimit(`diagnose:${ip}`, 5, 60_000)) {
+    return NextResponse.json({ error: "Too many requests. Please wait a minute." }, { status: 429 });
+  }
+
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
     return NextResponse.json({ error: "AI service not configured" }, { status: 503 });
@@ -18,6 +26,8 @@ export async function POST(req: NextRequest) {
   if (!make || !model || !description) {
     return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
   }
+
+  trackServerEvent(ip, "ai_diagnosis_requested", { make, model });
 
   const systemPrompt = `You are an expert automotive diagnostician helping South African drivers. You know SA pricing in ZAR (independent workshops R400-800/hr, dealerships R900-1400/hr), SA popular vehicles (Toyota, VW, Ford, Hyundai, Suzuki, Kia, Renault, BMW, Mercedes, Audi, Nissan, Isuzu, Haval), and common SA driving conditions (potholes, heat, dust). Always respond with ONLY valid JSON, no markdown.`;
 

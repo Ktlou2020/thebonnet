@@ -2,6 +2,7 @@ import NextAuth from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import Nodemailer from "next-auth/providers/nodemailer";
 import { db } from "@/lib/db";
+import { sendMagicLinkEmail } from "@/lib/email";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(db),
@@ -9,6 +10,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     Nodemailer({
       server: process.env.EMAIL_SERVER ?? "smtp://localhost:1025",
       from: process.env.EMAIL_FROM ?? "noreply@thebonnet.co.za",
+      sendVerificationRequest: async ({ identifier, url }) => {
+        await sendMagicLinkEmail(identifier, url);
+      },
     }),
   ],
   pages: {

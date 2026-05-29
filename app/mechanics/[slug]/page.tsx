@@ -6,6 +6,22 @@ import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import { ReviewCard } from "@/components/review-card";
 import { ReviewForm } from "@/components/review-form";
+import { WorkshopSchema } from "@/components/workshop-schema";
+import type { Metadata } from "next";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const mechanic = await getMechanicBySlug(slug);
+  if (!mechanic) return {};
+  return {
+    title: `${mechanic.name} — Workshop in ${mechanic.city}`,
+    description: `${mechanic.name} is a mechanic workshop in ${mechanic.city}, ${mechanic.province}. Services: ${mechanic.services.join(", ")}.`,
+  };
+}
 
 export default async function MechanicDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -48,6 +64,7 @@ export default async function MechanicDetailPage({ params }: { params: Promise<{
 
   return (
     <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
+      <WorkshopSchema mechanic={mechanic} />
       <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr]">
         <div className="rounded-[2rem] border border-slate-200 bg-white p-8 shadow-soft">
           <div className="flex flex-wrap items-center gap-3">

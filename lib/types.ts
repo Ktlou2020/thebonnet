@@ -40,6 +40,8 @@ export interface Mechanic {
   source: string;
   placeId: string;
   responseTimeLabel?: string;
+  isVerified?: boolean;
+  reviewCount?: number;
 }
 
 export interface PriceBenchmark {

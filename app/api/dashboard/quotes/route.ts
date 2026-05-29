@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import { sendWhatsApp } from "@/lib/whatsapp";
+import { sendQuoteReceivedEmail } from "@/lib/email";
 
 export async function POST(req: NextRequest) {
   const session = await auth();
@@ -59,6 +60,20 @@ export async function POST(req: NextRequest) {
       to: lead.phone,
       body: `🔧 You have a new quote from ${workshopName} on The Bonnet!\n\nAmount: ${amountFormatted}\n\nView it: https://thebonnet.co.za/quotes`,
     }).catch(() => null);
+  }
+
+  // Email notification to driver
+  try {
+    if (lead.email) {
+      await sendQuoteReceivedEmail(lead.email, {
+        workshopName: body.workshopName ?? assignment.workshop.name,
+        amountRands: Math.round(body.amountCents / 100),
+        service: lead.serviceNeeded,
+        quotesUrl: `${process.env.NEXTAUTH_URL ?? "https://thebonnet.co.za"}/quotes`,
+      });
+    }
+  } catch {
+    // Don't fail the request if email fails
   }
 
   return NextResponse.json({ ok: true, quote });

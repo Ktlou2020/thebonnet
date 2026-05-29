@@ -1,6 +1,7 @@
 import { consumerPlans, subscriptionPlans } from "@/lib/workshops";
 import { CheckCircle } from "lucide-react";
 import { UpgradeButton } from "./upgrade-button";
+import { WorkshopUpgradeButton } from "./workshop-upgrade-button";
 
 export const metadata = {
   title: "Pricing | The Bonnet",
@@ -125,16 +126,18 @@ export default async function PricingPage({
                   ))}
                 </ul>
                 <div className="mt-8">
-                  <a
-                    href="/for-mechanics"
-                    className={`block w-full rounded-full py-3 text-center text-sm font-semibold transition ${
-                      plan.highlighted
-                        ? "bg-fire text-white shadow-glow-fire hover:bg-fire/90"
-                        : "border border-slate-200 text-slate-700 hover:border-slate-300"
-                    }`}
-                  >
-                    {plan.cta}
-                  </a>
+                  {plan.name === "Growth" ? (
+                    <WorkshopUpgradeButton plan="GROWTH" label={plan.cta} />
+                  ) : plan.name === "Pro" ? (
+                    <WorkshopUpgradeButton plan="PRO" label={plan.cta} />
+                  ) : (
+                    <a
+                      href="/for-mechanics"
+                      className="block w-full rounded-full border border-slate-200 py-3 text-center text-sm font-semibold text-slate-700 transition hover:border-slate-300"
+                    >
+                      {plan.cta}
+                    </a>
+                  )}
                 </div>
               </div>
             ))}
