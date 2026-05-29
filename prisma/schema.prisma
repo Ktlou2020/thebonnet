@@ -13,6 +13,12 @@ enum AppRole {
   ADMIN
 }
 
+enum UserRole {
+  DRIVER
+  WORKSHOP_OWNER
+  ADMIN
+}
+
 enum AdminRole {
   SUPER_ADMIN
   OPERATIONS_ADMIN
@@ -74,18 +80,24 @@ enum QuoteStatus {
 }
 
 model Profile {
-  id        String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  email     String     @unique
-  fullName  String?
-  phone     String?
-  role      AppRole    @default(CONSUMER)
-  workshops Workshop[]
-  leads     Lead[]
-  reviews   Review[]
-  vehicles  Vehicle[]
-  xp        UserXP?
-  createdAt DateTime   @default(now()) @db.Timestamptz(6)
-  updatedAt DateTime   @updatedAt @db.Timestamptz(6)
+  id            String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email         String     @unique
+  fullName      String?
+  name          String?
+  phone         String?
+  role          AppRole    @default(CONSUMER)
+  userRole      UserRole   @default(DRIVER)
+  emailVerified DateTime?  @db.Timestamptz
+  image         String?
+  workshops     Workshop[]
+  leads         Lead[]
+  reviews       Review[]
+  vehicles      Vehicle[]
+  xp            UserXP?
+  accounts      Account[]
+  sessions      Session[]
+  createdAt     DateTime   @default(now()) @db.Timestamptz(6)
+  updatedAt     DateTime   @updatedAt @db.Timestamptz(6)
 
   @@map("profiles")
 }
@@ -455,4 +467,39 @@ model WorkshopMedia {
 
   @@index([workshopId, sortOrder])
   @@map("workshop_media")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String  @map("user_id") @db.Uuid
+  type              String
+  provider          String
+  providerAccountId String  @map("provider_account_id")
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+  user              Profile @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique @map("session_token")
+  userId       String   @map("user_id") @db.Uuid
+  expires      DateTime
+  user         Profile  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+  @@unique([identifier, token])
+  @@map("verification_tokens")
 }
