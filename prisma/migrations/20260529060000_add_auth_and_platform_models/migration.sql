@@ -32,10 +32,10 @@ DO $$ BEGIN
   ALTER TABLE "profiles" ADD COLUMN "bonnetPlusUntil" TIMESTAMPTZ;
 EXCEPTION WHEN duplicate_column THEN null; END $$;
 
--- Auth.js tables
+-- Auth.js tables (user_id must be UUID to match profiles.id)
 CREATE TABLE IF NOT EXISTS "accounts" (
   "id" TEXT NOT NULL PRIMARY KEY,
-  "user_id" TEXT NOT NULL,
+  "user_id" UUID NOT NULL,
   "type" TEXT NOT NULL,
   "provider" TEXT NOT NULL,
   "provider_account_id" TEXT NOT NULL,
@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS "accounts" (
 CREATE TABLE IF NOT EXISTS "sessions" (
   "id" TEXT NOT NULL PRIMARY KEY,
   "session_token" TEXT NOT NULL,
-  "user_id" TEXT NOT NULL,
+  "user_id" UUID NOT NULL,
   "expires" TIMESTAMP(3) NOT NULL,
   CONSTRAINT "sessions_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "profiles"("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
