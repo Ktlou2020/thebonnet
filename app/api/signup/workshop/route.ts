@@ -31,7 +31,6 @@ export async function POST(req: NextRequest) {
       data: {
         email,
         fullName: contactName ?? null,
-        name: contactName ?? null,
         userRole: "WORKSHOP_OWNER",
       },
     });
