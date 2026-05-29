@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Star } from "lucide-react";
+import { Star, X } from "lucide-react";
+import { ImageUpload } from "@/components/image-upload";
 
 const JOB_TYPES = [
   "Oil Service",
@@ -27,6 +28,7 @@ export function ReviewForm({
   const [jobType, setJobType] = useState("");
   const [cost, setCost] = useState("");
   const [body, setBody] = useState("");
+  const [photoUrls, setPhotoUrls] = useState<string[]>([]);
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
@@ -46,6 +48,7 @@ export function ReviewForm({
         body: body.trim(),
         jobType: jobType || undefined,
         costCents: cost ? Math.round(parseFloat(cost) * 100) : undefined,
+        photoUrls: photoUrls.length > 0 ? photoUrls : undefined,
       }),
     });
 
@@ -143,6 +146,35 @@ export function ReviewForm({
           placeholder="Tell others about your experience..."
           className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm placeholder:text-slate-400 focus:border-fire focus:outline-none resize-none"
         />
+      </div>
+
+      {/* Photo upload */}
+      <div className="mb-5">
+        <label className="block text-xs font-medium text-slate-600 mb-2">Photos (optional, up to 3)</label>
+        {photoUrls.length > 0 && (
+          <div className="mb-3 flex flex-wrap gap-2">
+            {photoUrls.map((url, i) => (
+              <div key={i} className="relative">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={url} alt={`Photo ${i + 1}`} className="h-16 w-16 rounded-xl object-cover" />
+                <button
+                  type="button"
+                  onClick={() => setPhotoUrls((prev) => prev.filter((_, idx) => idx !== i))}
+                  className="absolute -right-1 -top-1 rounded-full bg-white p-0.5 shadow"
+                >
+                  <X className="h-3 w-3 text-slate-500" />
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+        {photoUrls.length < 3 && (
+          <ImageUpload
+            folder="reviews"
+            label=""
+            onUpload={(url) => setPhotoUrls((prev) => [...prev, url])}
+          />
+        )}
       </div>
 
       {error && <p className="mb-4 text-sm text-red-600">{error}</p>}
