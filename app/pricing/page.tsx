@@ -7,13 +7,14 @@ export const metadata = {
   description: "Simple, transparent pricing for drivers and workshops on The Bonnet marketplace.",
 };
 
-export default function PricingPage({
+export default async function PricingPage({
   searchParams,
 }: {
-  searchParams?: { error?: string; upgraded?: string };
+  searchParams?: Promise<{ error?: string; upgraded?: string }>;
 }) {
-  const upgraded = searchParams?.upgraded === "true";
-  const paymentError = searchParams?.error;
+  const params = await searchParams;
+  const upgraded = params?.upgraded === "true";
+  const paymentError = params?.error;
 
   return (
     <div className="min-h-screen bg-slate-50">
