@@ -2,16 +2,49 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Globe, MapPin, PhoneCall, ShieldCheck, Star } from "lucide-react";
 import { getMechanicBySlug, getRelatedMechanics } from "@/lib/workshops";
+import { auth } from "@/auth";
+import { db } from "@/lib/db";
+import { ReviewCard } from "@/components/review-card";
+import { ReviewForm } from "@/components/review-form";
 
 export default async function MechanicDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const mechanic = await getMechanicBySlug(slug);
+  const [mechanic, session] = await Promise.all([getMechanicBySlug(slug), auth()]);
 
   if (!mechanic) notFound();
 
   const related = await getRelatedMechanics(mechanic, 3);
   const telHref = mechanic.phone ? `tel:${mechanic.phone.replace(/\s+/g, "")}` : null;
   const quoteHref = `/request-quote?${new URLSearchParams({ city: mechanic.city, service: mechanic.services[0] ?? "General Service" }).toString()}`;
+
+  // Fetch approved reviews from DB (gracefully skip if no DB)
+  type ReviewRow = {
+    id: string;
+    authorName: string;
+    rating: number;
+    body: string | null;
+    jobType: string | null;
+    costCents: number | null;
+    helpfulCount: number;
+    reply: string | null;
+    repliedAt: Date | null;
+    receiptVerified: boolean;
+    createdAt: Date;
+  };
+  let reviews: ReviewRow[] = [];
+  try {
+    const workshop = await db.workshop.findUnique({ where: { slug } });
+    if (workshop) {
+      reviews = await db.$queryRaw<ReviewRow[]>`
+        SELECT id, "authorName", rating, body, "jobType", "costCents", "helpfulCount", reply, "repliedAt", "receiptVerified", "createdAt"
+        FROM reviews
+        WHERE "workshopId" = ${workshop.id}::uuid AND status = 'APPROVED'
+        ORDER BY "createdAt" DESC
+      `;
+    }
+  } catch {
+    // DB unavailable — show empty list
+  }
 
   return (
     <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
@@ -53,6 +86,47 @@ export default async function MechanicDetailPage({ params }: { params: Promise<{
               <div className="mt-4 flex flex-wrap gap-3">{related.map((item) => <Link key={item.slug} href={`/mechanics/${item.slug}`} className="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700">{item.name}</Link>)}</div>
             </div>
           ) : null}
+
+          {/* Reviews section */}
+          <div className="mt-10">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-semibold text-slate-950">Customer reviews</h2>
+              {reviews.length > 0 && (
+                <span className="text-sm text-slate-500">{reviews.length} review{reviews.length !== 1 ? "s" : ""}</span>
+              )}
+            </div>
+            {reviews.length === 0 ? (
+              <div className="rounded-[2rem] border border-dashed border-slate-200 bg-slate-50 p-8 text-center">
+                <p className="text-slate-500 text-sm">No reviews yet. Be the first!</p>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {reviews.map((r) => (
+                  <ReviewCard
+                    key={r.id}
+                    review={{
+                      ...r,
+                      repliedAt: r.repliedAt ? r.repliedAt.toISOString() : null,
+                      createdAt: r.createdAt.toISOString(),
+                    }}
+                  />
+                ))}
+              </div>
+            )}
+
+            {session ? (
+              <div className="mt-6">
+                <ReviewForm workshopSlug={mechanic.slug} />
+              </div>
+            ) : (
+              <div className="mt-6 rounded-[2rem] border border-slate-200 bg-white p-6 text-center shadow-soft">
+                <p className="text-sm text-slate-600">
+                  <Link href="/login" className="font-semibold text-fire hover:underline">Sign in</Link>
+                  {" "}to leave a review for this workshop.
+                </p>
+              </div>
+            )}
+          </div>
         </div>
 
         <aside className="space-y-6">
