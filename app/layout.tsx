@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "@/app/globals.css";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
+import { Providers } from "@/components/session-provider";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
@@ -42,9 +43,11 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en">
       <body>
-        <Header />
-        <main>{children}</main>
-        <Footer />
+        <Providers>
+          <Header />
+          <main>{children}</main>
+          <Footer />
+        </Providers>
       </body>
     </html>
   );
