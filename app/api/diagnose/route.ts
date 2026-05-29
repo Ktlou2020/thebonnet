@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { AiDiagnosisResult } from "@/lib/types";
 import { rateLimit } from "@/lib/rate-limit";
 import { headers } from "next/headers";
+import { trackServerEvent } from "@/lib/posthog";
 
 export async function POST(req: NextRequest) {
   const ip = (await headers()).get("x-forwarded-for") ?? "anonymous";
