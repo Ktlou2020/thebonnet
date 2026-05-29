@@ -39,6 +39,7 @@ export interface Mechanic {
   featured: boolean;
   source: string;
   placeId: string;
+  responseTimeLabel?: string;
 }
 
 export interface PriceBenchmark {

@@ -31,6 +31,9 @@ export function MechanicCard({ mechanic }: { mechanic: Mechanic }) {
             {mechanic.rating.toFixed(1)}
           </div>
           <div className="text-xs text-slate-500">Public rating</div>
+          {mechanic.responseTimeLabel && (
+            <div className="text-xs text-slate-500 mt-1">{mechanic.responseTimeLabel}</div>
+          )}
         </div>
       </div>
 

@@ -197,24 +197,39 @@ async function loadDbMechanics(): Promise<Mechanic[] | null> {
 
     if (!workshops.length) return null;
 
-    return workshops.map((workshop, index) => ({
-      id: workshop.id ?? `db-${index + 1}`,
-      slug: workshop.slug,
-      name: workshop.name,
-      city: workshop.city,
-      province: workshop.province,
-      address: workshop.addressLine1 ?? [workshop.suburb, workshop.city, workshop.province].filter(Boolean).join(", "),
-      phone: workshop.phone ?? workshop.whatsapp ?? undefined,
-      website: workshop.website ?? undefined,
-      rating: Number(workshop.ratingAverage) || 0,
-      hours: workshop.hoursText ?? "Call or visit the workshop website for hours.",
-      types: workshop.listingTypes.length ? workshop.listingTypes : [workshop.mobileService ? "Mobile mechanic" : "Auto repair shop"],
-      services: normalizeServices(workshop.services.map((item) => item.category.name)),
-      mobile: Boolean(workshop.mobileService),
-      featured: Boolean(workshop.featured),
-      source: workshop.sourceName ?? "Google Maps",
-      placeId: workshop.externalPlaceId ?? `db-${workshop.id}`
-    }));
+    return workshops.map((workshop, index) => {
+      let responseTimeLabel: string | undefined;
+      if (workshop.responseMinutes) {
+        if (workshop.responseMinutes < 60) {
+          responseTimeLabel = `Replies within ${workshop.responseMinutes}m`;
+        } else {
+          const h = Math.round(workshop.responseMinutes / 60);
+          responseTimeLabel = `Replies within ${h}h`;
+        }
+      } else if (workshop.subscriptionTier === "GROWTH" || workshop.subscriptionTier === "PRO") {
+        responseTimeLabel = "Replies within 24h";
+      }
+
+      return {
+        id: workshop.id ?? `db-${index + 1}`,
+        slug: workshop.slug,
+        name: workshop.name,
+        city: workshop.city,
+        province: workshop.province,
+        address: workshop.addressLine1 ?? [workshop.suburb, workshop.city, workshop.province].filter(Boolean).join(", "),
+        phone: workshop.phone ?? workshop.whatsapp ?? undefined,
+        website: workshop.website ?? undefined,
+        rating: Number(workshop.ratingAverage) || 0,
+        hours: workshop.hoursText ?? "Call or visit the workshop website for hours.",
+        types: workshop.listingTypes.length ? workshop.listingTypes : [workshop.mobileService ? "Mobile mechanic" : "Auto repair shop"],
+        services: normalizeServices(workshop.services.map((item) => item.category.name)),
+        mobile: Boolean(workshop.mobileService),
+        featured: Boolean(workshop.featured),
+        source: workshop.sourceName ?? "Google Maps",
+        placeId: workshop.externalPlaceId ?? `db-${workshop.id}`,
+        responseTimeLabel,
+      };
+    });
   } catch {
     return null;
   }
