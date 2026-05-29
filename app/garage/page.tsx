@@ -2,9 +2,19 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Wrench, Plus, X, ChevronDown, ChevronUp, AlertTriangle } from "lucide-react";
+import { Wrench, Plus, X, ChevronDown, ChevronUp, AlertTriangle, Bell } from "lucide-react";
 import type { GarageVehicle, GarageServiceRecord } from "@/lib/types";
 import { useSession } from "next-auth/react";
+
+const REMINDER_TYPES = ["Oil Change", "Major Service", "Tyre Rotation", "Brakes", "Custom"];
+
+type MaintenanceReminder = {
+  id: string;
+  vehicleId: string;
+  reminderType: string;
+  dueDate: string;
+  dueMileage?: number | null;
+};
 
 // ── XP config ────────────────────────────────────────────────────────────────
 const XP_THRESHOLDS = [0, 200, 500, 1000, 2000];
@@ -99,6 +109,9 @@ export default function GaragePage() {
   const [records, setRecords] = useState<GarageServiceRecord[]>([]);
   const [xp, setXp] = useState<UserXP>({ totalXp: 0, level: 0, badges: [], streakDays: 0 });
   const [loaded, setLoaded] = useState(false);
+  const [reminders, setReminders] = useState<MaintenanceReminder[]>([]);
+  const [showReminderForm, setShowReminderForm] = useState<string | null>(null);
+  const [reminderForm, setReminderForm] = useState({ reminderType: "", dueDate: "", dueMileage: "" });
 
   async function handleSync() {
     const rawVehicles = localStorage.getItem("bonnet_vehicles");
@@ -130,6 +143,36 @@ export default function GaragePage() {
     setXp(loadJSON<UserXP>(XP_KEY, { totalXp: 0, level: 0, badges: [], streakDays: 0 }));
     setLoaded(true);
   }, []);
+
+  // ── Load reminders if authenticated ──
+  useEffect(() => {
+    if (session) {
+      fetch("/api/reminders")
+        .then((r) => r.json())
+        .then((data: { reminders: MaintenanceReminder[] }) => setReminders(data.reminders ?? []))
+        .catch(() => null);
+    }
+  }, [session]);
+
+  async function submitReminder(vehicleId: string) {
+    if (!reminderForm.reminderType || !reminderForm.dueDate) return;
+    const res = await fetch("/api/reminders", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        vehicleId,
+        reminderType: reminderForm.reminderType,
+        dueDate: reminderForm.dueDate,
+        dueMileage: reminderForm.dueMileage ? parseInt(reminderForm.dueMileage) : undefined,
+      }),
+    });
+    if (res.ok) {
+      const data = (await res.json()) as { reminder: MaintenanceReminder };
+      setReminders((prev) => [...prev, data.reminder]);
+      setShowReminderForm(null);
+      setReminderForm({ reminderType: "", dueDate: "", dueMileage: "" });
+    }
+  }
 
   // ── XP helpers ──
   function addXP(amount: number, badge?: string) {
@@ -397,6 +440,75 @@ export default function GaragePage() {
                   {/* Service history */}
                   {expanded && (
                     <div className="border-t border-slate-100 px-6 pb-6 pt-4">
+                      {/* Maintenance reminders */}
+                      {session && (
+                        <div className="mb-5">
+                          <div className="flex items-center justify-between mb-2">
+                            <h4 className="text-sm font-semibold text-slate-900">Reminders</h4>
+                            <button
+                              onClick={() => setShowReminderForm(showReminderForm === v.id ? null : v.id)}
+                              className="text-xs font-semibold text-fire hover:underline"
+                            >
+                              {showReminderForm === v.id ? "Cancel" : "+ Set reminder"}
+                            </button>
+                          </div>
+                          {/* Reminder chips */}
+                          <div className="flex flex-wrap gap-2 mb-2">
+                            {reminders.filter((r) => r.vehicleId === v.id).map((r) => (
+                              <span key={r.id} className="inline-flex items-center gap-1.5 rounded-full bg-amber-50 border border-amber-200 px-3 py-1 text-xs font-medium text-amber-800">
+                                <Bell className="h-3 w-3" />
+                                {r.reminderType} due {new Date(r.dueDate).toLocaleDateString("en-ZA", { day: "numeric", month: "short", year: "numeric" })}
+                              </span>
+                            ))}
+                            {reminders.filter((r) => r.vehicleId === v.id).length === 0 && (
+                              <span className="text-xs text-slate-400">No reminders set.</span>
+                            )}
+                          </div>
+                          {showReminderForm === v.id && (
+                            <div className="mt-3 rounded-2xl border border-slate-200 bg-slate-50 p-4 space-y-3">
+                              <div>
+                                <label className="block text-xs font-medium text-slate-600 mb-1">Reminder type</label>
+                                <select
+                                  value={reminderForm.reminderType}
+                                  onChange={(e) => setReminderForm((f) => ({ ...f, reminderType: e.target.value }))}
+                                  className="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-fire focus:outline-none"
+                                >
+                                  <option value="">Select...</option>
+                                  {REMINDER_TYPES.map((t) => <option key={t} value={t}>{t}</option>)}
+                                </select>
+                              </div>
+                              <div className="grid grid-cols-2 gap-3">
+                                <div>
+                                  <label className="block text-xs font-medium text-slate-600 mb-1">Due date</label>
+                                  <input
+                                    type="date"
+                                    value={reminderForm.dueDate}
+                                    onChange={(e) => setReminderForm((f) => ({ ...f, dueDate: e.target.value }))}
+                                    className="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-fire focus:outline-none"
+                                  />
+                                </div>
+                                <div>
+                                  <label className="block text-xs font-medium text-slate-600 mb-1">Mileage (km, optional)</label>
+                                  <input
+                                    type="number"
+                                    value={reminderForm.dueMileage}
+                                    onChange={(e) => setReminderForm((f) => ({ ...f, dueMileage: e.target.value }))}
+                                    placeholder="km"
+                                    className="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2 text-sm placeholder:text-slate-400 focus:border-fire focus:outline-none"
+                                  />
+                                </div>
+                              </div>
+                              <button
+                                onClick={() => submitReminder(v.id)}
+                                disabled={!reminderForm.reminderType || !reminderForm.dueDate}
+                                className="rounded-full bg-fire px-4 py-2 text-xs font-semibold text-white shadow-glow-fire transition hover:bg-fire/90 disabled:opacity-40"
+                              >
+                                Save reminder
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                      )}
                       <h4 className="text-sm font-semibold text-slate-900 mb-3">Service history</h4>
                       {vRecords.length === 0 ? (
                         <p className="text-sm text-slate-400">No services logged yet.</p>
