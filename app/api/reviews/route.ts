@@ -5,6 +5,7 @@ import { sendWhatsApp } from "@/lib/whatsapp";
 import { rateLimit } from "@/lib/rate-limit";
 import { sendReviewNotificationEmail } from "@/lib/email";
 import { headers } from "next/headers";
+import { trackServerEvent } from "@/lib/posthog";
 
 export async function POST(req: NextRequest) {
   const ip = (await headers()).get("x-forwarded-for") ?? "anonymous";
@@ -52,6 +53,8 @@ export async function POST(req: NextRequest) {
   await db.$executeRaw`UPDATE reviews SET "authorName" = ${authorName}, "profileId" = ${profile.id}::uuid, "jobType" = ${body.jobType ?? null}, "costCents" = ${body.costCents ?? null}, status = 'PENDING' WHERE id = ${baseReview.id}::uuid`;
 
   const review = { ...baseReview, authorName, jobType: body.jobType, costCents: body.costCents };
+
+  trackServerEvent(profile.id, "review_submitted", { rating: body.rating });
 
   const phone = workshop.whatsapp ?? workshop.phone;
   if (phone) {

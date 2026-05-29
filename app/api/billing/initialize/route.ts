@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { rateLimit } from "@/lib/rate-limit";
+import { trackServerEvent } from "@/lib/posthog";
 
 export async function POST() {
   if (!process.env.PAYSTACK_SECRET_KEY) {
@@ -15,6 +16,8 @@ export async function POST() {
   if (!rateLimit(`billing:${session.user.id}`, 3, 60_000)) {
     return NextResponse.json({ error: "Too many requests." }, { status: 429 });
   }
+
+  trackServerEvent(session.user.id ?? "anonymous", "billing_initiated", { plan: "PLUS" });
 
   const res = await fetch("https://api.paystack.co/transaction/initialize", {
     method: "POST",

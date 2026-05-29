@@ -27,6 +27,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
   }
 
+  trackServerEvent(ip, "ai_diagnosis_requested", { make, model });
+
   const systemPrompt = `You are an expert automotive diagnostician helping South African drivers. You know SA pricing in ZAR (independent workshops R400-800/hr, dealerships R900-1400/hr), SA popular vehicles (Toyota, VW, Ford, Hyundai, Suzuki, Kia, Renault, BMW, Mercedes, Audi, Nissan, Isuzu, Haval), and common SA driving conditions (potholes, heat, dust). Always respond with ONLY valid JSON, no markdown.`;
 
   const userPrompt = `Vehicle: ${year} ${make} ${model}
