@@ -8,3 +8,4 @@ out
 coverage
 data/imports/workshops/.last-import-summary.json
 .claude/
+tsconfig.tsbuildinfo
