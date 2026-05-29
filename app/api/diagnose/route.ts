@@ -1,7 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { AiDiagnosisResult } from "@/lib/types";
+import { rateLimit } from "@/lib/rate-limit";
+import { headers } from "next/headers";
 
 export async function POST(req: NextRequest) {
+  const ip = (await headers()).get("x-forwarded-for") ?? "anonymous";
+  if (!rateLimit(`diagnose:${ip}`, 5, 60_000)) {
+    return NextResponse.json({ error: "Too many requests. Please wait a minute." }, { status: 429 });
+  }
+
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
     return NextResponse.json({ error: "AI service not configured" }, { status: 503 });

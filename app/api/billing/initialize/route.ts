@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
+import { rateLimit } from "@/lib/rate-limit";
 
 export async function POST() {
   if (!process.env.PAYSTACK_SECRET_KEY) {
@@ -9,6 +10,10 @@ export async function POST() {
   const session = await auth();
   if (!session?.user?.email) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  if (!rateLimit(`billing:${session.user.id}`, 3, 60_000)) {
+    return NextResponse.json({ error: "Too many requests." }, { status: 429 });
   }
 
   const res = await fetch("https://api.paystack.co/transaction/initialize", {
