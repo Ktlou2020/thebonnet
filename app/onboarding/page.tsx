@@ -2,6 +2,7 @@ import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 
+
 export default async function OnboardingPage() {
   const session = await auth();
   if (!session) redirect("/login");
@@ -48,15 +49,25 @@ export default async function OnboardingPage() {
         </div>
 
         {!isWorkshop && (
-          <div className="mt-6 rounded-2xl border border-fire/20 bg-fire/5 p-4 flex items-center justify-between gap-4 flex-wrap">
-            <div>
-              <div className="font-semibold text-sm">Upgrade to Bonnet Plus</div>
-              <div className="text-xs text-slate-400 mt-0.5">Unlimited AI diagnoses, unlimited garage vehicles — R49/mo</div>
+          <>
+            <div className="mt-6 rounded-2xl border border-fire/20 bg-fire/5 p-4 flex items-center justify-between gap-4 flex-wrap">
+              <div>
+                <div className="font-semibold text-sm">Upgrade to Bonnet Plus</div>
+                <div className="text-xs text-slate-400 mt-0.5">Unlimited AI diagnoses, unlimited garage vehicles — R49/mo</div>
+              </div>
+              <Link href="/#pricing" className="shrink-0 rounded-full bg-fire px-4 py-2 text-sm font-semibold text-white shadow-glow-fire">
+                Upgrade
+              </Link>
             </div>
-            <Link href="/#pricing" className="shrink-0 rounded-full bg-fire px-4 py-2 text-sm font-semibold text-white shadow-glow-fire">
-              Upgrade
-            </Link>
-          </div>
+            <div className="mt-6 rounded-[2rem] border border-white/10 bg-white/5 p-6">
+              <div className="text-sm font-semibold uppercase tracking-widest text-fire mb-2">Earn 1 month free</div>
+              <h3 className="text-xl font-bold text-white mb-2">Refer a friend to The Bonnet</h3>
+              <p className="text-slate-400 text-sm mb-4">Share your referral link. When a friend signs up, you both get 1 month of Bonnet Plus free.</p>
+              <Link href="/garage?tab=referral" className="rounded-full bg-fire px-5 py-2.5 text-sm font-semibold text-white shadow-glow-fire inline-block">
+                Get your referral link →
+              </Link>
+            </div>
+          </>
         )}
       </div>
     </div>
