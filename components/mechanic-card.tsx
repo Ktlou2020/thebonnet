@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Globe, MapPin, PhoneCall, Star } from "lucide-react";
+import { Globe, MapPin, PhoneCall, ShieldCheck, Star } from "lucide-react";
 import { Mechanic } from "@/lib/types";
 
 export function MechanicCard({ mechanic }: { mechanic: Mechanic }) {
@@ -20,6 +20,11 @@ export function MechanicCard({ mechanic }: { mechanic: Mechanic }) {
       <div className="mt-5 flex items-start justify-between gap-4">
         <div>
           <h3 className="text-xl font-bold tracking-tight text-slate-950">{mechanic.name}</h3>
+          {mechanic.isVerified && (
+            <span title="Verified workshop" className="inline-flex items-center gap-1 rounded-full bg-teal-50 px-2 py-0.5 text-xs font-semibold text-teal-700">
+              <ShieldCheck className="h-3 w-3" /> Verified
+            </span>
+          )}
           <p className="mt-2 flex items-start gap-2 text-sm text-slate-500">
             <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-fire" />
             <span>{mechanic.address}</span>

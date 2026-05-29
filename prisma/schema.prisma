@@ -101,6 +101,9 @@ model Profile {
   emailVerified     DateTime?               @db.Timestamptz
   image             String?
   bonnetPlusUntil   DateTime?               @db.Timestamptz
+  referralCode      String?                 @unique
+  referredBy        String?
+  referrals         Referral[]
   workshops         Workshop[]
   leads             Lead[]
   reviews           Review[]
@@ -259,9 +262,12 @@ model Workshop {
   hourlyRate       Int?
   ratingAverage    Decimal               @default(0) @db.Decimal(3, 2)
   reviewCount      Int                   @default(0)
-  warrantyPolicy   String?
-  createdAt        DateTime              @default(now()) @db.Timestamptz(6)
-  updatedAt        DateTime              @updatedAt @db.Timestamptz(6)
+  warrantyPolicy      String?
+  isVerified          Boolean               @default(false)
+  verifiedAt          DateTime?             @db.Timestamptz
+  verificationNotes   String?
+  createdAt           DateTime              @default(now()) @db.Timestamptz(6)
+  updatedAt           DateTime              @updatedAt @db.Timestamptz(6)
   accreditations   Accreditation[]
   services         WorkshopService[]
   vehicleMakes     WorkshopMake[]
@@ -540,6 +546,19 @@ model Session {
   expires      DateTime
   user         Profile  @relation(fields: [userId], references: [id], onDelete: Cascade)
   @@map("sessions")
+}
+
+model Referral {
+  id              String    @id @default(uuid()) @db.Uuid
+  referrerId      String    @db.Uuid
+  referredEmail   String
+  rewardGranted   Boolean   @default(false)
+  rewardGrantedAt DateTime? @db.Timestamptz
+  createdAt       DateTime  @default(now()) @db.Timestamptz
+  referrer        Profile   @relation(fields: [referrerId], references: [id], onDelete: Cascade)
+
+  @@index([referrerId])
+  @@map("referrals")
 }
 
 model VerificationToken {
