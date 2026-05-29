@@ -1,7 +1,15 @@
 "use client";
 
-import { FormEvent, useMemo, useState } from "react";
+import { FormEvent, useMemo, useState, useEffect } from "react";
 import { ServiceCategory } from "@/lib/types";
+
+type BenchmarkResult = {
+  low: number;
+  high: number;
+  currency: string;
+  service: string;
+  city: string;
+} | null;
 
 function buildInitialState(initialCity?: string, initialService?: string) {
   return {
@@ -32,6 +40,17 @@ export function QuoteForm({
   const [form, setForm] = useState(startingState);
   const [status, setStatus] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [benchmark, setBenchmark] = useState<BenchmarkResult>(null);
+
+  useEffect(() => {
+    if (!form.serviceNeeded) { setBenchmark(null); return; }
+    const params = new URLSearchParams({ service: form.serviceNeeded });
+    if (form.city) params.set("city", form.city);
+    fetch(`/api/price-benchmark?${params.toString()}`)
+      .then((r) => r.json())
+      .then((data: { benchmark: BenchmarkResult }) => setBenchmark(data.benchmark ?? null))
+      .catch(() => setBenchmark(null));
+  }, [form.serviceNeeded, form.city]);
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -81,6 +100,15 @@ export function QuoteForm({
           <option>Flexible</option>
         </select>
       </div>
+      {/* Price benchmark banner */}
+      {benchmark && (
+        <div className="rounded-2xl border border-teal-200 bg-teal-50 px-4 py-3 text-sm text-teal-800">
+          <span className="font-semibold">💡 Price insight: </span>
+          Independent workshops in {benchmark.city} typically charge{" "}
+          <span className="font-semibold">R{(benchmark.low / 100).toLocaleString("en-ZA")}–R{(benchmark.high / 100).toLocaleString("en-ZA")}</span>{" "}
+          for {benchmark.service}.
+        </div>
+      )}
       <textarea value={form.details} onChange={(event) => setForm({ ...form, details: event.target.value })} placeholder="Describe the issue, symptoms, warning lights, noises, or anything the mechanic should know" rows={5} className="rounded-3xl border border-slate-200 px-4 py-3 outline-none focus:ring-2 focus:ring-accent" />
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-sm text-slate-500">Your request is stored in the platform database when connected and can be routed to matching workshops as The Bonnet grows.</p>

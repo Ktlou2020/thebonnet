@@ -14,8 +14,9 @@ export const metadata: Metadata = {
   description: "Browse real workshop listings, compare mechanics by city and service type, and request quotes through a cleaner South African mechanic marketplace.",
   metadataBase: siteUrl ? new URL(siteUrl) : undefined,
   applicationName: "The Bonnet",
-  manifest: "/site.webmanifest",
-  themeColor: "#08111f",
+  manifest: "/manifest.json",
+  themeColor: "#f97316",
+  appleWebApp: { capable: true, statusBarStyle: "black-translucent", title: "The Bonnet" },
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },

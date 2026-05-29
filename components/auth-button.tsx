@@ -49,7 +49,10 @@ export function AuthButton() {
           {isWorkshop ? (
             <Link href="/dashboard" onClick={() => setOpen(false)} className="block rounded-xl px-3 py-2 text-sm text-white/80 hover:bg-white/5 hover:text-white transition">Dashboard</Link>
           ) : (
-            <Link href="/garage" onClick={() => setOpen(false)} className="block rounded-xl px-3 py-2 text-sm text-white/80 hover:bg-white/5 hover:text-white transition">My Garage</Link>
+            <>
+              <Link href="/garage" onClick={() => setOpen(false)} className="block rounded-xl px-3 py-2 text-sm text-white/80 hover:bg-white/5 hover:text-white transition">My Garage</Link>
+              <Link href="/quotes" onClick={() => setOpen(false)} className="block rounded-xl px-3 py-2 text-sm text-white/80 hover:bg-white/5 hover:text-white transition">My Quotes</Link>
+            </>
           )}
           <button
             onClick={() => signOut({ callbackUrl: "/" })}
