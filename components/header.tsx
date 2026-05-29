@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { MapPinned, Menu, Wrench, X } from "lucide-react";
 import { useState } from "react";
+import { AuthButton } from "./auth-button";
 
 const navLinks = [
   { href: "/mechanics", label: "Directory", badge: undefined, icon: undefined },
@@ -50,6 +51,7 @@ export function Header() {
           <Link href="/request-quote" className="rounded-full bg-fire px-4 py-2 text-sm font-semibold text-white shadow-glow-fire transition hover:bg-fire/90">
             Get quotes
           </Link>
+          <AuthButton />
           <button
             onClick={() => setOpen((v) => !v)}
             className="rounded-xl border border-white/10 p-2 text-white transition hover:bg-white/5 md:hidden"
