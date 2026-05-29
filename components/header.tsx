@@ -5,6 +5,7 @@ import Link from "next/link";
 import { MapPinned, Menu, Wrench, X } from "lucide-react";
 import { useState } from "react";
 import { AuthButton } from "./auth-button";
+import { SearchBar } from "./search-bar";
 
 const navLinks = [
   { href: "/mechanics", label: "Directory", badge: undefined, icon: undefined },
@@ -44,6 +45,7 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-3">
+          <SearchBar />
           <Link href="/mechanics" className="hidden rounded-full border border-white/15 px-4 py-2 text-sm text-white transition hover:border-white/30 sm:inline-flex">
             <MapPinned className="mr-2 h-4 w-4" />
             Browse cities
