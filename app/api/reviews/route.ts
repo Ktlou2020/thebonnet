@@ -49,7 +49,7 @@ export async function POST(req: NextRequest) {
     },
   });
 
-  const authorName = profile.fullName ?? profile.name ?? session.user.email;
+  const authorName = profile.fullName ?? session.user.email;
   await db.$executeRaw`UPDATE reviews SET "authorName" = ${authorName}, "profileId" = ${profile.id}::uuid, "jobType" = ${body.jobType ?? null}, "costCents" = ${body.costCents ?? null}, status = 'PENDING' WHERE id = ${baseReview.id}::uuid`;
 
   const review = { ...baseReview, authorName, jobType: body.jobType, costCents: body.costCents };
