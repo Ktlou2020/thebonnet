@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { ImageUpload } from "@/components/image-upload";
 
 type WorkshopData = {
   id: string;
@@ -9,9 +10,11 @@ type WorkshopData = {
   city: string;
   phone: string | null;
   description: string;
+  imageUrl?: string | null;
 };
 
 export function DashboardSettings({ workshop }: { workshop: WorkshopData }) {
+  const [imageUrl, setImageUrl] = useState<string>(workshop.imageUrl ?? "");
   const [form, setForm] = useState({
     name: workshop.name,
     phone: workshop.phone ?? "",
@@ -31,7 +34,7 @@ export function DashboardSettings({ workshop }: { workshop: WorkshopData }) {
     const res = await fetch("/api/dashboard/settings", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ workshopId: workshop.id, ...form }),
+      body: JSON.stringify({ workshopId: workshop.id, ...form, imageUrl: imageUrl || undefined }),
     });
 
     setSaving(false);
@@ -45,6 +48,14 @@ export function DashboardSettings({ workshop }: { workshop: WorkshopData }) {
 
   return (
     <form onSubmit={handleSave} className="max-w-lg space-y-5">
+      <div>
+        <ImageUpload
+          label="Cover photo"
+          folder="workshops"
+          currentUrl={imageUrl}
+          onUpload={(url) => setImageUrl(url)}
+        />
+      </div>
       <div>
         <label className="block text-xs font-medium text-slate-600 mb-1">Workshop name</label>
         <input
