@@ -7,6 +7,7 @@ import { db } from "@/lib/db";
 import { ReviewCard } from "@/components/review-card";
 import { ReviewForm } from "@/components/review-form";
 import { WorkshopSchema } from "@/components/workshop-schema";
+import { OpeningHours } from "@/components/opening-hours";
 import type { Metadata } from "next";
 
 export async function generateMetadata({
@@ -48,9 +49,14 @@ export default async function MechanicDetailPage({ params }: { params: Promise<{
     createdAt: Date;
   };
   let reviews: ReviewRow[] = [];
+  let workshopOpeningHours: Record<string, string | null> | null = null;
   try {
-    const workshop = await db.workshop.findUnique({ where: { slug } });
+    const workshop = await db.workshop.findUnique({
+      where: { slug },
+      select: { id: true, openingHours: true },
+    });
     if (workshop) {
+      workshopOpeningHours = workshop.openingHours as Record<string, string | null> | null;
       reviews = await db.$queryRaw<ReviewRow[]>`
         SELECT id, "authorName", rating, body, "jobType", "costCents", "helpfulCount", reply, "repliedAt", "receiptVerified", "createdAt"
         FROM reviews
@@ -85,6 +91,20 @@ export default async function MechanicDetailPage({ params }: { params: Promise<{
             <h2 className="text-lg font-semibold text-slate-950">Opening hours</h2>
             <p className="mt-3 text-sm leading-7 text-slate-600">{mechanic.hours}</p>
           </div>
+
+          <OpeningHours hours={workshopOpeningHours} />
+
+          {(() => {
+            const mapsQuery = encodeURIComponent(`${mechanic.name}, ${mechanic.city}, South Africa`);
+            return (
+              <iframe
+                src={`https://maps.google.com/maps?q=${mapsQuery}&output=embed`}
+                className="mt-8 w-full h-64 rounded-2xl border border-slate-200"
+                loading="lazy"
+                title={`${mechanic.name} location`}
+              />
+            );
+          })()}
 
           <div className="mt-8 grid gap-6 md:grid-cols-2">
             <div className="rounded-[1.5rem] bg-slate-50 p-5">

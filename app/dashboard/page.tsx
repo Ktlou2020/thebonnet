@@ -5,6 +5,7 @@ import Link from "next/link";
 import { DashboardLeads } from "./dashboard-leads";
 import { DashboardReviews } from "./dashboard-reviews";
 import { DashboardSettings } from "./dashboard-settings";
+import { ProfileScoreCard } from "@/components/profile-score-card";
 
 type TabName = "leads" | "reviews" | "settings";
 
@@ -27,6 +28,11 @@ export default async function DashboardPage({
     city: string;
     phone: string | null;
     description: string;
+    imageUrl?: string | null;
+    openingHours?: unknown;
+    whatsapp?: string | null;
+    listingTypes?: string[];
+    isVerified?: boolean;
   } | null = null;
 
   try {
@@ -34,7 +40,18 @@ export default async function DashboardPage({
     if (profile) {
       workshop = await db.workshop.findFirst({
         where: { ownerId: profile.id },
-        select: { id: true, name: true, slug: true, city: true, phone: true, description: true },
+        select: {
+          id: true,
+          name: true,
+          slug: true,
+          city: true,
+          phone: true,
+          description: true,
+          openingHours: true,
+          whatsapp: true,
+          listingTypes: true,
+          isVerified: true,
+        },
       });
     }
   } catch {
@@ -79,6 +96,10 @@ export default async function DashboardPage({
       </div>
 
       <div className="mx-auto max-w-5xl px-6 lg:px-8">
+        <div className="mt-8">
+          <ProfileScoreCard workshop={workshop} />
+        </div>
+
         {/* Tab nav */}
         <div className="mt-6 flex gap-1 border-b border-slate-200">
           {tabs.map((t) => (

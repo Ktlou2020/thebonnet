@@ -262,6 +262,7 @@ model Workshop {
   ratingAverage    Decimal               @default(0) @db.Decimal(3, 2)
   reviewCount      Int                   @default(0)
   warrantyPolicy      String?
+  openingHours        Json?
   isVerified          Boolean               @default(false)
   verifiedAt          DateTime?             @db.Timestamptz
   verificationNotes   String?
