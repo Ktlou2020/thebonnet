@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, BadgeCheck, CheckCircle, MessageSquareShare, Search, ShieldCheck, Star, Wrench } from "lucide-react";
 import { HeroSearch } from "@/components/hero-search";
+import { LiveStats } from "@/components/live-stats";
 import { MechanicCard } from "@/components/mechanic-card";
 import { PriceCard } from "@/components/price-card";
 import { SectionHeading } from "@/components/section-heading";
@@ -92,6 +93,14 @@ export default async function HomePage() {
           <div className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
             {metrics.map((item) => <StatCard key={item.label} item={item} />)}
           </div>
+        </div>
+      </section>
+
+      {/* ─── Live Stats ─── */}
+      <section className="bg-white py-16">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <h2 className="mb-10 text-center text-3xl font-bold text-slate-900">The Bonnet by the numbers</h2>
+          <LiveStats />
         </div>
       </section>
 
