@@ -229,10 +229,7 @@ export default async function DriverPage({
                 </div>
               ) : (
                 <div className="rounded-[2rem] border border-dashed border-slate-200 bg-slate-50 p-10 text-center">
-                  <p className="text-slate-500 text-sm">No vehicles yet.</p>
-                  <Link href="/garage" className="mt-4 inline-block rounded-full bg-fire px-5 py-2.5 text-sm font-semibold text-white shadow-glow-fire">
-                    Add your first vehicle
-                  </Link>
+                  <p className="text-slate-500 text-sm">No vehicles yet. <Link href="/garage" className="font-semibold text-fire hover:underline">Add one in My Garage →</Link></p>
                 </div>
               )}
             </div>
@@ -267,7 +264,9 @@ export default async function DriverPage({
                   ))}
                 </div>
               ) : (
-                <p className="text-slate-500 text-sm">No quotes yet.</p>
+                <div className="rounded-[2rem] border border-dashed border-slate-200 bg-slate-50 p-10 text-center">
+                  <p className="text-slate-500 text-sm">No quote requests yet. <Link href="/mechanics" className="font-semibold text-fire hover:underline">Find a workshop →</Link></p>
+                </div>
               )}
             </div>
           )}
@@ -303,7 +302,9 @@ export default async function DriverPage({
                   ))}
                 </div>
               ) : (
-                <p className="text-slate-500 text-sm">No service records yet.</p>
+                <div className="rounded-[2rem] border border-dashed border-slate-200 bg-slate-50 p-10 text-center">
+                  <p className="text-slate-500 text-sm">No service records yet. <Link href="/garage" className="font-semibold text-fire hover:underline">Add your first service in My Garage →</Link></p>
+                </div>
               )}
             </div>
           )}

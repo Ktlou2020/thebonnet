@@ -353,20 +353,29 @@ export default function GaragePage() {
         )}
 
         {/* Empty state */}
-        {vehicles.length === 0 && !showAddVehicle && (
-          <div className="flex flex-col items-center justify-center py-24 text-center">
-            <div className="rounded-[2rem] bg-fire/10 p-6 text-fire mb-6">
-              <Wrench className="h-12 w-12" />
-            </div>
+        {vehicles.length === 0 && !showAddVehicle && !session && (
+          <div className="text-center py-16">
+            <div className="text-6xl mb-4">🚗</div>
             <h2 className="text-2xl font-bold text-slate-900">Your garage is empty</h2>
-            <p className="mt-2 text-slate-500 max-w-sm text-sm leading-7">
-              Add your first vehicle to start tracking service history, costs, and maintenance reminders.
-            </p>
+            <p className="text-slate-500 mt-2 mb-6">Add your first vehicle to track services, costs and get personalised quotes.</p>
             <button
               onClick={() => setShowAddVehicle(true)}
-              className="mt-8 inline-flex items-center gap-2 rounded-full bg-fire px-7 py-3.5 text-sm font-semibold text-white shadow-glow-fire transition hover:bg-fire/90"
+              className="bg-fire text-white rounded-full px-8 py-3 font-semibold"
             >
-              <Plus className="h-4 w-4" /> Add my first car
+              Add your first vehicle
+            </button>
+          </div>
+        )}
+        {vehicles.length === 0 && !showAddVehicle && session && (
+          <div className="text-center py-16">
+            <div className="text-6xl mb-4">🚗</div>
+            <h2 className="text-2xl font-bold text-slate-900">Your garage is empty</h2>
+            <p className="text-slate-500 mt-2 mb-6">Add your first vehicle to track services, costs and get personalised quotes. Your vehicles will sync automatically across devices.</p>
+            <button
+              onClick={() => setShowAddVehicle(true)}
+              className="bg-fire text-white rounded-full px-8 py-3 font-semibold"
+            >
+              Add your first vehicle
             </button>
           </div>
         )}
