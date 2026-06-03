@@ -14,6 +14,8 @@ export async function POST(req: NextRequest) {
     phone?: string;
     city: string;
     description?: string;
+    imageUrl?: string;
+    openingHours?: Record<string, string | null>;
   };
 
   const profile = await db.profile.findUnique({ where: { email: session.user.email } });
@@ -29,6 +31,7 @@ export async function POST(req: NextRequest) {
       phone: body.phone ?? null,
       city: body.city,
       description: body.description ?? workshop.description,
+      ...(body.openingHours !== undefined ? { openingHours: body.openingHours } : {}),
     },
   });
 
