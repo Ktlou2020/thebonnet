@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { LayoutDashboard, Building2, LogOut } from "lucide-react";
+import { LayoutDashboard, Building2, LogOut, Star } from "lucide-react";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -24,6 +24,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           >
             <Building2 className="h-4 w-4" />
             Workshops
+          </Link>
+          <Link
+            href="/admin/reviews"
+            className="flex items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-medium text-slate-300 transition hover:bg-white/10 hover:text-white"
+          >
+            <Star className="h-4 w-4" />
+            Reviews
           </Link>
         </nav>
         <div className="border-t border-white/10 p-3">
