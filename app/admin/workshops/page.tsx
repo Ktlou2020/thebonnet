@@ -151,7 +151,7 @@ export default function AdminWorkshopsPage() {
             <div>
               <h2 className="text-lg font-bold text-slate-900">Scrape All SA Workshops</h2>
               <p className="mt-1 text-sm text-slate-500">
-                Automatically scrape YellowPages &amp; BusinessList for all 10 cities in one click — no API key required.
+                Pull mechanic workshops from OpenStreetMap across all 10 SA cities in one click — no API key required.
                 Results are saved with status <strong>PENDING</strong> for review.
               </p>
             </div>

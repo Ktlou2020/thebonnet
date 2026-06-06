@@ -28,46 +28,36 @@ const CITY_TO_PROVINCE: Record<string, string> = {
   "Sandton": "Gauteng",
 };
 
-const CITY_SLUG_MAP: Record<string, string> = {
-  "Cape Town": "cape-town",
-  "Johannesburg": "johannesburg",
-  "Pretoria": "pretoria",
-  "Durban": "durban",
-  "Port Elizabeth": "port-elizabeth",
-  "Bloemfontein": "bloemfontein",
-  "Nelspruit": "nelspruit",
-  "Polokwane": "polokwane",
-  "East London": "east-london",
-  "Sandton": "sandton",
+// Bounding boxes for each city (south, west, north, east)
+const CITY_BBOX: Record<string, [number, number, number, number]> = {
+  "Cape Town":      [-34.12, 18.30, -33.73, 18.90],
+  "Johannesburg":   [-26.40, 27.80, -25.90, 28.30],
+  "Pretoria":       [-25.85, 28.00, -25.50, 28.50],
+  "Durban":         [-30.05, 30.80, -29.70, 31.10],
+  "Port Elizabeth": [-34.05, 25.40, -33.75, 26.00],
+  "Bloemfontein":   [-29.25, 26.10, -28.95, 26.45],
+  "Nelspruit":      [-25.60, 30.90, -25.35, 31.05],
+  "Polokwane":      [-24.00, 29.35, -23.75, 29.60],
+  "East London":    [-33.10, 27.75, -32.90, 28.10],
+  "Sandton":        [-26.15, 28.00, -26.05, 28.15],
 };
 
-interface ScrapedWorkshop {
-  name: string;
-  address: string | null;
-  phone: string | null;
-  website: string | null;
-  description: string | null;
-  source: string;
+interface OsmElement {
+  type: "node" | "way" | "relation";
+  id: number;
+  lat?: number;
+  lon?: number;
+  center?: { lat: number; lon: number };
+  tags?: Record<string, string>;
 }
 
-async function fetchPage(url: string): Promise<string | null> {
-  try {
-    const res = await fetch(url, {
-      headers: {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-        Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-        "Accept-Language": "en-ZA,en;q=0.9",
-      },
-      signal: AbortSignal.timeout(15000),
-    });
-    if (res.status === 200) return res.text();
-    return null;
-  } catch {
-    return null;
-  }
+function slugify(name: string, city: string): string {
+  const base = name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  const citySlug = city.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  return `${base}-${citySlug}`;
 }
 
-function normalisePhone(raw: string | null): string | null {
+function normalisePhone(raw: string | null | undefined): string | null {
   if (!raw) return null;
   let digits = raw.replace(/[^\d]/g, "");
   if (!digits) return null;
@@ -77,91 +67,36 @@ function normalisePhone(raw: string | null): string | null {
   return `+27 ${digits.slice(0, 2)} ${digits.slice(2, 5)} ${digits.slice(5)}`;
 }
 
-function normaliseName(name: string): string {
-  const trimmed = name.trim();
-  if (trimmed === trimmed.toUpperCase() && /[A-Z]/.test(trimmed)) {
-    return trimmed.split(/\s+/).map((w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(" ");
-  }
-  return trimmed;
-}
+async function fetchOverpassForCity(city: string): Promise<OsmElement[]> {
+  const bbox = CITY_BBOX[city];
+  if (!bbox) return [];
+  const [s, w, n, e] = bbox;
+  const query = `
+[out:json][timeout:60];
+(
+  node["shop"="car_repair"](${s},${w},${n},${e});
+  way["shop"="car_repair"](${s},${w},${n},${e});
+  node["amenity"="car_repair"](${s},${w},${n},${e});
+  way["amenity"="car_repair"](${s},${w},${n},${e});
+  node["shop"="tyres"](${s},${w},${n},${e});
+  node["craft"="car_repair"](${s},${w},${n},${e});
+);
+out center;
+`.trim();
 
-function slugify(name: string, city: string): string {
-  const base = name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
-  const citySlug = city.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
-  return `${base}-${citySlug}`;
-}
-
-async function scrapeCity(city: string): Promise<ScrapedWorkshop[]> {
-  const { load } = await import("cheerio");
-  const results: ScrapedWorkshop[] = [];
-  const citySlug = CITY_SLUG_MAP[city] ?? city.toLowerCase().replace(/\s+/g, "-");
-
-  // YellowPages
-  for (const q of ["mechanic+workshop", "auto+repair"]) {
-    const url = `https://www.yellowpages.co.za/search?q=${q}&l=${encodeURIComponent(city)}`;
-    const html = await fetchPage(url);
-    if (!html) continue;
-    const $ = load(html);
-    let $items = $() as ReturnType<typeof $>;
-    for (const sel of [".listing", ".result", "[data-listing]", ".business-listing", "article"]) {
-      $items = $(sel);
-      if ($items.length > 0) break;
-    }
-    $items.each((_, el) => {
-      const $el = $(el);
-      let name = "";
-      for (const s of [".listing-name", "h2 a", "h3 a", ".name a", "h2", "h3"]) {
-        const t = $el.find(s).first().text().trim();
-        if (t) { name = normaliseName(t); break; }
-      }
-      if (!name) return;
-      let address: string | null = null;
-      for (const s of [".address", ".location", "[itemprop='address']"]) {
-        const t = $el.find(s).first().text().trim();
-        if (t) { address = t; break; }
-      }
-      let phone: string | null = null;
-      for (const s of [".phone", ".tel", "[itemprop='telephone']"]) {
-        const t = $el.find(s).first().text().trim();
-        if (t) { phone = normalisePhone(t); break; }
-      }
-      results.push({ name, address, phone, website: null, description: null, source: "yellowpages.co.za" });
+  try {
+    const res = await fetch("https://overpass-api.de/api/interpreter", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: `data=${encodeURIComponent(query)}`,
+      signal: AbortSignal.timeout(70000),
     });
+    if (!res.ok) return [];
+    const data = await res.json() as { elements?: OsmElement[] };
+    return data.elements ?? [];
+  } catch {
+    return [];
   }
-
-  // BusinessList
-  const blUrl = `https://www.businesslist.co.za/category/automotive/mechanics/${citySlug}`;
-  const blHtml = await fetchPage(blUrl);
-  if (blHtml) {
-    const $ = load(blHtml);
-    let $items = $() as ReturnType<typeof $>;
-    for (const sel of [".listing", ".company", ".result", "article", ".card"]) {
-      $items = $(sel);
-      if ($items.length > 0) break;
-    }
-    $items.each((_, el) => {
-      const $el = $(el);
-      let name = "";
-      for (const s of [".company-name a", ".company-name", "h2 a", "h3 a", "h2", "h3"]) {
-        const t = $el.find(s).first().text().trim();
-        if (t) { name = normaliseName(t); break; }
-      }
-      if (!name) return;
-      let address: string | null = null;
-      for (const s of [".address", ".location", "[itemprop='address']"]) {
-        const t = $el.find(s).first().text().trim();
-        if (t) { address = t; break; }
-      }
-      let phone: string | null = null;
-      for (const s of [".phone", ".tel", "[itemprop='telephone']"]) {
-        const t = $el.find(s).first().text().trim();
-        if (t) { phone = normalisePhone(t); break; }
-      }
-      results.push({ name, address, phone, website: null, description: null, source: "businesslist.co.za" });
-    });
-  }
-
-  return results;
 }
 
 export async function POST() {
@@ -187,41 +122,63 @@ export async function POST() {
     let citySkipped = 0;
 
     try {
-      const raw = await scrapeCity(city);
+      const elements = await fetchOverpassForCity(city);
 
-      // Deduplicate
+      // Deduplicate by OSM id and name
       const seen = new Set<string>();
-      const unique = raw.filter((r) => {
-        const key = r.name.toLowerCase().replace(/\s+/g, "");
+      const unique = elements.filter((el) => {
+        const name = el.tags?.name;
+        if (!name || name.length < 2) return false;
+        const key = name.toLowerCase().replace(/\s+/g, "");
         if (seen.has(key)) return false;
         seen.add(key);
         return true;
       });
 
-      for (const w of unique) {
-        if (!w.name || w.name.length < 2) { citySkipped++; continue; }
+      for (const el of unique) {
+        const name = el.tags?.name ?? "";
+        if (!name) { citySkipped++; continue; }
+
+        const phone = normalisePhone(el.tags?.phone ?? el.tags?.["contact:phone"] ?? null);
+        const website = el.tags?.website ?? el.tags?.["contact:website"] ?? null;
+        const addr = [
+          el.tags?.["addr:housenumber"],
+          el.tags?.["addr:street"],
+          el.tags?.["addr:suburb"],
+        ].filter(Boolean).join(", ") || null;
+
+        const lat = el.lat ?? el.center?.lat ?? null;
+        const lng = el.lon ?? el.center?.lon ?? null;
+
+        const shopType = el.tags?.shop ?? el.tags?.amenity ?? "";
+        const listingTypes = shopType === "tyres" ? ["Tyres"] : ["Car Repair", "General Service"];
+
         try {
-          const slug = slugify(w.name, city);
+          const slug = slugify(name, city);
           await prisma.workshop.upsert({
             where: { slug },
             create: {
               ownerId: systemProfile.id,
-              name: w.name,
+              name,
               slug,
-              description: w.description ?? `${w.name} is a vehicle service and repair workshop in ${city}, South Africa.`,
+              description: `${name} is a vehicle service and repair workshop in ${city}, South Africa.`,
               city,
               province,
-              addressLine1: w.address ?? null,
-              phone: w.phone ?? null,
-              website: w.website ?? null,
-              sourceName: w.source,
-              listingTypes: ["Car Repair", "General Service"],
+              addressLine1: addr,
+              phone,
+              website,
+              latitude: lat,
+              longitude: lng,
+              sourceName: "OpenStreetMap",
+              listingTypes,
               status: "PENDING",
             },
             update: {
-              phone: w.phone ?? undefined,
-              website: w.website ?? undefined,
-              addressLine1: w.address ?? undefined,
+              phone: phone ?? undefined,
+              website: website ?? undefined,
+              addressLine1: addr ?? undefined,
+              latitude: lat ?? undefined,
+              longitude: lng ?? undefined,
             },
           });
           cityImported++;
