@@ -6,6 +6,7 @@ import { sendMagicLinkEmail } from "@/lib/email";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(db),
+  trustHost: true,
   providers: [
     Nodemailer({
       server: process.env.EMAIL_SERVER ?? "smtp://localhost:1025",
