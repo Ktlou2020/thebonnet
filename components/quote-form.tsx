@@ -111,7 +111,7 @@ export function QuoteForm({
       )}
       <textarea value={form.details} onChange={(event) => setForm({ ...form, details: event.target.value })} placeholder="Describe the issue, symptoms, warning lights, noises, or anything the mechanic should know" rows={5} className="rounded-3xl border border-slate-200 px-4 py-3 outline-none focus:ring-2 focus:ring-accent" />
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-sm text-slate-500">Your request is stored in the platform database when connected and can be routed to matching workshops as The Bonnet grows.</p>
+        <p className="text-sm text-slate-500">Your request is stored in the platform database when connected and can be routed to matching workshops as My Bonnet grows.</p>
         <button type="submit" disabled={loading} className="rounded-full bg-ink px-5 py-3 text-sm font-semibold text-white transition hover:bg-bonnet disabled:opacity-60">
           {loading ? "Sending request..." : "Request quotes"}
         </button>

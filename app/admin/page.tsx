@@ -458,7 +458,7 @@ export default async function AdminPage({
               </div>
               <h1 className="mt-5 text-4xl font-semibold tracking-tight sm:text-5xl">Run marketplace operations with role-based team access.</h1>
               <p className="mt-4 max-w-3xl text-base leading-8 text-slate-300 sm:text-lg">
-                The Bonnet admin now supports database-backed admin accounts, role-aware navigation, audit logging, and a cleaner permissions foundation for operations, support, content, and finance workflows.
+                My Bonnet admin now supports database-backed admin accounts, role-aware navigation, audit logging, and a cleaner permissions foundation for operations, support, content, and finance workflows.
               </p>
             </div>
             <div className="flex flex-col gap-3 sm:flex-row lg:flex-col lg:items-end">

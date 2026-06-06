@@ -59,7 +59,7 @@ export default async function HomePage() {
                 , compare better, and get quotes without the directory chaos.
               </h1>
               <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">
-                The Bonnet is building a customer-first search and quote experience for South African drivers using real workshop data, cleaner discovery, and clearer contact paths.
+                My Bonnet is building a customer-first search and quote experience for South African drivers using real workshop data, cleaner discovery, and clearer contact paths.
               </p>
               <div className="mt-8 flex flex-wrap gap-4">
                 <Link
@@ -99,7 +99,7 @@ export default async function HomePage() {
       {/* ─── Live Stats ─── */}
       <section className="bg-white py-16">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <h2 className="mb-10 text-center text-3xl font-bold text-slate-900">The Bonnet by the numbers</h2>
+          <h2 className="mb-10 text-center text-3xl font-bold text-slate-900">My Bonnet by the numbers</h2>
           <LiveStats />
         </div>
       </section>
@@ -109,7 +109,7 @@ export default async function HomePage() {
         <SectionHeading
           eyebrow="How it works"
           title="A smarter mechanic journey for South African drivers"
-          description="From AI diagnosis to matched quotes to full service history — The Bonnet connects every step so drivers make better decisions faster."
+          description="From AI diagnosis to matched quotes to full service history — My Bonnet connects every step so drivers make better decisions faster."
         />
         <div className="mt-12 grid gap-6 md:grid-cols-3">
           {steps.map((step, i) => {
@@ -342,7 +342,7 @@ export default async function HomePage() {
       <section className="bg-slate-50 py-20">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="grid gap-10 lg:grid-cols-[1fr_1fr] lg:items-start">
-            <SectionHeading eyebrow="Pricing beta" title="Fair Price Index is intentionally conservative for now" description="Pricing only belongs on the platform where there is enough evidence. The Bonnet starts with a transparent benchmark and expands as more first-party quote data comes in." />
+            <SectionHeading eyebrow="Pricing beta" title="Fair Price Index is intentionally conservative for now" description="Pricing only belongs on the platform where there is enough evidence. My Bonnet starts with a transparent benchmark and expands as more first-party quote data comes in." />
             <div className="space-y-4">
               {priceBenchmarks.map((item) => <PriceCard key={item.id} item={item} />)}
               <div className="rounded-[1.5rem] border border-slate-200 bg-white p-5 text-sm leading-7 text-slate-600 shadow-soft">Each benchmark card should remain source-aware and conservative until the platform has enough real quote and invoice data to widen coverage.</div>

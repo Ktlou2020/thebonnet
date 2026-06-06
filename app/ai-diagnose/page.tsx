@@ -238,7 +238,7 @@ export default function AiDiagnosePage() {
                   value={form.description}
                   onChange={(e) => update("description", e.target.value)}
                   rows={6}
-                  placeholder={"Examples:\n• \"There's a grinding noise when I brake\"\n• \"The engine warning light came on and the car shakes at idle\"\n• \"Strong burning smell from under the bonnet after long trips\""}
+                  placeholder={"Examples:\n• \"There's a grinding noise when I brake\"\n• \"The engine warning light came on and the car shakes at idle\"\n• \"Strong burning smell from under my bonnet after long trips\""}
                   className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-fire focus:outline-none focus:ring-2 focus:ring-fire/20 resize-none"
                 />
               </div>

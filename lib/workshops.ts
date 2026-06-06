@@ -30,8 +30,8 @@ export const priceBenchmarks: PriceBenchmark[] = [
     high: 2600,
     dealershipAverage: 4800,
     confidence: "High",
-    note: "Pilot benchmark carried over from The Bonnet pricing beta until more first-party quote data is collected.",
-    source: "The Bonnet pricing beta",
+    note: "Pilot benchmark carried over from My Bonnet pricing beta until more first-party quote data is collected.",
+    source: "My Bonnet pricing beta",
     sourceUrl: "https://182dyug.pub.atoms.dev"
   }
 ];

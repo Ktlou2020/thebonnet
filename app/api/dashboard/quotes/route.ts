@@ -64,7 +64,7 @@ export async function POST(req: NextRequest) {
     const workshopName = body.workshopName ?? assignment.workshop.name;
     await sendWhatsApp({
       to: lead.phone,
-      body: `🔧 You have a new quote from ${workshopName} on The Bonnet!\n\nAmount: ${amountFormatted}\n\nView it: https://thebonnet.co.za/quotes`,
+      body: `🔧 You have a new quote from ${workshopName} on My Bonnet!\n\nAmount: ${amountFormatted}\n\nView it: https://thebonnet.co.za/quotes`,
     }).catch(() => null);
   }
 

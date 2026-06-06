@@ -192,7 +192,7 @@ export default async function MechanicDetailPage({ params }: { params: Promise<{
         <aside className="space-y-6">
           <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-soft">
             <p className="text-sm font-semibold uppercase tracking-[0.15em] text-accent">Contact this workshop</p>
-            <p className="mt-3 text-sm leading-7 text-slate-600">Use the public contact details below or send one quote request through The Bonnet so you do not need to message workshops one by one.</p>
+            <p className="mt-3 text-sm leading-7 text-slate-600">Use the public contact details below or send one quote request through My Bonnet so you do not need to message workshops one by one.</p>
             <div className="mt-6 space-y-3 text-sm text-slate-600">
               {mechanic.phone ? <div>Phone: <span className="font-semibold text-slate-950">{mechanic.phone}</span></div> : null}
               {mechanic.website ? <div className="break-all">Website: <span className="font-semibold text-slate-950">{mechanic.website}</span></div> : null}
@@ -206,7 +206,7 @@ export default async function MechanicDetailPage({ params }: { params: Promise<{
           </div>
           <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-soft">
             <h2 className="text-lg font-semibold text-slate-950">About this listing</h2>
-            <p className="mt-3 text-sm leading-7 text-slate-600">This profile is part of The Bonnet directory and is designed to make workshop discovery clearer, more trustworthy, and more useful for customers.</p>
+            <p className="mt-3 text-sm leading-7 text-slate-600">This profile is part of My Bonnet directory and is designed to make workshop discovery clearer, more trustworthy, and more useful for customers.</p>
           </div>
         </aside>
       </div>

@@ -3,9 +3,9 @@ import Link from "next/link";
 import { Search, MessageSquare, CheckCircle } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "About The Bonnet — SA's Mechanic Marketplace",
+  title: "About My Bonnet — SA's Mechanic Marketplace",
   description:
-    "Learn how The Bonnet connects South African drivers with trusted, vetted automotive workshops. Our mission, story, and how it works.",
+    "Learn how My Bonnet connects South African drivers with trusted, vetted automotive workshops. Our mission, story, and how it works.",
 };
 
 const steps = [
@@ -35,7 +35,7 @@ export default function AboutPage() {
       {/* Hero */}
       <div className="bg-ink text-white px-6 py-20 lg:px-8">
         <div className="mx-auto max-w-4xl text-center">
-          <p className="text-fire font-semibold uppercase tracking-widest text-sm mb-4">About The Bonnet</p>
+          <p className="text-fire font-semibold uppercase tracking-widest text-sm mb-4">About My Bonnet</p>
           <h1 className="text-5xl font-bold leading-tight tracking-tight">
             South Africa&rsquo;s mechanic marketplace.
           </h1>
@@ -71,7 +71,7 @@ export default function AboutPage() {
               no reliable way to compare workshops, understand pricing, or verify quality.
             </p>
             <p>
-              The Bonnet was built to fix that. We created a marketplace where workshops earn
+              My Bonnet was built to fix that. We created a marketplace where workshops earn
               business by being transparent and where drivers can make informed choices backed by
               real reviews and verified credentials. We believe the best mechanics deserve to be found,
               and that drivers deserve to know exactly who is working on their car.
@@ -79,7 +79,7 @@ export default function AboutPage() {
             <p>
               We started in Cape Town and Johannesburg and are expanding across South Africa.
               Whether you need a quick oil service in Pretoria or a major engine repair in Durban,
-              The Bonnet is here to help you find the right workshop for the job.
+              My Bonnet is here to help you find the right workshop for the job.
             </p>
           </div>
         </div>

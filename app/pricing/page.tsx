@@ -4,8 +4,8 @@ import { UpgradeButton } from "./upgrade-button";
 import { WorkshopUpgradeButton } from "./workshop-upgrade-button";
 
 export const metadata = {
-  title: "Pricing | The Bonnet",
-  description: "Simple, transparent pricing for drivers and workshops on The Bonnet marketplace.",
+  title: "Pricing | My Bonnet",
+  description: "Simple, transparent pricing for drivers and workshops on My Bonnet marketplace.",
 };
 
 export default async function PricingPage({

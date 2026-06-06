@@ -32,7 +32,7 @@ export async function generateMetadata({
   const { city: slug } = await params;
   const cityName = citySlugToName(slug);
   return {
-    title: `Car Mechanics in ${cityName}, South Africa | The Bonnet`,
+    title: `Car Mechanics in ${cityName}, South Africa | My Bonnet`,
     description: `Find trusted mechanics and workshops in ${cityName}. Compare ratings, services, and request quotes — all in one place.`,
   };
 }

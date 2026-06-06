@@ -120,7 +120,7 @@ function getBootstrapIdentity() {
   return {
     email: normalizeEmail(process.env.ADMIN_EMAIL || ""),
     password: process.env.ADMIN_PASSWORD || "",
-    fullName: process.env.ADMIN_FULL_NAME || "The Bonnet Super Admin"
+    fullName: process.env.ADMIN_FULL_NAME || "My Bonnet Super Admin"
   };
 }
 
