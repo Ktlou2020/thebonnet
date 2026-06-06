@@ -84,18 +84,33 @@ async function fetchOverpassForCity(city: string): Promise<OsmElement[]> {
 out center;
 `.trim();
 
-  try {
+  const attempt = async (): Promise<OsmElement[]> => {
     const res = await fetch("https://overpass-api.de/api/interpreter", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: `data=${encodeURIComponent(query)}`,
-      signal: AbortSignal.timeout(70000),
+      signal: AbortSignal.timeout(90000),
     });
-    if (!res.ok) return [];
+    if (!res.ok) {
+      const text = await res.text().catch(() => "(no body)");
+      throw new Error(`Overpass HTTP ${res.status} for ${city}: ${text.slice(0, 200)}`);
+    }
     const data = await res.json() as { elements?: OsmElement[] };
     return data.elements ?? [];
-  } catch {
-    return [];
+  };
+
+  try {
+    return await attempt();
+  } catch (err) {
+    console.error(`[scrape-all] fetchOverpassForCity(${city}) attempt 1 failed:`, err);
+    // Retry once after a brief pause
+    await new Promise((r) => setTimeout(r, 3000));
+    try {
+      return await attempt();
+    } catch (retryErr) {
+      console.error(`[scrape-all] fetchOverpassForCity(${city}) attempt 2 failed:`, retryErr);
+      return [];
+    }
   }
 }
 
@@ -182,12 +197,13 @@ export async function POST() {
             },
           });
           cityImported++;
-        } catch {
+        } catch (upsertErr) {
+          console.error(`[scrape-all] upsert failed for "${name}" in ${city}:`, upsertErr);
           citySkipped++;
         }
       }
-    } catch {
-      // continue to next city
+    } catch (cityErr) {
+      console.error(`[scrape-all] processing failed for city ${city}:`, cityErr);
     }
 
     byCity.push({ city, imported: cityImported, skipped: citySkipped });
