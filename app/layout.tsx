@@ -8,15 +8,15 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
 export const metadata: Metadata = {
   title: {
-    default: "The Bonnet | Find trusted mechanics in South Africa",
-    template: "%s | The Bonnet"
+    default: "My Bonnet | Find trusted mechanics in South Africa",
+    template: "%s | My Bonnet"
   },
   description: "Browse real workshop listings, compare mechanics by city and service type, and request quotes through a cleaner South African mechanic marketplace.",
   metadataBase: siteUrl ? new URL(siteUrl) : undefined,
-  applicationName: "The Bonnet",
+  applicationName: "My Bonnet",
   manifest: "/manifest.json",
   themeColor: "#f97316",
-  appleWebApp: { capable: true, statusBarStyle: "black-translucent", title: "The Bonnet" },
+  appleWebApp: { capable: true, statusBarStyle: "black-translucent", title: "My Bonnet" },
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },
@@ -27,14 +27,14 @@ export const metadata: Metadata = {
     apple: [{ url: "/icons/apple-touch-icon.png", sizes: "180x180", type: "image/png" }]
   },
   openGraph: {
-    title: "The Bonnet | Find trusted mechanics in South Africa",
+    title: "My Bonnet | Find trusted mechanics in South Africa",
     description: "Real workshop listings, city-based search, and client-ready quote capture for drivers across South Africa.",
     type: "website",
-    images: [{ url: "/og-badge.png", width: 512, height: 512, alt: "The Bonnet brand badge" }]
+    images: [{ url: "/og-badge.png", width: 512, height: 512, alt: "My Bonnet brand badge" }]
   },
   twitter: {
     card: "summary_large_image",
-    title: "The Bonnet | Find trusted mechanics in South Africa",
+    title: "My Bonnet | Find trusted mechanics in South Africa",
     description: "Real workshop listings, city-based search, and client-ready quote capture for drivers across South Africa.",
     images: ["/og-badge.png"]
   }

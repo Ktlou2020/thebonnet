@@ -18,7 +18,7 @@ export function HeroSearch({
         Search by city, compare trusted workshops, and request quotes in one place.
       </h2>
       <p className="mt-3 text-sm leading-7 text-slate-500">
-        The Bonnet gives South African drivers a cleaner way to find workshops, compare public listing details, and choose between in-store and mobile mechanics.
+        My Bonnet gives South African drivers a cleaner way to find workshops, compare public listing details, and choose between in-store and mobile mechanics.
       </p>
 
       <div className="mt-6 grid gap-4 md:grid-cols-2">

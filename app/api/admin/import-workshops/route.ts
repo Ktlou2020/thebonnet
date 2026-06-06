@@ -349,7 +349,7 @@ export async function POST(request: Request) {
     update: {},
     create: {
       email: "system@thebonnet.co.za",
-      fullName: "The Bonnet System",
+      fullName: "My Bonnet System",
       role: "ADMIN",
     },
   });

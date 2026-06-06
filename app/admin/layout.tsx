@@ -7,7 +7,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {/* Sidebar */}
       <aside className="hidden w-56 shrink-0 flex-col bg-ink text-white lg:flex">
         <div className="border-b border-white/10 px-5 py-5">
-          <span className="text-lg font-bold text-fire">The Bonnet</span>
+          <span className="text-lg font-bold text-fire">My Bonnet</span>
           <p className="mt-0.5 text-xs text-slate-400">Admin Console</p>
         </div>
         <nav className="flex flex-1 flex-col gap-1 px-3 py-4">

@@ -72,7 +72,7 @@ export default function ClaimWorkshopPage() {
       <div className="max-w-md w-full">
         <div className="rounded-[2rem] border border-slate-200 bg-white p-8 shadow-soft">
           <h1 className="text-2xl font-bold text-slate-900">Claim this workshop</h1>
-          <p className="mt-2 text-sm text-slate-500">Verify you own this business to manage your listing on The Bonnet.</p>
+          <p className="mt-2 text-sm text-slate-500">Verify you own this business to manage your listing on My Bonnet.</p>
 
           <form onSubmit={handleSubmit} className="mt-6 space-y-4">
             <div>

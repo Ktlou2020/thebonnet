@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy — The Bonnet",
-  description: "POPIA-compliant privacy policy for The Bonnet, South Africa's mechanic marketplace.",
+  title: "Privacy Policy — My Bonnet",
+  description: "POPIA-compliant privacy policy for My Bonnet, South Africa's mechanic marketplace.",
 };
 
 export default function PrivacyPage() {
@@ -23,7 +23,7 @@ export default function PrivacyPage() {
           <section>
             <h2 className="text-xl font-bold text-slate-900 mb-3">1. Who We Are</h2>
             <p>
-              The Bonnet is a South African online marketplace for vehicle owners and automotive repair
+              My Bonnet is a South African online marketplace for vehicle owners and automotive repair
               workshops. We are the responsible party for the personal information you provide to us,
               as defined under the Protection of Personal Information Act 4 of 2013 (&ldquo;POPIA&rdquo;).
             </p>

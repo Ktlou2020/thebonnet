@@ -22,10 +22,10 @@ export function Header() {
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
         <Link href="/" className="flex items-center gap-3 text-white" onClick={() => setOpen(false)}>
           <div className="rounded-2xl bg-white p-1.5 shadow-soft">
-            <Image src="/brand/the-bonnet-logo.png" alt="The Bonnet" width={44} height={44} className="h-11 w-11 object-contain" priority />
+            <Image src="/brand/the-bonnet-logo.png" alt="My Bonnet" width={44} height={44} className="h-11 w-11 object-contain" priority />
           </div>
           <div>
-            <div className="text-lg font-semibold tracking-tight">The Bonnet</div>
+            <div className="text-lg font-semibold tracking-tight">My Bonnet</div>
             <div className="text-xs text-slate-300">South Africa&apos;s mechanic marketplace</div>
           </div>
         </Link>

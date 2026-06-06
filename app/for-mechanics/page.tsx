@@ -12,7 +12,7 @@ export default function ForMechanicsPage() {
           <SectionHeading
             eyebrow="Workshop growth"
             title="A lead generation platform mechanics will actually pay for"
-            description="The Bonnet is built around measurable workshop value: qualified leads, performance analytics, and city-level visibility that directly converts to booked jobs."
+            description="My Bonnet is built around measurable workshop value: qualified leads, performance analytics, and city-level visibility that directly converts to booked jobs."
           />
         </div>
       </div>

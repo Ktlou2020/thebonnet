@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Terms of Service — The Bonnet",
-  description: "Terms of service for The Bonnet, South Africa's mechanic marketplace.",
+  title: "Terms of Service — My Bonnet",
+  description: "Terms of service for My Bonnet, South Africa's mechanic marketplace.",
 };
 
 export default function TermsPage() {
@@ -21,9 +21,9 @@ export default function TermsPage() {
         <div className="space-y-10 rounded-[2rem] border border-slate-200 bg-white p-8 shadow-soft text-slate-700 leading-7">
 
           <section>
-            <h2 className="text-xl font-bold text-slate-900 mb-3">1. About The Bonnet</h2>
+            <h2 className="text-xl font-bold text-slate-900 mb-3">1. About My Bonnet</h2>
             <p>
-              The Bonnet (&ldquo;we&rdquo;, &ldquo;us&rdquo;, &ldquo;our&rdquo;) is a South African online marketplace
+              My Bonnet (&ldquo;we&rdquo;, &ldquo;us&rdquo;, &ldquo;our&rdquo;) is a South African online marketplace
               that connects vehicle owners (&ldquo;drivers&rdquo;) with automotive repair workshops
               (&ldquo;workshops&rdquo;). We do not perform mechanical work ourselves; we provide a
               platform that facilitates introductions, quote requests, and reviews between drivers and
@@ -34,7 +34,7 @@ export default function TermsPage() {
           <section>
             <h2 className="text-xl font-bold text-slate-900 mb-3">2. Acceptance of Terms</h2>
             <p>
-              By accessing or using The Bonnet website, mobile experience, or any related services,
+              By accessing or using My Bonnet website, mobile experience, or any related services,
               you confirm that you are at least 18 years old, have read and understood these Terms, and
               agree to be bound by them. If you do not agree, please do not use the platform.
             </p>
@@ -46,21 +46,21 @@ export default function TermsPage() {
               <li>You must provide accurate and truthful information when creating an account or submitting a quote request.</li>
               <li>You are responsible for maintaining the security of your account credentials.</li>
               <li>You must not use the platform to post fraudulent, misleading, or defamatory content.</li>
-              <li>You must not attempt to circumvent the platform by contacting workshops discovered through The Bonnet in order to avoid paying lead fees.</li>
-              <li>You must not use automated tools to scrape, crawl, or extract data from The Bonnet without prior written consent.</li>
+              <li>You must not attempt to circumvent the platform by contacting workshops discovered through My Bonnet in order to avoid paying lead fees.</li>
+              <li>You must not use automated tools to scrape, crawl, or extract data from My Bonnet without prior written consent.</li>
             </ul>
           </section>
 
           <section>
             <h2 className="text-xl font-bold text-slate-900 mb-3">4. Workshop Listing Terms</h2>
             <p>
-              Workshops that register on The Bonnet agree to the following additional conditions:
+              Workshops that register on My Bonnet agree to the following additional conditions:
             </p>
             <ul className="list-disc pl-5 mt-3 space-y-2">
               <li>Listing information (name, services, location, contact details) must be accurate and kept up to date.</li>
               <li>Workshops may not list services they are not licensed or equipped to perform.</li>
               <li>Reviews must not be solicited, incentivised, or fabricated. Manipulation of ratings is grounds for removal.</li>
-              <li>The Bonnet reserves the right to verify, suspend, or remove any workshop listing at its discretion, particularly where fraud or consumer harm is suspected.</li>
+              <li>My Bonnet reserves the right to verify, suspend, or remove any workshop listing at its discretion, particularly where fraud or consumer harm is suspected.</li>
             </ul>
           </section>
 
@@ -83,7 +83,7 @@ export default function TermsPage() {
           <section>
             <h2 className="text-xl font-bold text-slate-900 mb-3">6. AI Diagnosis Disclaimer</h2>
             <p>
-              The Bonnet may offer AI-assisted vehicle diagnosis or symptom descriptions as a
+              My Bonnet may offer AI-assisted vehicle diagnosis or symptom descriptions as a
               convenience tool. <strong>This is not a substitute for professional mechanical advice.</strong>{" "}
               AI-generated content may be inaccurate, incomplete, or unsuitable for your specific
               vehicle. Always consult a qualified mechanic before authorising any repair work. The
@@ -95,9 +95,9 @@ export default function TermsPage() {
           <section>
             <h2 className="text-xl font-bold text-slate-900 mb-3">7. Limitation of Liability</h2>
             <p>
-              The Bonnet is a platform, not a party to any contract between a driver and a workshop.
+              My Bonnet is a platform, not a party to any contract between a driver and a workshop.
               We do not guarantee the quality of work performed by listed workshops. To the maximum
-              extent permitted by South African law, The Bonnet shall not be liable for any direct,
+              extent permitted by South African law, My Bonnet shall not be liable for any direct,
               indirect, incidental, or consequential loss arising from the use of workshops found
               through the platform.
             </p>
@@ -106,7 +106,7 @@ export default function TermsPage() {
           <section>
             <h2 className="text-xl font-bold text-slate-900 mb-3">8. Dispute Resolution</h2>
             <p>
-              If you have a dispute with The Bonnet, please contact us first at support@thebonnet.co.za.
+              If you have a dispute with My Bonnet, please contact us first at support@thebonnet.co.za.
               We will endeavour to resolve disputes amicably within 15 business days. If a resolution
               cannot be reached, disputes shall be referred to mediation in accordance with the
               Arbitration Act 42 of 1965 (South Africa) before any legal proceedings are commenced.
@@ -125,7 +125,7 @@ export default function TermsPage() {
           <section>
             <h2 className="text-xl font-bold text-slate-900 mb-3">10. Changes to These Terms</h2>
             <p>
-              We may update these Terms from time to time. Continued use of The Bonnet after notice of
+              We may update these Terms from time to time. Continued use of My Bonnet after notice of
               an update constitutes acceptance of the revised Terms. We will notify registered users by
               email for material changes.
             </p>

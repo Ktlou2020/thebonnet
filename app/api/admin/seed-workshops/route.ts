@@ -103,7 +103,7 @@ export async function POST() {
   const systemProfile = await prisma.profile.upsert({
     where: { email: "system@thebonnet.co.za" },
     update: {},
-    create: { email: "system@thebonnet.co.za", fullName: "The Bonnet System", role: "ADMIN" },
+    create: { email: "system@thebonnet.co.za", fullName: "My Bonnet System", role: "ADMIN" },
   });
 
   let imported = 0;

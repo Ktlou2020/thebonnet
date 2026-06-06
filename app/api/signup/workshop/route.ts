@@ -56,7 +56,7 @@ export async function POST(req: NextRequest) {
       ownerId: profile.id,
       name: businessName,
       slug,
-      description: `${businessName} — workshop registered via The Bonnet`,
+      description: `${businessName} — workshop registered via My Bonnet`,
       city,
       province: "",
       phone: phone ?? null,

@@ -7,7 +7,7 @@ export async function GET() {
   if (!prisma) {
     return NextResponse.json({
       status: "warning",
-      service: "the-bonnet-platform",
+      service: "my-bonnet-platform",
       database: "not-configured"
     });
   }
@@ -17,14 +17,14 @@ export async function GET() {
 
     return NextResponse.json({
       status: "ok",
-      service: "the-bonnet-platform",
+      service: "my-bonnet-platform",
       database: "connected"
     });
   } catch (error) {
     return NextResponse.json(
       {
         status: "error",
-        service: "the-bonnet-platform",
+        service: "my-bonnet-platform",
         database: "unreachable",
         message: error instanceof Error ? error.message : "Unknown database error"
       },

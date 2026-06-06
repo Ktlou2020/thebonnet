@@ -5,7 +5,7 @@ export function Footer() {
     <footer className="border-t border-white/10 bg-ink">
       <div className="mx-auto grid max-w-7xl gap-10 px-6 py-14 text-sm text-slate-400 lg:grid-cols-4 lg:px-8">
         <div>
-          <h3 className="text-base font-semibold text-white">The Bonnet</h3>
+          <h3 className="text-base font-semibold text-white">My Bonnet</h3>
           <p className="mt-3 leading-7">
             Real workshop listings, cleaner search, and a customer-first path to getting quotes from mechanics across South Africa.
           </p>
@@ -33,7 +33,7 @@ export function Footer() {
         </div>
       </div>
       <div className="border-t border-white/5 px-6 py-5 text-center text-xs text-slate-500">
-        &copy; 2025 The Bonnet &middot; South Africa&apos;s mechanic marketplace
+        &copy; 2025 My Bonnet &middot; South Africa&apos;s mechanic marketplace
       </div>
     </footer>
   );

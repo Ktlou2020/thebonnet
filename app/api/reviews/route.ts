@@ -60,7 +60,7 @@ export async function POST(req: NextRequest) {
   if (phone) {
     await sendWhatsApp({
       to: phone,
-      body: `⭐ New ${review.rating}-star review for ${workshop.name} on The Bonnet.\n\nView and respond: https://thebonnet.co.za/dashboard/reviews`,
+      body: `⭐ New ${review.rating}-star review for ${workshop.name} on My Bonnet.\n\nView and respond: https://thebonnet.co.za/dashboard/reviews`,
     }).catch(() => null);
   }
 

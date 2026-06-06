@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { getCurrentAdminUser, isAdminAuthConfigured } from "@/lib/admin-auth";
 
 export const metadata = {
-  title: "Admin Login | The Bonnet"
+  title: "Admin Login | My Bonnet"
 };
 
 export default async function AdminLoginPage({
@@ -25,7 +25,7 @@ export default async function AdminLoginPage({
       <div className="grid w-full gap-8 lg:grid-cols-[0.95fr_1.05fr]">
         <div className="rounded-[2rem] bg-[radial-gradient(circle_at_top,#183968,transparent_45%),linear-gradient(180deg,#08111f,#0b1730)] p-8 text-white shadow-soft">
           <div className="inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/85">
-            <Image src="/brand/the-bonnet-logo.png" alt="The Bonnet" width={28} height={28} className="h-7 w-7 object-contain" />
+            <Image src="/brand/the-bonnet-logo.png" alt="My Bonnet" width={28} height={28} className="h-7 w-7 object-contain" />
             Team admin access
           </div>
           <h1 className="mt-6 text-4xl font-semibold tracking-tight">Sign in to the operations workspace.</h1>

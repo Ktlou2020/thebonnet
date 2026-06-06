@@ -28,7 +28,7 @@ export default function LoginPage() {
     <div className="min-h-screen bg-ink flex flex-col items-center justify-center px-4 py-16">
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
-          <span className="text-2xl font-bold text-white">The Bonnet</span>
+          <span className="text-2xl font-bold text-white">My Bonnet</span>
         </div>
 
         {sent ? (
