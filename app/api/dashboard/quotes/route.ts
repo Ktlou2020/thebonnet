@@ -51,6 +51,12 @@ export async function POST(req: NextRequest) {
 
   await db.$executeRaw`UPDATE leads SET status = 'RESPONDED' WHERE id = ${body.leadId}::uuid`;
 
+  // Mark the assignment as responded
+  await db.leadAssignment.update({
+    where: { id: body.assignmentId },
+    data: { respondedAt: new Date(), status: "QUOTED" },
+  });
+
   // Notify driver if they have a phone
   const lead = assignment.lead;
   if (lead.phone) {

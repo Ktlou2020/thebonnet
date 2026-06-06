@@ -33,6 +33,7 @@ export default async function DashboardPage({
     whatsapp?: string | null;
     listingTypes?: string[];
     isVerified?: boolean;
+    addressLine1?: string | null;
   } | null = null;
 
   try {
@@ -51,6 +52,7 @@ export default async function DashboardPage({
           whatsapp: true,
           listingTypes: true,
           isVerified: true,
+          addressLine1: true,
         },
       });
     }
@@ -99,6 +101,42 @@ export default async function DashboardPage({
         <div className="mt-8">
           <ProfileScoreCard workshop={workshop} />
         </div>
+
+        {/* Setup checklist */}
+        {(() => {
+          const checks = [
+            { label: "Phone number", done: !!workshop.phone },
+            { label: "Address", done: !!workshop.addressLine1 },
+            { label: "Service types", done: (workshop.listingTypes?.length ?? 0) > 0 },
+            { label: "Opening hours", done: !!workshop.openingHours },
+          ];
+          const allDone = checks.every((c) => c.done);
+          if (allDone) return null;
+          return (
+            <div className="mt-6 rounded-[2rem] border border-fire/20 bg-fire/5 p-6">
+              <h2 className="text-base font-semibold text-slate-900 mb-4">Complete your profile</h2>
+              <ul className="space-y-2">
+                {checks.map((c) => (
+                  <li key={c.label} className="flex items-center justify-between text-sm">
+                    <span className={`flex items-center gap-2 ${c.done ? "text-slate-400 line-through" : "text-slate-700"}`}>
+                      {c.done ? (
+                        <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-green-100 text-green-600 text-xs font-bold">✓</span>
+                      ) : (
+                        <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-fire/10 text-fire text-xs font-bold">→</span>
+                      )}
+                      {c.label}
+                    </span>
+                    {!c.done && (
+                      <Link href="/dashboard?tab=settings" className="text-xs font-semibold text-fire hover:underline">
+                        Add →
+                      </Link>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          );
+        })()}
 
         {/* Tab nav */}
         <div className="mt-6 flex gap-1 border-b border-slate-200">

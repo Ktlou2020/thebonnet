@@ -136,13 +136,25 @@ export default function GaragePage() {
   const [showAddRecord, setShowAddRecord] = useState<string | null>(null);
   const [dismissedBanner, setDismissedBanner] = useState(false);
 
-  // ── Load from localStorage ──
+  // ── Load vehicles: from API when logged in, otherwise localStorage ──
   useEffect(() => {
-    setVehicles(loadJSON<GarageVehicle[]>(VEHICLES_KEY, []));
+    if (session) {
+      fetch("/api/garage")
+        .then((r) => r.json())
+        .then((data: { vehicles?: GarageVehicle[] }) => {
+          if (data.vehicles) setVehicles(data.vehicles);
+        })
+        .catch(() => {
+          setVehicles(loadJSON<GarageVehicle[]>(VEHICLES_KEY, []));
+        })
+        .finally(() => setLoaded(true));
+    } else {
+      setVehicles(loadJSON<GarageVehicle[]>(VEHICLES_KEY, []));
+      setLoaded(true);
+    }
     setRecords(loadJSON<GarageServiceRecord[]>(RECORDS_KEY, []));
     setXp(loadJSON<UserXP>(XP_KEY, { totalXp: 0, level: 0, badges: [], streakDays: 0 }));
-    setLoaded(true);
-  }, []);
+  }, [session]);
 
   // ── Load reminders if authenticated ──
   useEffect(() => {
@@ -193,27 +205,56 @@ export default function GaragePage() {
     make: "", model: "", year: "", variant: "", colour: "", nickname: "", registrationNo: "", currentMileage: "",
   });
 
-  function submitVehicle() {
+  async function submitVehicle() {
     if (!vehicleForm.make || !vehicleForm.model || !vehicleForm.year) return;
-    const v: GarageVehicle = {
-      id: uuid(),
-      make: vehicleForm.make,
-      model: vehicleForm.model,
-      year: parseInt(vehicleForm.year),
-      variant: vehicleForm.variant || undefined,
-      colour: vehicleForm.colour || undefined,
-      nickname: vehicleForm.nickname || undefined,
-      registrationNo: vehicleForm.registrationNo || undefined,
-      currentMileage: vehicleForm.currentMileage ? parseInt(vehicleForm.currentMileage) : undefined,
-      createdAt: new Date().toISOString(),
-    };
-    const next = [...vehicles, v];
-    setVehicles(next);
-    saveJSON(VEHICLES_KEY, next);
 
     const isFirst = vehicles.length === 0;
-    addXP(isFirst ? 100 : 50, isFirst ? "First Ride 🚗" : undefined);
-    if (next.length >= 3) addXP(0, "Multi-Fleet 🏎️");
+
+    if (session) {
+      // Persist to API when logged in
+      try {
+        const res = await fetch("/api/garage", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            make: vehicleForm.make,
+            model: vehicleForm.model,
+            year: parseInt(vehicleForm.year),
+            variant: vehicleForm.variant || undefined,
+            colour: vehicleForm.colour || undefined,
+            nickname: vehicleForm.nickname || undefined,
+            registrationNo: vehicleForm.registrationNo || undefined,
+            currentMileage: vehicleForm.currentMileage ? parseInt(vehicleForm.currentMileage) : undefined,
+          }),
+        });
+        if (res.ok) {
+          const data = (await res.json()) as { vehicle: GarageVehicle };
+          setVehicles((prev) => [...prev, data.vehicle]);
+          addXP(isFirst ? 100 : 50, isFirst ? "First Ride 🚗" : undefined);
+          if (vehicles.length + 1 >= 3) addXP(0, "Multi-Fleet 🏎️");
+        }
+      } catch {
+        // Fall back to local on error
+      }
+    } else {
+      const v: GarageVehicle = {
+        id: uuid(),
+        make: vehicleForm.make,
+        model: vehicleForm.model,
+        year: parseInt(vehicleForm.year),
+        variant: vehicleForm.variant || undefined,
+        colour: vehicleForm.colour || undefined,
+        nickname: vehicleForm.nickname || undefined,
+        registrationNo: vehicleForm.registrationNo || undefined,
+        currentMileage: vehicleForm.currentMileage ? parseInt(vehicleForm.currentMileage) : undefined,
+        createdAt: new Date().toISOString(),
+      };
+      const next = [...vehicles, v];
+      setVehicles(next);
+      saveJSON(VEHICLES_KEY, next);
+      addXP(isFirst ? 100 : 50, isFirst ? "First Ride 🚗" : undefined);
+      if (next.length >= 3) addXP(0, "Multi-Fleet 🏎️");
+    }
 
     setVehicleForm({ make: "", model: "", year: "", variant: "", colour: "", nickname: "", registrationNo: "", currentMileage: "" });
     setShowAddVehicle(false);
@@ -318,10 +359,10 @@ export default function GaragePage() {
       </div>
 
       <div className="mx-auto max-w-6xl px-6 py-8 lg:px-8">
-        {/* Sync banner */}
-        {session && !syncDismissed && !synced && vehicles.length > 0 && (
+        {/* Sync banner — only for logged-out users with local vehicles */}
+        {!session && !syncDismissed && !synced && vehicles.length > 0 && (
           <div className="mb-4 rounded-2xl border border-fire/20 bg-fire/5 p-4 flex items-center justify-between gap-4 flex-wrap">
-            <p className="text-sm text-white">Your garage is saved locally. <strong>Sync to your account</strong> to access it on any device.</p>
+            <p className="text-sm text-white">Your garage is saved locally. <strong>Sign in to sync to your account</strong> and access it on any device.</p>
             <div className="flex gap-2 shrink-0">
               <button onClick={handleSync} className="rounded-full bg-fire px-4 py-2 text-xs font-semibold text-white shadow-glow-fire">Sync now</button>
               <button onClick={() => setSyncDismissed(true)} className="rounded-full border border-white/20 px-3 py-2 text-xs text-white/70">Dismiss</button>
@@ -763,11 +804,11 @@ export default function GaragePage() {
           </div>
         )}
 
-        {/* Disclaimer */}
-        {vehicles.length > 0 && (
+        {/* Disclaimer — only shown for logged-out users */}
+        {!session && vehicles.length > 0 && (
           <div className="mt-8 flex items-start gap-2 text-xs text-slate-400">
             <AlertTriangle className="h-3.5 w-3.5 shrink-0 mt-0.5" />
-            <span>Garage data is stored locally in your browser. Sign in to sync across devices (coming soon).</span>
+            <span>Garage data is saved locally. Sign in to sync across devices.</span>
           </div>
         )}
       </div>
