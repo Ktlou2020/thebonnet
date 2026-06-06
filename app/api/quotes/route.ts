@@ -24,7 +24,7 @@ export async function GET() {
       assignments: {
         include: {
           quote: true,
-          workshop: { select: { id: true, name: true, slug: true, city: true } },
+          workshop: { select: { id: true, name: true, slug: true, city: true, phone: true, whatsapp: true } },
         },
       },
     },

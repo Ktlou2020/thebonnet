@@ -20,6 +20,8 @@ type QuoteData = {
       name: string;
       slug: string;
       city: string;
+      phone?: string | null;
+      whatsapp?: string | null;
     };
   };
 };
@@ -39,6 +41,8 @@ type LeadData = {
       name: string;
       slug: string;
       city: string;
+      phone?: string | null;
+      whatsapp?: string | null;
     };
   }>;
 };
@@ -125,20 +129,11 @@ export default function QuotesPage() {
 
       <div className="mx-auto max-w-4xl px-6 py-8 lg:px-8">
         {leads.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-24 text-center">
-            <div className="rounded-[2rem] bg-fire/10 p-6 text-fire mb-6">
-              <Wrench className="h-12 w-12" />
-            </div>
-            <h2 className="text-2xl font-bold text-slate-900">No quote requests yet</h2>
-            <p className="mt-2 text-slate-500 max-w-sm text-sm leading-7">
-              Request quotes from workshops to start comparing prices and services.
-            </p>
-            <Link
-              href="/request-quote"
-              className="mt-8 inline-flex items-center gap-2 rounded-full bg-fire px-7 py-3.5 text-sm font-semibold text-white shadow-glow-fire transition hover:bg-fire/90"
-            >
-              Request a quote
-            </Link>
+          <div className="text-center py-16">
+            <div className="text-5xl mb-4">📋</div>
+            <h2 className="text-xl font-bold text-slate-900">No quotes yet</h2>
+            <p className="text-slate-500 mt-2 mb-6">Request a quote from a workshop to get started.</p>
+            <a href="/mechanics" className="bg-fire text-white rounded-full px-8 py-3 font-semibold inline-block">Find a mechanic</a>
           </div>
         ) : (
           <div className="space-y-8">
@@ -226,6 +221,28 @@ export default function QuotesPage() {
                                         )}
                                       </div>
                                     </div>
+                                    {q.isAccepted && (a.workshop.phone || a.workshop.whatsapp) && (
+                                      <div className="mt-3 border-t border-slate-100 pt-3 flex flex-wrap gap-2">
+                                        {a.workshop.phone && (
+                                          <a
+                                            href={`tel:${a.workshop.phone.replace(/\s+/g, "")}`}
+                                            className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition"
+                                          >
+                                            📞 Call workshop
+                                          </a>
+                                        )}
+                                        {a.workshop.whatsapp && (
+                                          <a
+                                            href={`https://wa.me/${a.workshop.whatsapp.replace(/\D/g, "")}`}
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            className="inline-flex items-center gap-1.5 rounded-full bg-emerald-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-emerald-700 transition"
+                                          >
+                                            💬 WhatsApp workshop
+                                          </a>
+                                        )}
+                                      </div>
+                                    )}
                                     {q.workshopMessage && (
                                       <p className="mt-3 text-sm leading-6 text-slate-600 border-t border-slate-100 pt-3">{q.workshopMessage}</p>
                                     )}

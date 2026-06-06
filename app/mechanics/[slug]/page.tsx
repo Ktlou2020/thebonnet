@@ -50,13 +50,15 @@ export default async function MechanicDetailPage({ params }: { params: Promise<{
   };
   let reviews: ReviewRow[] = [];
   let workshopOpeningHours: Record<string, string | null> | null = null;
+  let workshopClaimedByProfileId: string | null = null;
   try {
     const workshop = await db.workshop.findUnique({
       where: { slug },
-      select: { id: true, openingHours: true },
+      select: { id: true, openingHours: true, claimedByProfileId: true },
     });
     if (workshop) {
       workshopOpeningHours = workshop.openingHours as Record<string, string | null> | null;
+      workshopClaimedByProfileId = workshop.claimedByProfileId ?? null;
       reviews = await db.$queryRaw<ReviewRow[]>`
         SELECT id, "authorName", rating, body, "jobType", "costCents", "helpfulCount", reply, "repliedAt", "receiptVerified", "createdAt"
         FROM reviews
@@ -164,6 +166,15 @@ export default async function MechanicDetailPage({ params }: { params: Promise<{
               </div>
             )}
           </div>
+          {!workshopClaimedByProfileId && (
+            <div className="mt-8 rounded-2xl border border-slate-200 bg-slate-50 p-6 text-center">
+              <p className="font-semibold text-slate-700">Is this your workshop?</p>
+              <p className="text-sm text-slate-500 mt-1 mb-4">Claim your listing to respond to reviews, update your details, and receive quote requests.</p>
+              <a href={`/claim/${mechanic.slug}`} className="inline-block rounded-full bg-fire text-white font-semibold px-6 py-2 text-sm hover:bg-fire/90 transition">
+                Claim this workshop →
+              </a>
+            </div>
+          )}
         </div>
 
         <aside className="space-y-6">

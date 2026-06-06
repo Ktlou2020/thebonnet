@@ -266,6 +266,9 @@ model Workshop {
   isVerified          Boolean               @default(false)
   verifiedAt          DateTime?             @db.Timestamptz
   verificationNotes   String?
+  claimedByProfileId  String?               @db.Uuid
+  claimedAt           DateTime?             @db.Timestamptz
+  claimToken          String?               @unique
   createdAt           DateTime              @default(now()) @db.Timestamptz(6)
   updatedAt           DateTime              @updatedAt @db.Timestamptz(6)
   accreditations   Accreditation[]
