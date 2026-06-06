@@ -105,6 +105,217 @@ interface PlaceDetail {
   types?: string[];
 }
 
+// ---------------------------------------------------------------------------
+// Scraper-based import (no API key required)
+// ---------------------------------------------------------------------------
+
+interface ScrapedWorkshop {
+  name: string;
+  address: string | null;
+  phone: string | null;
+  website: string | null;
+  description: string | null;
+  source: string;
+}
+
+function scraperSlugify(name: string, city: string): string {
+  const base = name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  const citySlug = city.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  return `${base}-${citySlug}`;
+}
+
+function normaliseScraperPhone(raw: string | null): string | null {
+  if (!raw) return null;
+  let digits = raw.replace(/[^\d]/g, "");
+  if (!digits) return null;
+  if (digits.startsWith("27") && digits.length >= 11) digits = digits.slice(2);
+  if (digits.startsWith("0") && digits.length === 10) digits = digits.slice(1);
+  if (digits.length !== 9) return raw.trim();
+  return `+27 ${digits.slice(0, 2)} ${digits.slice(2, 5)} ${digits.slice(5)}`;
+}
+
+async function fetchScraperPage(url: string): Promise<string | null> {
+  try {
+    const res = await fetch(url, {
+      headers: {
+        "User-Agent":
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "Accept-Language": "en-ZA,en;q=0.9",
+      },
+      signal: AbortSignal.timeout(15000),
+    });
+    if (res.status === 200) return res.text();
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+function normaliseName(name: string): string {
+  const trimmed = name.trim();
+  if (trimmed === trimmed.toUpperCase() && /[A-Z]/.test(trimmed)) {
+    return trimmed
+      .split(/\s+/)
+      .map((w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+      .join(" ");
+  }
+  return trimmed;
+}
+
+async function scrapeYellowPagesForCity(city: string): Promise<ScrapedWorkshop[]> {
+  const results: ScrapedWorkshop[] = [];
+  const { load } = await import("cheerio");
+  for (const q of ["mechanic+workshop", "auto+repair"]) {
+    const url = `https://www.yellowpages.co.za/search?q=${q}&l=${encodeURIComponent(city)}`;
+    const html = await fetchScraperPage(url);
+    if (!html) continue;
+    const $ = load(html);
+    const containers = [".listing", ".result", "[data-listing]", ".business-listing", "article"];
+    let $items = $() as ReturnType<typeof $>;
+    for (const sel of containers) {
+      $items = $(sel);
+      if ($items.length > 0) break;
+    }
+    $items.each((_, el) => {
+      const $el = $(el);
+      let name = "";
+      for (const s of [".listing-name", "h2 a", "h3 a", ".name a", "h2", "h3"]) {
+        const t = $el.find(s).first().text().trim();
+        if (t) { name = normaliseName(t); break; }
+      }
+      if (!name) return;
+      let address: string | null = null;
+      for (const s of [".address", ".location", "[itemprop='address']"]) {
+        const t = $el.find(s).first().text().trim();
+        if (t) { address = t; break; }
+      }
+      let phone: string | null = null;
+      for (const s of [".phone", ".tel", "[itemprop='telephone']"]) {
+        const t = $el.find(s).first().text().trim();
+        if (t) { phone = normaliseScraperPhone(t); break; }
+      }
+      results.push({ name, address, phone, website: null, description: null, source: "yellowpages.co.za" });
+    });
+  }
+  return results;
+}
+
+async function scrapeBusinessListForCity(city: string, citySlug: string): Promise<ScrapedWorkshop[]> {
+  const results: ScrapedWorkshop[] = [];
+  const { load } = await import("cheerio");
+  const url = `https://www.businesslist.co.za/category/automotive/mechanics/${citySlug}`;
+  const html = await fetchScraperPage(url);
+  if (!html) return results;
+  const $ = load(html);
+  const containers = [".listing", ".company", ".result", "article", ".card"];
+  let $items = $() as ReturnType<typeof $>;
+  for (const sel of containers) {
+    $items = $(sel);
+    if ($items.length > 0) break;
+  }
+  $items.each((_, el) => {
+    const $el = $(el);
+    let name = "";
+    for (const s of [".company-name a", ".company-name", "h2 a", "h3 a", "h2", "h3"]) {
+      const t = $el.find(s).first().text().trim();
+      if (t) { name = normaliseName(t); break; }
+    }
+    if (!name) return;
+    let address: string | null = null;
+    for (const s of [".address", ".location", "[itemprop='address']"]) {
+      const t = $el.find(s).first().text().trim();
+      if (t) { address = t; break; }
+    }
+    let phone: string | null = null;
+    for (const s of [".phone", ".tel", "[itemprop='telephone']"]) {
+      const t = $el.find(s).first().text().trim();
+      if (t) { phone = normaliseScraperPhone(t); break; }
+    }
+    results.push({ name, address, phone, website: null, description: null, source: "businesslist.co.za" });
+  });
+  return results;
+}
+
+const CITY_SLUG_MAP: Record<string, string> = {
+  "Cape Town": "cape-town",
+  "Johannesburg": "johannesburg",
+  "Pretoria": "pretoria",
+  "Durban": "durban",
+  "Port Elizabeth": "port-elizabeth",
+  "Bloemfontein": "bloemfontein",
+  "Nelspruit": "nelspruit",
+  "Polokwane": "polokwane",
+  "East London": "east-london",
+  "Sandton": "sandton",
+};
+
+async function handleScraperImport(
+  prisma: ReturnType<typeof getPrisma>,
+  ownerId: string,
+  city: string
+): Promise<NextResponse> {
+  if (!prisma) return NextResponse.json({ error: "Database unavailable" }, { status: 503 });
+
+  const province = CITY_TO_PROVINCE[city] ?? "";
+  const citySlug = CITY_SLUG_MAP[city] ?? city.toLowerCase().replace(/\s+/g, "-");
+
+  const allResults: ScrapedWorkshop[] = [];
+  try {
+    const yp = await scrapeYellowPagesForCity(city);
+    allResults.push(...yp);
+  } catch { /* ignore individual scraper failures */ }
+  try {
+    const bl = await scrapeBusinessListForCity(city, citySlug);
+    allResults.push(...bl);
+  } catch { /* ignore individual scraper failures */ }
+
+  // Deduplicate by normalised name
+  const seen = new Set<string>();
+  const unique = allResults.filter((r) => {
+    const key = r.name.toLowerCase().replace(/\s+/g, "");
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+
+  let imported = 0;
+  let skipped = 0;
+  for (const w of unique) {
+    if (!w.name || w.name.length < 2) { skipped++; continue; }
+    try {
+      const slug = scraperSlugify(w.name, city);
+      await prisma.workshop.upsert({
+        where: { slug },
+        create: {
+          ownerId,
+          name: w.name,
+          slug,
+          description: w.description ?? `${w.name} is a vehicle service and repair workshop in ${city}, South Africa.`,
+          city,
+          province,
+          addressLine1: w.address ?? null,
+          phone: w.phone ?? null,
+          website: w.website ?? null,
+          sourceName: w.source,
+          listingTypes: ["Car Repair", "General Service"],
+          status: "PENDING",
+        },
+        update: {
+          phone: w.phone ?? undefined,
+          website: w.website ?? undefined,
+          addressLine1: w.address ?? undefined,
+        },
+      });
+      imported++;
+    } catch {
+      skipped++;
+    }
+  }
+
+  return NextResponse.json({ imported, skipped, source: "scraper" });
+}
+
 export async function POST(request: Request) {
   const session = await getAdminSession();
   if (!session) {
@@ -121,13 +332,14 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "GOOGLE_PLACES_API_KEY is not configured" }, { status: 500 });
   }
 
-  let body: { city?: string };
+  let body: { city?: string; source?: string };
   try {
     body = await request.json();
   } catch {
     return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
   }
 
+  const source = body.source ?? "places";
   const city = body.city?.trim() ?? "";
   if (!city || !VALID_CITIES.includes(city)) {
     return NextResponse.json(
@@ -146,6 +358,11 @@ export async function POST(request: Request) {
       role: "ADMIN",
     },
   });
+
+  // If source is 'scraper', run the web scraper logic instead of Places API
+  if (source === "scraper") {
+    return handleScraperImport(prisma, systemProfile.id, city);
+  }
 
   const SEARCH_QUERIES = [
     `mechanic workshop ${city} South Africa`,
