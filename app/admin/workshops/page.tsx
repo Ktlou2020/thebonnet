@@ -43,6 +43,11 @@ export default function AdminWorkshopsPage() {
   } | null>(null);
   const [scrapeAllError, setScrapeAllError] = useState("");
 
+  // Seed workshops
+  const [seedLoading, setSeedLoading] = useState(false);
+  const [seedResult, setSeedResult] = useState<{ imported: number; skipped: number } | null>(null);
+  const [seedError, setSeedError] = useState("");
+
   async function handleScrapeAll() {
     setScrapeAllLoading(true);
     setScrapeAllResult(null);
@@ -65,6 +70,27 @@ export default function AdminWorkshopsPage() {
       setScrapeAllError(err instanceof Error ? err.message : "Unknown error");
     } finally {
       setScrapeAllLoading(false);
+    }
+  }
+
+  async function handleSeedWorkshops() {
+    setSeedLoading(true);
+    setSeedResult(null);
+    setSeedError("");
+    try {
+      const res = await fetch("/api/admin/seed-workshops", { method: "POST" });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setSeedError((data as { error?: string }).error ?? "Seed failed.");
+      } else {
+        const data = (await res.json()) as { imported: number; skipped: number };
+        setSeedResult(data);
+        fetchWorkshops();
+      }
+    } catch (err) {
+      setSeedError(err instanceof Error ? err.message : "Unknown error");
+    } finally {
+      setSeedLoading(false);
     }
   }
 
@@ -183,6 +209,35 @@ export default function AdminWorkshopsPage() {
           )}
           {scrapeAllError && (
             <p className="mt-3 text-sm text-red-600">{scrapeAllError}</p>
+          )}
+        </div>
+
+        {/* Seed SA Workshop Data */}
+        <div className="mb-6 rounded-[2rem] border-2 border-orange-300/40 bg-white p-6 shadow-soft">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <h2 className="text-lg font-bold text-slate-900">Seed SA Workshop Data</h2>
+              <p className="mt-1 text-sm text-slate-500">
+                Insert ~60 curated SA workshop listings across 5 major cities as a quick-start dataset.
+              </p>
+            </div>
+            <button
+              onClick={handleSeedWorkshops}
+              disabled={seedLoading}
+              className="flex shrink-0 items-center gap-2 rounded-full bg-orange-500 px-6 py-3 text-sm font-bold text-white shadow transition hover:bg-orange-500/90 disabled:opacity-50"
+            >
+              <RefreshCw className={`h-4 w-4 ${seedLoading ? "animate-spin" : ""}`} />
+              {seedLoading ? "Seeding…" : "Seed Workshops"}
+            </button>
+          </div>
+          {seedResult && (
+            <p className="mt-4 text-sm font-semibold text-emerald-700">
+              Done — imported / updated: <strong>{seedResult.imported}</strong>, skipped:{" "}
+              <strong>{seedResult.skipped}</strong>
+            </p>
+          )}
+          {seedError && (
+            <p className="mt-3 text-sm text-red-600">{seedError}</p>
           )}
         </div>
 
