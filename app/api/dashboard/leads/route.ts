@@ -31,5 +31,17 @@ export async function GET(req: NextRequest) {
     orderBy: { assignedAt: "desc" },
   });
 
+  // Mark unviewed assignments as viewed
+  const unviewedIds = assignments
+    .filter((a) => a.viewedAt === null)
+    .map((a) => a.id);
+
+  if (unviewedIds.length > 0) {
+    await db.leadAssignment.updateMany({
+      where: { id: { in: unviewedIds } },
+      data: { viewedAt: new Date() },
+    });
+  }
+
   return NextResponse.json({ assignments });
 }

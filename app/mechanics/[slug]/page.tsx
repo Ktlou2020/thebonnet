@@ -51,14 +51,16 @@ export default async function MechanicDetailPage({ params }: { params: Promise<{
   let reviews: ReviewRow[] = [];
   let workshopOpeningHours: Record<string, string | null> | null = null;
   let workshopClaimedByProfileId: string | null = null;
+  let workshopOwnerId: string | null = null;
   try {
     const workshop = await db.workshop.findUnique({
       where: { slug },
-      select: { id: true, openingHours: true, claimedByProfileId: true },
+      select: { id: true, openingHours: true, claimedByProfileId: true, ownerId: true },
     });
     if (workshop) {
       workshopOpeningHours = workshop.openingHours as Record<string, string | null> | null;
       workshopClaimedByProfileId = workshop.claimedByProfileId ?? null;
+      workshopOwnerId = workshop.ownerId ?? null;
       reviews = await db.$queryRaw<ReviewRow[]>`
         SELECT id, "authorName", rating, body, "jobType", "costCents", "helpfulCount", reply, "repliedAt", "receiptVerified", "createdAt"
         FROM reviews
@@ -70,8 +72,18 @@ export default async function MechanicDetailPage({ params }: { params: Promise<{
     // DB unavailable — show empty list
   }
 
+  const isOwner = !!(session?.user?.id && workshopOwnerId && session.user.id === workshopOwnerId);
+
   return (
     <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
+      {isOwner && (
+        <div className="mb-6 flex items-center justify-between gap-4 rounded-2xl bg-accent/10 border border-accent/20 px-5 py-3 text-sm text-teal-800">
+          <span>This is your listing</span>
+          <Link href="/dashboard?tab=settings" className="font-semibold text-accent hover:underline shrink-0">
+            Edit in dashboard →
+          </Link>
+        </div>
+      )}
       <WorkshopSchema mechanic={mechanic} />
       <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr]">
         <div className="rounded-[2rem] border border-slate-200 bg-white p-8 shadow-soft">
