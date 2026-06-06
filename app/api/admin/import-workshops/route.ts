@@ -327,11 +327,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Database unavailable" }, { status: 503 });
   }
 
-  const apiKey = process.env.GOOGLE_PLACES_API_KEY;
-  if (!apiKey) {
-    return NextResponse.json({ error: "GOOGLE_PLACES_API_KEY is not configured" }, { status: 500 });
-  }
-
   let body: { city?: string; source?: string };
   try {
     body = await request.json();
@@ -362,6 +357,11 @@ export async function POST(request: Request) {
   // If source is 'scraper', run the web scraper logic instead of Places API
   if (source === "scraper") {
     return handleScraperImport(prisma, systemProfile.id, city);
+  }
+
+  const apiKey = process.env.GOOGLE_PLACES_API_KEY;
+  if (!apiKey) {
+    return NextResponse.json({ error: "GOOGLE_PLACES_API_KEY is not configured" }, { status: 500 });
   }
 
   const SEARCH_QUERIES = [

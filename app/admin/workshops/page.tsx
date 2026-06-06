@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { CheckCircle, XCircle } from "lucide-react";
+import { CheckCircle, XCircle, RefreshCw } from "lucide-react";
 
 const SA_CITIES = [
   "Cape Town",
@@ -33,6 +33,40 @@ export default function AdminWorkshopsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [actionLoading, setActionLoading] = useState<string | null>(null);
+
+  // Scrape all cities
+  const [scrapeAllLoading, setScrapeAllLoading] = useState(false);
+  const [scrapeAllResult, setScrapeAllResult] = useState<{
+    totalImported: number;
+    totalSkipped: number;
+    byCity: { city: string; imported: number; skipped: number }[];
+  } | null>(null);
+  const [scrapeAllError, setScrapeAllError] = useState("");
+
+  async function handleScrapeAll() {
+    setScrapeAllLoading(true);
+    setScrapeAllResult(null);
+    setScrapeAllError("");
+    try {
+      const res = await fetch("/api/admin/scrape-all", { method: "POST" });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setScrapeAllError((data as { error?: string }).error ?? "Scrape failed.");
+      } else {
+        const data = await res.json() as {
+          totalImported: number;
+          totalSkipped: number;
+          byCity: { city: string; imported: number; skipped: number }[];
+        };
+        setScrapeAllResult(data);
+        fetchWorkshops();
+      }
+    } catch (err) {
+      setScrapeAllError(err instanceof Error ? err.message : "Unknown error");
+    } finally {
+      setScrapeAllLoading(false);
+    }
+  }
 
   // Import from Google Places
   const [importCity, setImportCity] = useState(SA_CITIES[0]);
@@ -111,6 +145,47 @@ export default function AdminWorkshopsPage() {
       </div>
 
       <div className="mx-auto max-w-6xl px-6 py-8 lg:px-8">
+        {/* Scrape All SA Workshops */}
+        <div className="mb-6 rounded-[2rem] border-2 border-fire/30 bg-white p-6 shadow-soft">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <h2 className="text-lg font-bold text-slate-900">Scrape All SA Workshops</h2>
+              <p className="mt-1 text-sm text-slate-500">
+                Pull mechanic workshops from OpenStreetMap across all 10 SA cities in one click — no API key required.
+                Results are saved with status <strong>PENDING</strong> for review.
+              </p>
+            </div>
+            <button
+              onClick={handleScrapeAll}
+              disabled={scrapeAllLoading}
+              className="flex shrink-0 items-center gap-2 rounded-full bg-fire px-6 py-3 text-sm font-bold text-white shadow-glow-fire transition hover:bg-fire/90 disabled:opacity-50"
+            >
+              <RefreshCw className={`h-4 w-4 ${scrapeAllLoading ? "animate-spin" : ""}`} />
+              {scrapeAllLoading ? "Scraping 10 cities…" : "Scrape All SA Workshops"}
+            </button>
+          </div>
+
+          {scrapeAllResult && (
+            <div className="mt-4">
+              <p className="text-sm font-semibold text-emerald-700">
+                Done — imported / updated: <strong>{scrapeAllResult.totalImported}</strong>, skipped:{" "}
+                <strong>{scrapeAllResult.totalSkipped}</strong>
+              </p>
+              <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-5">
+                {scrapeAllResult.byCity.map((c) => (
+                  <div key={c.city} className="rounded-xl bg-slate-50 px-3 py-2 text-xs">
+                    <div className="font-semibold text-slate-800">{c.city}</div>
+                    <div className="text-slate-500">{c.imported} in · {c.skipped} skip</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+          {scrapeAllError && (
+            <p className="mt-3 text-sm text-red-600">{scrapeAllError}</p>
+          )}
+        </div>
+
         {/* Import from Google Places */}
         <div className="mb-8 rounded-[2rem] border border-slate-200 bg-white p-6 shadow-soft">
           <h2 className="text-lg font-semibold text-slate-900">Import Workshops from Google Places</h2>
