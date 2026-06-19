@@ -82,6 +82,26 @@ export default async function DashboardPage({
     );
   }
 
+  // Quick stats
+  const now = new Date();
+  const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+  let statsData = { monthLeads: 0, responseRate: 0, avgQuoteRands: 0, avgRating: 0 };
+  try {
+    const [monthLeads, totalAssignments, quotedAssignments, quotes, reviewAgg] = await Promise.all([
+      db.leadAssignment.count({ where: { workshopId: workshop.id, assignedAt: { gte: monthStart } } }),
+      db.leadAssignment.count({ where: { workshopId: workshop.id } }),
+      db.leadAssignment.count({ where: { workshopId: workshop.id, status: { in: ["QUOTED", "WON"] } } }),
+      db.quote.findMany({
+        where: { assignment: { workshopId: workshop.id } },
+        select: { totalCents: true },
+      }),
+      db.review.aggregate({ where: { workshopId: workshop.id, status: "APPROVED" }, _avg: { rating: true } }),
+    ]);
+    const responseRate = totalAssignments > 0 ? Math.round((quotedAssignments / totalAssignments) * 100) : 0;
+    const avgQuoteRands = quotes.length > 0 ? Math.round(quotes.reduce((s, q) => s + q.totalCents, 0) / quotes.length / 100) : 0;
+    statsData = { monthLeads, responseRate, avgQuoteRands, avgRating: reviewAgg._avg.rating ?? 0 };
+  } catch { /* DB unavailable */ }
+
   const tabs: { id: TabName; label: string }[] = [
     { id: "leads", label: "Leads" },
     { id: "reviews", label: "Reviews" },
@@ -98,7 +118,22 @@ export default async function DashboardPage({
       </div>
 
       <div className="mx-auto max-w-5xl px-6 lg:px-8">
-        <div className="mt-8">
+        {/* Quick stats */}
+        <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
+          {[
+            { label: "Leads this month", value: statsData.monthLeads.toString() },
+            { label: "Response rate", value: `${statsData.responseRate}%` },
+            { label: "Avg quote", value: statsData.avgQuoteRands > 0 ? `R${statsData.avgQuoteRands.toLocaleString()}` : "—" },
+            { label: "Avg rating", value: statsData.avgRating > 0 ? `${statsData.avgRating.toFixed(1)} ★` : "—" },
+          ].map(({ label, value }) => (
+            <div key={label} className="rounded-[1.5rem] border border-slate-200 bg-white p-5 shadow-soft text-center">
+              <div className="text-2xl font-bold text-slate-900">{value}</div>
+              <div className="mt-1 text-xs text-slate-500">{label}</div>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-6">
           <ProfileScoreCard workshop={workshop} />
         </div>
 
