@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "@/app/globals.css";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
+import { MobileNav } from "@/components/mobile-nav";
 import { Providers } from "@/components/session-provider";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
@@ -46,8 +47,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body>
         <Providers>
           <Header />
-          <main>{children}</main>
+          <main className="pb-16 md:pb-0">{children}</main>
           <Footer />
+          <MobileNav />
         </Providers>
       </body>
     </html>
