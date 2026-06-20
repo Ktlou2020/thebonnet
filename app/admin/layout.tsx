@@ -1,5 +1,15 @@
 import Link from "next/link";
-import { LayoutDashboard, Building2, LogOut, Star } from "lucide-react";
+import { LayoutDashboard, Building2, LogOut, Star, Inbox, Users, BarChart3, CreditCard } from "lucide-react";
+
+const navLinks = [
+  { href: "/admin", label: "Dashboard", Icon: LayoutDashboard },
+  { href: "/admin/leads", label: "Leads", Icon: Inbox },
+  { href: "/admin/workshops", label: "Workshops", Icon: Building2 },
+  { href: "/admin/reviews", label: "Reviews", Icon: Star },
+  { href: "/admin/users", label: "Users", Icon: Users },
+  { href: "/admin/subscriptions", label: "Subscriptions", Icon: CreditCard },
+  { href: "/admin/analytics", label: "Analytics", Icon: BarChart3 },
+];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -11,27 +21,16 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <p className="mt-0.5 text-xs text-slate-400">Admin Console</p>
         </div>
         <nav className="flex flex-1 flex-col gap-1 px-3 py-4">
-          <Link
-            href="/admin"
-            className="flex items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-medium text-slate-300 transition hover:bg-white/10 hover:text-white"
-          >
-            <LayoutDashboard className="h-4 w-4" />
-            Dashboard
-          </Link>
-          <Link
-            href="/admin/workshops"
-            className="flex items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-medium text-slate-300 transition hover:bg-white/10 hover:text-white"
-          >
-            <Building2 className="h-4 w-4" />
-            Workshops
-          </Link>
-          <Link
-            href="/admin/reviews"
-            className="flex items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-medium text-slate-300 transition hover:bg-white/10 hover:text-white"
-          >
-            <Star className="h-4 w-4" />
-            Reviews
-          </Link>
+          {navLinks.map(({ href, label, Icon }) => (
+            <Link
+              key={href}
+              href={href}
+              className="flex items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-medium text-slate-300 transition hover:bg-white/10 hover:text-white"
+            >
+              <Icon className="h-4 w-4" />
+              {label}
+            </Link>
+          ))}
         </nav>
         <div className="border-t border-white/10 p-3">
           <form action="/api/admin/logout" method="post">

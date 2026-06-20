@@ -6,11 +6,13 @@ import { MapPinned, Menu, Wrench, X } from "lucide-react";
 import { useState } from "react";
 import { AuthButton } from "./auth-button";
 import { SearchBar } from "./search-bar";
+import { HeaderXp } from "./header-xp";
 
 const navLinks = [
   { href: "/mechanics", label: "Directory", badge: undefined, icon: undefined },
   { href: "/ai-diagnose", label: "AI Diagnose", badge: "New", icon: undefined },
   { href: "/garage", label: "My Garage", badge: undefined, icon: "wrench" },
+  { href: "/recommend", label: "Recommend", badge: undefined, icon: undefined },
   { href: "/for-mechanics", label: "For mechanics", badge: undefined, icon: undefined },
 ];
 
@@ -53,6 +55,7 @@ export function Header() {
           <Link href="/request-quote" className="rounded-full bg-fire px-4 py-2 text-sm font-semibold text-white shadow-glow-fire transition hover:bg-fire/90">
             Get quotes
           </Link>
+          <HeaderXp />
           <AuthButton />
           <button
             onClick={() => setOpen((v) => !v)}

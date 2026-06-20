@@ -1,21 +1,33 @@
-import { QuoteForm } from "@/components/quote-form";
-import { SectionHeading } from "@/components/section-heading";
+import { QuoteWizard } from "@/components/quote-wizard";
 import { getCityHighlights, getServiceCategories } from "@/lib/workshops";
 
+export const dynamic = "force-dynamic";
+
 export default async function RequestQuotePage({
-  searchParams
+  searchParams,
 }: {
   searchParams?: Promise<{ city?: string; service?: string }>;
 }) {
   const params = (await searchParams) ?? {};
-  const cityHighlights = await getCityHighlights();
-  const serviceCategories = await getServiceCategories();
+  const [cityHighlights, serviceCategories] = await Promise.all([getCityHighlights(), getServiceCategories()]);
 
   return (
-    <div className="mx-auto max-w-5xl px-6 py-16 lg:px-8">
-      <SectionHeading eyebrow="Request quotes" title="Tell us about your car and the work you need" description="This form captures the lead in Postgres when the Railway database is connected and prepares the request for routing to matching workshops by city and service type." />
-      <div className="mt-10">
-        <QuoteForm cityOptions={cityHighlights.map((item) => item.city)} serviceOptions={serviceCategories} initialCity={typeof params.city === "string" ? params.city : undefined} initialService={typeof params.service === "string" ? params.service : undefined} />
+    <div className="min-h-screen bg-slate-50">
+      <div className="bg-ink px-6 py-12 text-white lg:px-8">
+        <div className="mx-auto max-w-3xl text-center">
+          <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">Get free quotes from trusted workshops</h1>
+          <p className="mx-auto mt-3 max-w-xl text-slate-300">
+            Tell us what you need once. We&apos;ll route your request to matching workshops near you so the quotes come to you.
+          </p>
+        </div>
+      </div>
+      <div className="mx-auto max-w-3xl px-6 py-12 lg:px-8">
+        <QuoteWizard
+          cityOptions={cityHighlights.map((c) => c.city)}
+          serviceOptions={serviceCategories}
+          initialCity={typeof params.city === "string" ? params.city : undefined}
+          initialService={typeof params.service === "string" ? params.service : undefined}
+        />
       </div>
     </div>
   );

@@ -6,8 +6,15 @@ import { DashboardLeads } from "./dashboard-leads";
 import { DashboardReviews } from "./dashboard-reviews";
 import { DashboardSettings } from "./dashboard-settings";
 import { ProfileScoreCard } from "@/components/profile-score-card";
+import { WorkshopBadges } from "@/components/workshop-badges";
 
-type TabName = "leads" | "reviews" | "settings";
+export const dynamic = "force-dynamic";
+
+type TabName = "overview" | "leads" | "quotes" | "reviews" | "settings";
+
+function formatRands(cents: number) {
+  return `R${Math.round(cents / 100).toLocaleString("en-ZA")}`;
+}
 
 export default async function DashboardPage({
   searchParams,
@@ -18,7 +25,7 @@ export default async function DashboardPage({
   if (!session?.user?.email) redirect("/login");
 
   const params = (await searchParams) ?? {};
-  const tab = (params.tab as TabName) || "leads";
+  const tab = (params.tab as TabName) || "overview";
 
   // Find workshop for this user
   let workshop: {
@@ -102,8 +109,37 @@ export default async function DashboardPage({
     statsData = { monthLeads, responseRate, avgQuoteRands, avgRating: reviewAgg._avg.rating ?? 0 };
   } catch { /* DB unavailable */ }
 
+  // Quotes for the Quotes tab
+  type QuoteRow = { id: string; totalCents: number; status: string; etaText: string | null; createdAt: Date; leadName: string; service: string };
+  let quoteRows: QuoteRow[] = [];
+  try {
+    const rows = await db.quote.findMany({
+      where: { assignment: { workshopId: workshop.id } },
+      include: { assignment: { include: { lead: true } } },
+      orderBy: { createdAt: "desc" },
+      take: 30,
+    });
+    quoteRows = rows.map((q) => ({
+      id: q.id,
+      totalCents: q.totalCents,
+      status: q.status,
+      etaText: q.etaText,
+      createdAt: q.createdAt,
+      leadName: q.assignment.lead.fullName,
+      service: q.assignment.lead.serviceNeeded,
+    }));
+  } catch { /* DB unavailable */ }
+
+  // Workshop performance badges
+  const badges: string[] = [];
+  if (workshop.isVerified) badges.push("verified");
+  if (statsData.avgRating >= 4.8) badges.push("top_rated");
+  if (statsData.responseRate >= 90) badges.push("quick_quote");
+
   const tabs: { id: TabName; label: string }[] = [
+    { id: "overview", label: "Overview" },
     { id: "leads", label: "Leads" },
+    { id: "quotes", label: "Quotes" },
     { id: "reviews", label: "Reviews" },
     { id: "settings", label: "Settings" },
   ];
@@ -191,7 +227,65 @@ export default async function DashboardPage({
         </div>
 
         <div className="py-8">
+          {tab === "overview" && (
+            <div className="space-y-6">
+              {badges.length > 0 && (
+                <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-soft">
+                  <h2 className="mb-4 text-base font-semibold text-slate-900">Your performance badges</h2>
+                  <WorkshopBadges badges={badges} />
+                </div>
+              )}
+              <div className="grid gap-6 lg:grid-cols-2">
+                <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-soft">
+                  <h2 className="text-base font-semibold text-slate-900">This month at a glance</h2>
+                  <dl className="mt-4 space-y-3 text-sm">
+                    <div className="flex justify-between"><dt className="text-slate-500">New leads</dt><dd className="font-semibold text-slate-900">{statsData.monthLeads}</dd></div>
+                    <div className="flex justify-between"><dt className="text-slate-500">Response rate</dt><dd className="font-semibold text-slate-900">{statsData.responseRate}%</dd></div>
+                    <div className="flex justify-between"><dt className="text-slate-500">Average quote</dt><dd className="font-semibold text-slate-900">{statsData.avgQuoteRands > 0 ? `R${statsData.avgQuoteRands.toLocaleString()}` : "—"}</dd></div>
+                    <div className="flex justify-between"><dt className="text-slate-500">Average rating</dt><dd className="font-semibold text-slate-900">{statsData.avgRating > 0 ? `${statsData.avgRating.toFixed(1)} ★` : "—"}</dd></div>
+                  </dl>
+                </div>
+                <div className="rounded-[2rem] border border-fire/20 bg-fire/5 p-6">
+                  <h2 className="text-base font-semibold text-slate-900">Next best actions</h2>
+                  <ul className="mt-4 space-y-3 text-sm text-slate-700">
+                    <li className="flex items-center justify-between"><span>Respond to new leads quickly</span><Link href="/dashboard?tab=leads" className="font-semibold text-fire hover:underline">Leads →</Link></li>
+                    <li className="flex items-center justify-between"><span>Reply to recent reviews</span><Link href="/dashboard?tab=reviews" className="font-semibold text-fire hover:underline">Reviews →</Link></li>
+                    <li className="flex items-center justify-between"><span>Keep your profile complete</span><Link href="/dashboard?tab=settings" className="font-semibold text-fire hover:underline">Settings →</Link></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          )}
           {tab === "leads" && <DashboardLeads workshopId={workshop.id} workshopName={workshop.name} />}
+          {tab === "quotes" && (
+            <div>
+              {quoteRows.length === 0 ? (
+                <div className="rounded-[2rem] border border-dashed border-slate-300 bg-white p-10 text-center shadow-soft">
+                  <p className="text-sm text-slate-500">No quotes sent yet. Quotes you submit on leads will appear here.</p>
+                </div>
+              ) : (
+                <div className="overflow-auto rounded-[2rem] border border-slate-200 bg-white shadow-soft">
+                  <table className="min-w-full text-left text-sm text-slate-600">
+                    <thead><tr className="border-b border-slate-200 text-slate-500">
+                      <th className="px-4 py-3">Customer</th><th className="px-4 py-3">Service</th><th className="px-4 py-3">Total</th><th className="px-4 py-3">ETA</th><th className="px-4 py-3">Status</th><th className="px-4 py-3">Sent</th>
+                    </tr></thead>
+                    <tbody>
+                      {quoteRows.map((q) => (
+                        <tr key={q.id} className="border-b border-slate-100">
+                          <td className="px-4 py-3 font-medium text-slate-900">{q.leadName}</td>
+                          <td className="px-4 py-3">{q.service}</td>
+                          <td className="px-4 py-3 font-semibold text-slate-900">{formatRands(q.totalCents)}</td>
+                          <td className="px-4 py-3">{q.etaText ?? "—"}</td>
+                          <td className="px-4 py-3"><span className="rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-semibold text-slate-700">{q.status}</span></td>
+                          <td className="px-4 py-3 text-xs text-slate-500">{q.createdAt.toLocaleDateString("en-ZA")}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+          )}
           {tab === "reviews" && <DashboardReviews workshopId={workshop.id} />}
           {tab === "settings" && <DashboardSettings workshop={workshop} />}
         </div>
