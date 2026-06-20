@@ -3,8 +3,9 @@ import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import Link from "next/link";
 import { DriverProfileTab } from "./driver-profile-tab";
+import { DRIVER_LEVELS, WORKSHOP_BADGES, getLevelProgress } from "@/lib/gamification";
 
-type TabName = "vehicles" | "quotes" | "history" | "profile";
+type TabName = "vehicles" | "quotes" | "history" | "rewards" | "profile";
 
 export default async function DriverPage({
   searchParams,
@@ -129,14 +130,17 @@ export default async function DriverPage({
   const activeQuotes = profile?.leads.filter((l) =>
     ["NEW", "ASSIGNED", "PENDING", "RESPONDED"].includes(l.status)
   ).length ?? 0;
-  const xpLevel = profile?.xp ? `${profile.xp.totalXp} XP · Lv ${profile.xp.level}` : "0 XP · Lv 1";
 
   const tabs: { id: TabName; label: string }[] = [
     { id: "vehicles", label: "My Vehicles" },
     { id: "quotes", label: "My Quotes" },
     { id: "history", label: "Service History" },
+    { id: "rewards", label: "XP & Rewards" },
     { id: "profile", label: "Profile" },
   ];
+
+  const totalXp = profile?.xp?.totalXp ?? 0;
+  const lvlProgress = getLevelProgress(totalXp);
 
   const statusColor = (status: string) => {
     switch (status) {
@@ -165,16 +169,23 @@ export default async function DriverPage({
         {/* Stat cards */}
         <div className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {[
-            { label: "Total Vehicles", value: vehicleCount },
-            { label: "Service Records", value: serviceCount },
-            { label: "Active Quotes", value: activeQuotes },
-            { label: "XP Level", value: xpLevel },
+            { label: "Vehicles", value: String(vehicleCount) },
+            { label: "Service records", value: String(serviceCount) },
+            { label: "Active quotes", value: String(activeQuotes) },
           ].map((s) => (
             <div key={s.label} className="rounded-[2rem] border border-slate-200 bg-white p-5 shadow-soft">
               <p className="text-xs font-semibold uppercase tracking-widest text-slate-400">{s.label}</p>
-              <p className="mt-2 text-2xl font-bold text-fire">{s.value}</p>
+              <p className="mt-2 text-2xl font-bold text-slate-950">{s.value}</p>
             </div>
           ))}
+          <div className="rounded-[2rem] border border-fire/20 bg-fire/5 p-5 shadow-soft">
+            <p className="text-xs font-semibold uppercase tracking-widest text-fire">XP · Level {lvlProgress.current.level}</p>
+            <p className="mt-2 text-2xl font-bold text-fire">{totalXp.toLocaleString()} XP</p>
+            <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-fire/20">
+              <div className="h-full rounded-full bg-fire transition-all" style={{ width: `${lvlProgress.pct}%` }} />
+            </div>
+            <p className="mt-1 text-[10px] text-fire/70">{lvlProgress.current.icon} {lvlProgress.current.name}</p>
+          </div>
         </div>
 
         {/* Tab nav */}
@@ -306,6 +317,75 @@ export default async function DriverPage({
                   <p className="text-slate-500 text-sm">No service records yet. <Link href="/garage" className="font-semibold text-fire hover:underline">Add your first service in My Garage →</Link></p>
                 </div>
               )}
+            </div>
+          )}
+
+          {/* XP & Rewards */}
+          {tab === "rewards" && (
+            <div className="space-y-8">
+              {/* Level progress */}
+              <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-soft">
+                <h2 className="text-xl font-semibold text-slate-950 mb-6">Your driver level</h2>
+                <div className="flex items-center gap-4 mb-5">
+                  <span className="text-5xl" aria-hidden>{lvlProgress.current.icon}</span>
+                  <div className="flex-1">
+                    <div className="flex items-end justify-between mb-2">
+                      <div>
+                        <div className="text-xl font-bold text-slate-950">{lvlProgress.current.name}</div>
+                        <div className="text-sm text-slate-500">Level {lvlProgress.current.level} · {totalXp.toLocaleString()} XP</div>
+                      </div>
+                      {lvlProgress.next && (
+                        <div className="text-right text-sm text-slate-500">
+                          <div className="font-semibold text-slate-700">{lvlProgress.next.name}</div>
+                          <div>{lvlProgress.xpToNext.toLocaleString()} XP to go</div>
+                        </div>
+                      )}
+                    </div>
+                    <div className="h-3 overflow-hidden rounded-full bg-slate-100">
+                      <div className="h-full rounded-full bg-gradient-to-r from-fire to-amber-400 transition-all" style={{ width: `${lvlProgress.pct}%` }} />
+                    </div>
+                    {!lvlProgress.next && <p className="mt-2 text-sm font-semibold text-fire">Max level reached — you&apos;re a Legend! 🏆</p>}
+                  </div>
+                </div>
+                <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+                  {DRIVER_LEVELS.map((lvl) => {
+                    const reached = totalXp >= lvl.minXp;
+                    const current = lvl.level === lvlProgress.current.level;
+                    return (
+                      <div key={lvl.level} className={`rounded-2xl border p-4 text-center transition ${current ? "border-fire bg-fire/5" : reached ? "border-slate-200 bg-slate-50" : "border-slate-100 bg-white opacity-50"}`}>
+                        <div className="text-2xl" aria-hidden>{lvl.icon}</div>
+                        <div className={`mt-2 text-xs font-bold ${current ? "text-fire" : "text-slate-700"}`}>{lvl.name}</div>
+                        <div className="mt-1 text-[10px] text-slate-400">{lvl.minXp.toLocaleString()}+ XP</div>
+                        {current && <div className="mt-2 rounded-full bg-fire px-2 py-0.5 text-[10px] font-bold text-white">Current</div>}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* How to earn XP */}
+              <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-soft">
+                <h2 className="text-xl font-semibold text-slate-950 mb-5">How to earn XP</h2>
+                <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                  {[
+                    { action: "Write a review", xp: 100, icon: "⭐", cta: "/mechanics", ctaLabel: "Find a workshop" },
+                    { action: "Log a service", xp: 50, icon: "🔧", cta: "/garage", ctaLabel: "Open My Garage" },
+                    { action: "Add a vehicle", xp: 25, icon: "🚗", cta: "/garage", ctaLabel: "Add vehicle" },
+                    { action: "Complete your first quote", xp: 75, icon: "📋", cta: "/request-quote", ctaLabel: "Request quotes" },
+                    { action: "Refer a friend", xp: 150, icon: "🤝", cta: "/driver?tab=profile", ctaLabel: "Get referral code" },
+                    { action: "Complete your profile", xp: 50, icon: "👤", cta: "/driver?tab=profile", ctaLabel: "Update profile" },
+                  ].map(({ action, xp, icon, cta, ctaLabel }) => (
+                    <div key={action} className="flex items-start gap-3 rounded-2xl border border-slate-100 bg-slate-50 p-4">
+                      <span className="text-2xl shrink-0" aria-hidden>{icon}</span>
+                      <div className="flex-1 min-w-0">
+                        <div className="font-semibold text-slate-900 text-sm">{action}</div>
+                        <div className="text-fire text-xs font-bold mt-0.5">+{xp} XP</div>
+                        <Link href={cta} className="mt-2 text-xs font-semibold text-fire hover:underline">{ctaLabel} →</Link>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           )}
 

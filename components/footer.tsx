@@ -42,6 +42,7 @@ export function Footer() {
           <h4 className="font-semibold text-white">Company</h4>
           <ul className="mt-3 space-y-2">
             <li><Link href="/fair-price" className="transition hover:text-white">Fair Price Index</Link></li>
+            <li><Link href="/driver" className="transition hover:text-white">My Account & Rewards</Link></li>
             <li><Link href="/login" className="transition hover:text-white">Sign in</Link></li>
           </ul>
         </div>
