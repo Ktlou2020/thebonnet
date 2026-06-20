@@ -2,6 +2,7 @@
 
 import { useState, useRef } from "react";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 import {
   ArrowRight,
   Car,
@@ -11,6 +12,7 @@ import {
   Copy,
   Check,
   ChevronRight,
+  LogIn,
 } from "lucide-react";
 import type { AiDiagnosisResult, UrgencyLevel } from "@/lib/types";
 
@@ -46,6 +48,7 @@ const likelihoodDot: Record<"high" | "medium" | "low", string> = {
 };
 
 export default function AiDiagnosePage() {
+  const { data: session, status: authStatus } = useSession();
   const [step, setStep] = useState<Step>(1);
   const [form, setForm] = useState<FormState>({
     make: "",
@@ -126,39 +129,62 @@ export default function AiDiagnosePage() {
         </div>
       </div>
 
-      {/* Step indicator */}
-      <div className="border-b border-slate-200 bg-white">
-        <div className="mx-auto max-w-3xl px-6 lg:px-8 py-4">
-          <div className="flex items-center gap-2 text-sm">
-            {(["Vehicle info", "Describe issue", "Results"] as const).map((label, i) => {
-              const n = (i + 1) as Step;
-              const active = step === n;
-              const done = step > n;
-              return (
-                <div key={label} className="flex items-center gap-2">
-                  {i > 0 && <ChevronRight className="h-4 w-4 text-slate-400" />}
-                  <span
-                    className={`flex items-center gap-1.5 rounded-full px-3 py-1 font-medium transition ${
-                      done
-                        ? "bg-green-100 text-green-700"
-                        : active
-                        ? "bg-fire text-white"
-                        : "text-slate-400"
-                    }`}
-                  >
-                    {done ? <CheckCircle className="h-3.5 w-3.5" /> : <span className="text-xs">{n}</span>}
-                    {label}
-                  </span>
-                </div>
-              );
-            })}
+      {/* Step indicator — only shown when signed in */}
+      {session && (
+        <div className="border-b border-slate-200 bg-white">
+          <div className="mx-auto max-w-3xl px-6 lg:px-8 py-4">
+            <div className="flex items-center gap-2 text-sm">
+              {(["Vehicle info", "Describe issue", "Results"] as const).map((label, i) => {
+                const n = (i + 1) as Step;
+                const active = step === n;
+                const done = step > n;
+                return (
+                  <div key={label} className="flex items-center gap-2">
+                    {i > 0 && <ChevronRight className="h-4 w-4 text-slate-400" />}
+                    <span
+                      className={`flex items-center gap-1.5 rounded-full px-3 py-1 font-medium transition ${
+                        done
+                          ? "bg-green-100 text-green-700"
+                          : active
+                          ? "bg-fire text-white"
+                          : "text-slate-400"
+                      }`}
+                    >
+                      {done ? <CheckCircle className="h-3.5 w-3.5" /> : <span className="text-xs">{n}</span>}
+                      {label}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
       <div className="mx-auto max-w-3xl px-6 py-10 lg:px-8">
+        {/* ─── Auth gate ─── */}
+        {authStatus !== "loading" && !session && (
+          <div className="rounded-[2rem] bg-white p-10 text-center shadow-soft">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-fire/10 text-fire">
+              <LogIn className="h-7 w-7" />
+            </div>
+            <h2 className="mt-5 text-xl font-bold text-slate-900">Sign in to use AI Diagnose</h2>
+            <p className="mx-auto mt-3 max-w-sm text-sm leading-7 text-slate-500">
+              Create a free account to get AI-powered diagnosis for your car problem — identify likely causes, cost estimates, and a mechanic brief in seconds.
+            </p>
+            <div className="mt-6 flex flex-wrap justify-center gap-3">
+              <Link href="/login?callbackUrl=/ai-diagnose" className="inline-flex items-center gap-2 rounded-full bg-fire px-6 py-3 text-sm font-semibold text-white shadow-glow-fire transition hover:bg-fire/90">
+                <LogIn className="h-4 w-4" /> Sign in to continue
+              </Link>
+              <Link href="/mechanics" className="inline-flex items-center rounded-full border border-slate-200 px-6 py-3 text-sm font-semibold text-slate-700 transition hover:border-slate-300">
+                Browse mechanics
+              </Link>
+            </div>
+          </div>
+        )}
+
         {/* ─── Step 1 ─── */}
-        {step === 1 && (
+        {session && step === 1 && (
           <div className="rounded-[2rem] bg-white p-8 shadow-soft">
             <h2 className="text-xl font-semibold text-slate-900 mb-6">Tell us about your vehicle</h2>
             <div className="grid gap-5">
@@ -224,7 +250,7 @@ export default function AiDiagnosePage() {
         )}
 
         {/* ─── Step 2 ─── */}
-        {step === 2 && (
+        {session && step === 2 && (
           <div className="rounded-[2rem] bg-white p-8 shadow-soft">
             <h2 className="text-xl font-semibold text-slate-900 mb-2">Describe the issue</h2>
             <p className="text-sm text-slate-500 mb-6">
@@ -275,7 +301,7 @@ export default function AiDiagnosePage() {
         )}
 
         {/* ─── Step 3 ─── */}
-        {step === 3 && (
+        {session && step === 3 && (
           <div>
             {/* Loading */}
             {loading && (
