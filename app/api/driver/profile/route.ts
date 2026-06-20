@@ -8,7 +8,7 @@ export async function PATCH(req: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const body = (await req.json()) as { fullName?: string; phone?: string };
+  const body = (await req.json()) as { fullName?: string; phone?: string; city?: string };
 
   await db.profile.update({
     where: { email: session.user.email },
