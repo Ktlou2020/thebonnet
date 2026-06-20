@@ -49,6 +49,7 @@ export default async function HomePage() {
   const { cityHighlights, featuredMechanics, mechanics, serviceCategories } = await getHomePageData();
   const showcase = (featuredMechanics.length ? featuredMechanics : mechanics).slice(0, 6);
   const cityNames = cityHighlights.map((c) => c.city);
+  const cityCountMap = Object.fromEntries(cityHighlights.map((c) => [c.city, c.count]));
 
   return (
     <div>
@@ -180,16 +181,22 @@ export default async function HomePage() {
           <p className="mt-3 text-slate-600">Browse trusted workshops across South Africa&apos;s major cities.</p>
         </div>
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-          {cities.map((city) => (
-            <Link
-              key={city.name}
-              href={`/mechanics?city=${encodeURIComponent(city.name)}`}
-              className="group rounded-[1.75rem] border border-slate-200 bg-white p-5 shadow-soft transition hover:-translate-y-1 hover:border-fire/20"
-            >
-              <h3 className="font-semibold text-slate-950 transition group-hover:text-fire">{city.name}</h3>
-              <p className="mt-1 text-xs text-slate-500">{city.province}</p>
-            </Link>
-          ))}
+          {cities.map((city) => {
+            const count = cityCountMap[city.name];
+            return (
+              <Link
+                key={city.name}
+                href={`/mechanics?city=${encodeURIComponent(city.name)}`}
+                className="group rounded-[1.75rem] border border-slate-200 bg-white p-5 shadow-soft transition hover:-translate-y-1 hover:border-fire/20"
+              >
+                <h3 className="font-semibold text-slate-950 transition group-hover:text-fire">{city.name}</h3>
+                <p className="mt-1 text-xs text-slate-500">{city.province}</p>
+                {count != null && count > 0 && (
+                  <p className="mt-2 text-xs font-semibold text-fire">{count} workshop{count === 1 ? "" : "s"}</p>
+                )}
+              </Link>
+            );
+          })}
         </div>
       </section>
 
@@ -229,7 +236,7 @@ export default async function HomePage() {
         <div className="mx-auto grid max-w-6xl grid-cols-2 gap-10 px-6 lg:grid-cols-4 lg:px-8">
           <AnimatedStat value={10000} suffix="+" label="Drivers trust My Bonnet" />
           <AnimatedStat value={500} suffix="+" label="Verified workshops" />
-          <AnimatedStat value={48} prefix="" suffix="" label="4.8★ average rating" />
+          <AnimatedStat value={4.8} suffix="★" label="Average workshop rating" />
           <AnimatedStat value={25000} suffix="+" label="Quotes requested" />
         </div>
       </section>

@@ -70,6 +70,7 @@ export default function QuotesPage() {
   const router = useRouter();
   const [leads, setLeads] = useState<LeadData[]>([]);
   const [loading, setLoading] = useState(true);
+  const [fetchError, setFetchError] = useState(false);
   const [expandedLead, setExpandedLead] = useState<string | null>(null);
 
   useEffect(() => {
@@ -86,7 +87,7 @@ export default function QuotesPage() {
         setLeads(data.leads ?? []);
         setLoading(false);
       })
-      .catch(() => setLoading(false));
+      .catch(() => { setFetchError(true); setLoading(false); });
   }, [status]);
 
   async function acceptQuote(quoteId: string) {
@@ -128,12 +129,22 @@ export default function QuotesPage() {
       </div>
 
       <div className="mx-auto max-w-4xl px-6 py-8 lg:px-8">
-        {leads.length === 0 ? (
+        {fetchError ? (
+          <div className="rounded-[2rem] border border-red-200 bg-red-50 p-10 text-center">
+            <div className="text-4xl mb-4">⚠️</div>
+            <h2 className="text-xl font-bold text-slate-900">Couldn&apos;t load your quotes</h2>
+            <p className="text-slate-500 mt-2 mb-6">There was a problem connecting. Please try again in a moment.</p>
+            <button onClick={() => window.location.reload()} className="bg-fire text-white rounded-full px-6 py-2.5 text-sm font-semibold">Retry</button>
+          </div>
+        ) : leads.length === 0 ? (
           <div className="text-center py-16">
             <div className="text-5xl mb-4">📋</div>
             <h2 className="text-xl font-bold text-slate-900">No quotes yet</h2>
-            <p className="text-slate-500 mt-2 mb-6">Request a quote from a workshop to get started.</p>
-            <a href="/mechanics" className="bg-fire text-white rounded-full px-8 py-3 font-semibold inline-block">Find a mechanic</a>
+            <p className="text-slate-500 mt-2 mb-6">Request a quote from a workshop and it&apos;ll appear here once workshops respond.</p>
+            <div className="flex flex-wrap justify-center gap-3">
+              <a href="/request-quote" className="bg-fire text-white rounded-full px-6 py-3 text-sm font-semibold inline-block shadow-glow-fire">Request a quote</a>
+              <a href="/mechanics" className="border border-slate-200 text-slate-700 rounded-full px-6 py-3 text-sm font-semibold inline-block">Browse mechanics</a>
+            </div>
           </div>
         ) : (
           <div className="space-y-8">
@@ -259,7 +270,7 @@ export default function QuotesPage() {
               ) : null
             )}
           </div>
-        )}
+        ) }
 
         <div className="mt-12 text-center">
           <Link

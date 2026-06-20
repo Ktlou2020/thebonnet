@@ -13,7 +13,7 @@ export function AnimatedStat({
   suffix?: string;
   label: string;
 }) {
-  const [display, setDisplay] = useState(0);
+  const [display, setDisplay] = useState<number>(0);
   const ref = useRef<HTMLDivElement>(null);
   const started = useRef(false);
 
@@ -26,10 +26,12 @@ export function AnimatedStat({
           started.current = true;
           const duration = 1400;
           const start = performance.now();
+          const isDecimal = !Number.isInteger(value);
           const tick = (now: number) => {
             const progress = Math.min(1, (now - start) / duration);
             const eased = 1 - Math.pow(1 - progress, 3);
-            setDisplay(Math.round(eased * value));
+            const raw = eased * value;
+            setDisplay(isDecimal ? Math.round(raw * 10) / 10 : Math.round(raw));
             if (progress < 1) requestAnimationFrame(tick);
           };
           requestAnimationFrame(tick);

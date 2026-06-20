@@ -56,11 +56,14 @@ export default async function MechanicsPage({
           </div>
 
           <div>
-            <div className="mb-6 flex items-center justify-between gap-4">
+            <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
               <h2 className="text-xl font-bold text-slate-950">
-                {results.length} workshop{results.length === 1 ? "" : "s"} found
-                {selectedCity ? ` in ${selectedCity}` : ""}
+                {results.length} workshop{results.length === 1 ? "" : "s"}
+                {selectedCity ? ` in ${selectedCity}` : " across South Africa"}
               </h2>
+              <Link href="/request-quote" className="rounded-full bg-fire px-4 py-2 text-sm font-semibold text-white shadow-glow-fire transition hover:bg-fire/90">
+                Can&apos;t find one? Get quotes →
+              </Link>
             </div>
 
             {results.length ? (
@@ -70,10 +73,18 @@ export default async function MechanicsPage({
             ) : (
               <div className="rounded-[2rem] border border-dashed border-slate-300 bg-white p-10 text-center shadow-soft">
                 <div className="text-5xl">🔍</div>
-                <h3 className="mt-4 text-xl font-semibold text-slate-950">No workshops matched those filters</h3>
-                <p className="mt-2 text-sm text-slate-600">Try clearing a filter or request a quote and we&apos;ll match you manually.</p>
+                <h3 className="mt-4 text-xl font-semibold text-slate-950">No workshops matched</h3>
+                <p className="mt-2 text-sm text-slate-600">
+                  {minRating !== null && minRating >= 4 ? "Try lowering the minimum rating filter. " : ""}
+                  {verifiedOnly ? "Try removing the verified-only filter. " : ""}
+                  {selectedService ? `No ${selectedService} workshops found${selectedCity ? ` in ${selectedCity}` : ""}. ` : ""}
+                  Or request a quote and we&apos;ll match you manually.
+                </p>
                 <div className="mt-6 flex flex-wrap justify-center gap-3">
-                  <Link href="/mechanics" className="rounded-full border border-slate-200 px-5 py-2.5 text-sm font-semibold text-slate-700">Clear filters</Link>
+                  <Link href="/mechanics" className="rounded-full border border-slate-200 px-5 py-2.5 text-sm font-semibold text-slate-700">Clear all filters</Link>
+                  {selectedCity && (
+                    <Link href="/mechanics" className="rounded-full border border-slate-200 px-5 py-2.5 text-sm font-semibold text-slate-700">Browse all cities</Link>
+                  )}
                   <Link href="/request-quote" className="rounded-full bg-fire px-5 py-2.5 text-sm font-semibold text-white shadow-glow-fire">Request quotes</Link>
                 </div>
               </div>
