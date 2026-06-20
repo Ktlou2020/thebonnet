@@ -1,9 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { Check, Gift } from "lucide-react";
+import { useSession } from "next-auth/react";
+import Link from "next/link";
+import { Check, Gift, LogIn } from "lucide-react";
 
 export function RecommendForm({ cities }: { cities: string[] }) {
+  const { data: session, status } = useSession();
   const [form, setForm] = useState({ name: "", city: "", province: "", phone: "", website: "", note: "" });
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState<string | null>(null);
@@ -31,6 +34,32 @@ export function RecommendForm({ cities }: { cities: string[] }) {
   }
 
   const inputCls = "w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-fire";
+
+  if (status === "loading") {
+    return <div className="h-40 rounded-[2rem] border border-slate-200 bg-white animate-pulse" />;
+  }
+
+  if (!session) {
+    return (
+      <div className="rounded-[2rem] border border-slate-200 bg-white p-10 text-center shadow-soft">
+        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-fire/10 text-fire">
+          <LogIn className="h-7 w-7" />
+        </div>
+        <h2 className="mt-5 text-xl font-bold text-slate-900">Sign in to recommend a workshop</h2>
+        <p className="mx-auto mt-3 max-w-sm text-sm leading-7 text-slate-500">
+          Create a free account to nominate workshops and earn <strong>150 XP</strong> for every recommendation that gets verified.
+        </p>
+        <div className="mt-6 flex flex-wrap justify-center gap-3">
+          <Link href="/login?callbackUrl=/recommend" className="inline-flex items-center gap-2 rounded-full bg-fire px-6 py-3 text-sm font-semibold text-white shadow-glow-fire transition hover:bg-fire/90">
+            <LogIn className="h-4 w-4" /> Sign in to continue
+          </Link>
+          <Link href="/mechanics" className="inline-flex items-center rounded-full border border-slate-200 px-6 py-3 text-sm font-semibold text-slate-700 transition hover:border-slate-300">
+            Browse mechanics
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   if (done) {
     return (
