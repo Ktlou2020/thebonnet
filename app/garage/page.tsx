@@ -355,13 +355,16 @@ export default function GaragePage() {
                     return (
                       <div
                         key={a.id}
-                        title={a.desc}
+                        role="img"
+                        aria-label={earned ? `${a.name}: ${a.desc} (earned)` : `${a.name}: locked — ${a.desc}`}
+                        title={earned ? a.desc : `Locked — ${a.desc}`}
                         className={`flex flex-col items-center gap-1 rounded-2xl border px-2 py-3 text-center transition ${
-                          earned ? "border-fire/30 bg-fire/10" : "border-white/10 bg-white/5 opacity-50"
+                          earned ? "border-fire/30 bg-fire/10" : "border-white/10 bg-white/5 opacity-40"
                         }`}
                       >
                         <span className="text-xl" aria-hidden>{earned ? a.icon : "🔒"}</span>
-                        <span className="text-[10px] font-semibold text-white">{a.name}</span>
+                        <span className={`text-[10px] font-semibold ${earned ? "text-white" : "text-white/60"}`}>{a.name}</span>
+                        {!earned && <span className="text-[9px] text-white/40 leading-tight px-1">{a.desc}</span>}
                       </div>
                     );
                   })}
@@ -466,7 +469,12 @@ export default function GaragePage() {
                             title={v.colour}
                           />
                         )}
-                        <span className={`h-3 w-3 rounded-full ${healthColour(lastSvc)}`} title="Service health" />
+                        <span
+                          className={`h-3 w-3 rounded-full ${healthColour(lastSvc)}`}
+                          title={!lastSvc ? "Service health: unknown" : (Date.now() - new Date(lastSvc).getTime()) / (1000*60*60*24*30) < 6 ? "Service health: good" : (Date.now() - new Date(lastSvc).getTime()) / (1000*60*60*24*30) < 12 ? "Service health: due soon" : "Service health: overdue"}
+                          aria-label={!lastSvc ? "Service health: unknown" : (Date.now() - new Date(lastSvc).getTime()) / (1000*60*60*24*30) < 6 ? "Service health: good" : (Date.now() - new Date(lastSvc).getTime()) / (1000*60*60*24*30) < 12 ? "Service health: due soon" : "Service health: overdue"}
+                          role="img"
+                        />
                       </div>
                     </div>
 

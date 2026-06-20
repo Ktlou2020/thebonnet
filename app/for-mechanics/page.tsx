@@ -1,25 +1,106 @@
 import Link from "next/link";
-import { BadgeCheck, TrendingUp, Zap } from "lucide-react";
+import { ArrowRight, BadgeCheck, ShieldCheck, Star, TrendingUp, Zap } from "lucide-react";
 import { subscriptionPlans } from "@/lib/workshops";
-import { SectionHeading } from "@/components/section-heading";
+
+const stats = [
+  { value: "500+", label: "workshops listed" },
+  { value: "10k+", label: "drivers active" },
+  { value: "4.8★", label: "avg workshop rating" },
+  { value: "3×", label: "faster close rate" },
+];
 
 export default function ForMechanicsPage() {
   return (
     <div>
       {/* Hero */}
-      <div className="bg-ink text-white px-6 py-16 lg:px-8">
+      <div className="relative overflow-hidden bg-[radial-gradient(circle_at_10%_0%,#1a3b6c,transparent_45%),linear-gradient(180deg,#08111f,#0b1730)] px-6 py-24 text-white lg:px-8">
+        <div className="pointer-events-none absolute inset-0" aria-hidden>
+          <div className="absolute right-0 top-0 h-80 w-80 rounded-full bg-fire/10 blur-3xl" />
+        </div>
+        <div className="relative mx-auto max-w-7xl">
+          <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/90">
+            <ShieldCheck className="h-4 w-4 text-fire" /> South Africa&apos;s trusted mechanic marketplace
+          </div>
+          <h1 className="mt-6 max-w-3xl text-5xl font-black tracking-tight sm:text-6xl">
+            Get more jobs.<br />
+            <span className="bg-gradient-to-r from-fire to-amber-400 bg-clip-text text-transparent">Grow your workshop.</span>
+          </h1>
+          <p className="mt-5 max-w-2xl text-lg leading-8 text-slate-300">
+            My Bonnet connects your workshop with qualified drivers actively looking for your services. No cold calls. No wasted spend. Just jobs that match what you do.
+          </p>
+          <div className="mt-8 flex flex-wrap gap-4">
+            <Link href="/claim" className="inline-flex items-center gap-2 rounded-full bg-fire px-7 py-3.5 text-sm font-semibold text-white shadow-glow-fire transition hover:bg-fire/90">
+              List your workshop free <ArrowRight className="h-4 w-4" />
+            </Link>
+            <Link href="/mechanics" className="inline-flex items-center gap-2 rounded-full border border-white/15 px-7 py-3.5 text-sm font-semibold text-white transition hover:bg-white/5">
+              See the directory
+            </Link>
+          </div>
+          <div className="mt-12 grid grid-cols-2 gap-6 sm:grid-cols-4">
+            {stats.map((s) => (
+              <div key={s.label}>
+                <div className="text-3xl font-bold text-fire">{s.value}</div>
+                <div className="mt-1 text-sm text-slate-400">{s.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* How it works */}
+      <div className="bg-slate-50 py-16 px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
-          <SectionHeading
-            eyebrow="Workshop growth"
-            title="A lead generation platform mechanics will actually pay for"
-            description="My Bonnet is built around measurable workshop value: qualified leads, performance analytics, and city-level visibility that directly converts to booked jobs."
-          />
+          <h2 className="text-center text-2xl font-bold text-slate-900 mb-10">How it works for workshops</h2>
+          <div className="grid gap-6 md:grid-cols-3">
+            {[
+              { step: "1", title: "List your workshop", body: "Claim your free profile in under 5 minutes. Add your services, location, opening hours, and photos." },
+              { step: "2", title: "Receive qualified leads", body: "Drivers in your city send quote requests filtered to your services. You get WhatsApp and email alerts immediately." },
+              { step: "3", title: "Quote and close", body: "Respond with your price, ETA, and message. Accept the job and build your review score with every completed booking." },
+            ].map(({ step, title, body }) => (
+              <div key={step} className="rounded-[2rem] border border-slate-200 bg-white p-7 shadow-soft">
+                <div className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-fire/10 text-sm font-black text-fire">{step}</div>
+                <h3 className="mt-4 text-lg font-semibold text-slate-950">{title}</h3>
+                <p className="mt-2 text-sm leading-7 text-slate-600">{body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Testimonials */}
+      <div className="py-16 px-6 lg:px-8 bg-ink text-white">
+        <div className="mx-auto max-w-7xl">
+          <h2 className="text-center text-2xl font-bold mb-10">Trusted by workshops across South Africa</h2>
+          <div className="grid gap-6 md:grid-cols-3">
+            {[
+              { name: "James M.", city: "Cape Town", text: "Within the first week I had 3 quote requests. The response rate is incredible compared to walking-in traffic.", rating: 5 },
+              { name: "Thabo K.", city: "Johannesburg", text: "I was sceptical, but the verified badge and review system actually builds trust. Customers mention My Bonnet when they call.", rating: 5 },
+              { name: "Priya N.", city: "Durban", text: "The dashboard shows me exactly where my leads come from. I've doubled my bookings in two months.", rating: 5 },
+            ].map(({ name, city, text, rating }) => (
+              <div key={name} className="rounded-[2rem] border border-white/10 bg-white/5 p-7 backdrop-blur">
+                <div className="flex gap-0.5 mb-4">
+                  {Array.from({ length: rating }).map((_, i) => <Star key={i} className="h-4 w-4 fill-gold text-gold" />)}
+                </div>
+                <p className="text-sm leading-7 text-slate-300">&ldquo;{text}&rdquo;</p>
+                <div className="mt-5 flex items-center gap-2">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-fire/20 text-sm font-bold text-fire">{name[0]}</div>
+                  <div>
+                    <div className="text-sm font-semibold text-white">{name}</div>
+                    <div className="text-xs text-slate-400">{city}</div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
       {/* Plan cards */}
       <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
-        <h2 className="text-2xl font-bold text-slate-900 mb-8 text-center">Choose your plan</h2>
+        <div className="text-center mb-10">
+          <h2 className="text-3xl font-bold text-slate-900">Simple, transparent pricing</h2>
+          <p className="mt-3 text-slate-600">Start free. Upgrade when you&apos;re ready to grow.</p>
+        </div>
         <div className="grid gap-6 lg:grid-cols-3">
           {subscriptionPlans.map((plan) => (
             <div

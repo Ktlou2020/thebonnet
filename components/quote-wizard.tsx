@@ -47,10 +47,17 @@ export function QuoteWizard({
   }
 
   const canNext =
-    (step === 1 && !!form.city && !!form.location) ||
+    (step === 1 && !!form.city) ||
     (step === 2 && !!form.serviceNeeded) ||
     (step === 3 && !!form.vehicle) ||
     step === 4;
+
+  const stepHint =
+    step === 1 && !form.city ? "Select your city to continue" :
+    step === 2 && !form.serviceNeeded ? "Choose a service type to continue" :
+    step === 3 && !form.vehicle ? "Enter your vehicle details to continue" :
+    step === 4 && (!form.fullName || !form.phone || !form.email) ? "Fill in your name, phone and email to send" :
+    null;
 
   async function submit() {
     setLoading(true);
@@ -178,7 +185,11 @@ export function QuoteWizard({
       </div>
 
       {/* Nav */}
-      <div className="mt-8 flex items-center justify-between">
+      <div className="mt-8 flex flex-col gap-3">
+        {stepHint && (
+          <p className="text-center text-xs font-medium text-slate-400">{stepHint}</p>
+        )}
+        <div className="flex items-center justify-between">
         <button
           type="button"
           onClick={() => setStep((s) => Math.max(1, s - 1))}
@@ -206,6 +217,7 @@ export function QuoteWizard({
             {loading ? "Sending…" : "Request quotes"}
           </button>
         )}
+      </div>
       </div>
     </div>
   );

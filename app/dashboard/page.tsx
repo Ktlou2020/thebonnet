@@ -261,7 +261,12 @@ export default async function DashboardPage({
             <div>
               {quoteRows.length === 0 ? (
                 <div className="rounded-[2rem] border border-dashed border-slate-300 bg-white p-10 text-center shadow-soft">
-                  <p className="text-sm text-slate-500">No quotes sent yet. Quotes you submit on leads will appear here.</p>
+                  <div className="text-4xl mb-4">📋</div>
+                  <h3 className="text-lg font-semibold text-slate-900">No quotes sent yet</h3>
+                  <p className="mt-2 text-sm text-slate-500">When a driver sends a lead, open it from the Leads tab and submit your price. It will appear here.</p>
+                  <Link href="/dashboard?tab=leads" className="mt-5 inline-flex rounded-full bg-fire px-5 py-2.5 text-sm font-semibold text-white shadow-glow-fire transition hover:bg-fire/90">
+                    View leads →
+                  </Link>
                 </div>
               ) : (
                 <div className="overflow-auto rounded-[2rem] border border-slate-200 bg-white shadow-soft">

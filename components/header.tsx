@@ -10,7 +10,7 @@ import { HeaderXp } from "./header-xp";
 
 const navLinks = [
   { href: "/mechanics", label: "Directory", badge: undefined, icon: undefined },
-  { href: "/ai-diagnose", label: "AI Diagnose", badge: "New", icon: undefined },
+  { href: "/ai-diagnose", label: "AI Diagnose", badge: undefined, icon: undefined },
   { href: "/garage", label: "My Garage", badge: undefined, icon: "wrench" },
   { href: "/recommend", label: "Recommend", badge: undefined, icon: undefined },
   { href: "/for-mechanics", label: "For mechanics", badge: undefined, icon: undefined },
