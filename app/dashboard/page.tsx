@@ -209,6 +209,53 @@ export default async function DashboardPage({
           );
         })()}
 
+        {/* Performance insights */}
+        {tab === "overview" && (() => {
+          const rateGrade = statsData.responseRate >= 80 ? { label: "Excellent", color: "text-emerald-600 bg-emerald-50" } : statsData.responseRate >= 50 ? { label: "Good", color: "text-amber-600 bg-amber-50" } : { label: "Needs work", color: "text-red-600 bg-red-50" };
+          const ratingGrade = statsData.avgRating >= 4.5 ? { label: "Top rated", color: "text-emerald-600 bg-emerald-50" } : statsData.avgRating >= 3.5 ? { label: "Good", color: "text-amber-600 bg-amber-50" } : { label: "Below avg", color: "text-red-600 bg-red-50" };
+          return (
+            <div className="mt-6 rounded-[2rem] border border-slate-200 bg-white p-6 shadow-soft">
+              <h2 className="text-base font-semibold text-slate-900 mb-5">Performance insights</h2>
+              <div className="grid gap-4 sm:grid-cols-3">
+                <div className="rounded-2xl bg-slate-50 p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-xs font-semibold text-slate-500">Response rate</span>
+                    <span className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${rateGrade.color}`}>{rateGrade.label}</span>
+                  </div>
+                  <div className="text-2xl font-bold text-slate-900">{statsData.responseRate}%</div>
+                  <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-slate-200">
+                    <div className="h-full rounded-full bg-fire transition-all" style={{ width: `${statsData.responseRate}%` }} />
+                  </div>
+                  <p className="mt-2 text-xs text-slate-400">Industry avg: 65%</p>
+                </div>
+                <div className="rounded-2xl bg-slate-50 p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-xs font-semibold text-slate-500">Rating</span>
+                    {statsData.avgRating > 0 && <span className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${ratingGrade.color}`}>{ratingGrade.label}</span>}
+                  </div>
+                  <div className="text-2xl font-bold text-slate-900">{statsData.avgRating > 0 ? `${statsData.avgRating.toFixed(1)} ★` : "No reviews yet"}</div>
+                  {statsData.avgRating > 0 && (
+                    <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-slate-200">
+                      <div className="h-full rounded-full bg-amber-400 transition-all" style={{ width: `${(statsData.avgRating / 5) * 100}%` }} />
+                    </div>
+                  )}
+                  <p className="mt-2 text-xs text-slate-400">Platform avg: 4.2 ★</p>
+                </div>
+                <div className="rounded-2xl bg-slate-50 p-4">
+                  <div className="text-xs font-semibold text-slate-500 mb-2">Quick tips</div>
+                  <ul className="space-y-2 text-xs text-slate-600">
+                    {statsData.responseRate < 70 && <li className="flex gap-1.5"><span className="text-fire">→</span> Reply to leads within 2h to 3× close rate</li>}
+                    {statsData.avgRating < 4.5 && statsData.avgRating > 0 && <li className="flex gap-1.5"><span className="text-fire">→</span> Ask happy customers to leave a review</li>}
+                    {!workshop.openingHours && <li className="flex gap-1.5"><span className="text-fire">→</span> Add opening hours to build trust</li>}
+                    {(workshop.listingTypes?.length ?? 0) === 0 && <li className="flex gap-1.5"><span className="text-fire">→</span> Add your service types to get matched</li>}
+                    {statsData.responseRate >= 70 && statsData.avgRating >= 4.5 && <li className="flex gap-1.5"><span className="text-emerald-600">✓</span> You&apos;re performing above average — keep it up!</li>}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          );
+        })()}
+
         {/* Tab nav */}
         <div className="mt-6 flex gap-1 border-b border-slate-200">
           {tabs.map((t) => (

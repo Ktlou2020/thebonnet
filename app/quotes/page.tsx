@@ -221,13 +221,13 @@ export default function QuotesPage() {
                                           R{(q.totalCents / 100).toLocaleString("en-ZA")}
                                         </p>
                                         {q.isAccepted ? (
-                                          <span className="text-xs font-semibold text-emerald-600">✓ Accepted</span>
+                                          <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-3 py-1 text-xs font-bold text-emerald-700">✓ Booked</span>
                                         ) : (
                                           <button
                                             onClick={() => acceptQuote(q.id)}
                                             className="mt-2 rounded-full bg-fire px-4 py-1.5 text-xs font-semibold text-white shadow-glow-fire transition hover:bg-fire/90"
                                           >
-                                            Accept
+                                            Accept quote
                                           </button>
                                         )}
                                       </div>
@@ -256,6 +256,17 @@ export default function QuotesPage() {
                                     )}
                                     {q.workshopMessage && (
                                       <p className="mt-3 text-sm leading-6 text-slate-600 border-t border-slate-100 pt-3">{q.workshopMessage}</p>
+                                    )}
+                                    {q.isAccepted && (
+                                      <div className="mt-3 flex items-center justify-between gap-3 rounded-2xl border border-emerald-100 bg-emerald-50 px-4 py-3">
+                                        <div>
+                                          <p className="text-xs font-semibold text-emerald-800">Job done? Leave a review and earn 100 XP ⭐</p>
+                                          <p className="text-xs text-emerald-600 mt-0.5">Help other drivers find great mechanics.</p>
+                                        </div>
+                                        <a href={`/mechanics/${a.workshop.slug}`} className="shrink-0 rounded-full bg-emerald-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-emerald-700 transition">
+                                          Review →
+                                        </a>
+                                      </div>
                                     )}
                                   </div>
                                 );
