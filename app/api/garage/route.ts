@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
+import { awardXp } from "@/lib/award-xp";
+import { DRIVER_XP_ACTIONS } from "@/lib/gamification";
 
 export async function GET() {
   const session = await auth();
@@ -56,6 +58,8 @@ export async function POST(req: NextRequest) {
       currentMileage: body.currentMileage ?? null,
     },
   });
+
+  await awardXp(profile.id, DRIVER_XP_ACTIONS.VEHICLE_ADDED).catch(() => null);
 
   return NextResponse.json({ vehicle }, { status: 201 });
 }

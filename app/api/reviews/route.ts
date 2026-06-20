@@ -6,6 +6,8 @@ import { rateLimit } from "@/lib/rate-limit";
 import { sendReviewNotificationEmail } from "@/lib/email";
 import { headers } from "next/headers";
 import { trackServerEvent } from "@/lib/posthog";
+import { awardXp } from "@/lib/award-xp";
+import { DRIVER_XP_ACTIONS } from "@/lib/gamification";
 
 export async function POST(req: NextRequest) {
   const ip = (await headers()).get("x-forwarded-for") ?? "anonymous";
@@ -55,6 +57,8 @@ export async function POST(req: NextRequest) {
   const review = { ...baseReview, authorName, jobType: body.jobType, costCents: body.costCents };
 
   trackServerEvent(profile.id, "review_submitted", { rating: body.rating });
+
+  await awardXp(profile.id, DRIVER_XP_ACTIONS.REVIEW_WRITTEN).catch(() => null);
 
   const phone = workshop.whatsapp ?? workshop.phone;
   if (phone) {
