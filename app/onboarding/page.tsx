@@ -119,11 +119,17 @@ function DriverOnboarding({ userName }: { userName: string }) {
           <Check className="h-10 w-10 text-fire" />
         </div>
         <h1 className="text-3xl font-bold mb-3">You&apos;re all set, {name || "there"}!</h1>
-        <p className="text-slate-400 leading-7 mb-8">
+        <p className="text-slate-400 leading-7 mb-4">
           {skipVehicle
             ? "Your account is ready. Add your car in My Garage whenever you're ready."
             : `Your ${year} ${make} ${model} has been added to My Garage.`}{" "}
           Find a mechanic, get quotes, and track your car&apos;s history all in one place.
+        </p>
+        <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-fire/30 bg-fire/10 px-4 py-2 text-sm font-semibold text-fire">
+          🎉 You earned 50 XP for completing your profile!
+        </div>
+        <p className="mb-8 text-sm text-slate-400">
+          You&apos;re starting as a <span className="font-semibold text-white">Rookie</span>. Complete more actions to level up!
         </p>
         <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
           <Link

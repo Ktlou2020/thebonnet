@@ -105,6 +105,20 @@ export default function QuotesPage() {
     );
   }
 
+  async function declineQuote(quoteId: string) {
+    await fetch(`/api/quotes/${quoteId}/decline`, { method: "POST" }).catch(() => null);
+    setLeads((prev) =>
+      prev.map((lead) => ({
+        ...lead,
+        assignments: lead.assignments.map((a) =>
+          a.quote?.id === quoteId
+            ? { ...a, quote: { ...a.quote!, status: "DECLINED" } }
+            : a
+        ),
+      }))
+    );
+  }
+
   if (status === "loading" || loading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
@@ -222,13 +236,23 @@ export default function QuotesPage() {
                                         </p>
                                         {q.isAccepted ? (
                                           <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-3 py-1 text-xs font-bold text-emerald-700">✓ Booked</span>
+                                        ) : q.status === "DECLINED" ? (
+                                          <span className="inline-flex items-center gap-1 rounded-full bg-red-50 px-3 py-1 text-xs font-semibold text-red-600">Declined</span>
                                         ) : (
-                                          <button
-                                            onClick={() => acceptQuote(q.id)}
-                                            className="mt-2 rounded-full bg-fire px-4 py-1.5 text-xs font-semibold text-white shadow-glow-fire transition hover:bg-fire/90"
-                                          >
-                                            Accept quote
-                                          </button>
+                                          <div className="mt-2 flex flex-col items-end gap-1.5">
+                                            <button
+                                              onClick={() => acceptQuote(q.id)}
+                                              className="rounded-full bg-fire px-4 py-1.5 text-xs font-semibold text-white shadow-glow-fire transition hover:bg-fire/90"
+                                            >
+                                              Accept quote
+                                            </button>
+                                            <button
+                                              onClick={() => declineQuote(q.id)}
+                                              className="text-xs text-slate-400 underline underline-offset-2 hover:text-slate-600 transition"
+                                            >
+                                              Not for me
+                                            </button>
+                                          </div>
                                         )}
                                       </div>
                                     </div>
