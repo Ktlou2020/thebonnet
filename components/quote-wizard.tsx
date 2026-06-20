@@ -1,8 +1,18 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { Car, Check, MapPin, User, Wrench } from "lucide-react";
+import { useSession } from "next-auth/react";
 import type { ServiceCategory } from "@/lib/types";
+
+interface GarageVehicle {
+  id: string;
+  make: string;
+  model: string;
+  year: number;
+  colour?: string | null;
+  nickname?: string | null;
+}
 
 const STEPS = [
   { id: 1, label: "Location", icon: MapPin },
@@ -41,6 +51,21 @@ export function QuoteWizard({
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState<string | null>(null);
+  const { data: session } = useSession();
+  const [garageVehicles, setGarageVehicles] = useState<GarageVehicle[]>([]);
+  const [selectedVehicleId, setSelectedVehicleId] = useState<string | null>(null);
+  const [manualEntry, setManualEntry] = useState(false);
+
+  useEffect(() => {
+    if (!session?.user) return;
+    fetch("/api/garage")
+      .then((r) => r.json())
+      .then((d: { vehicles?: GarageVehicle[] }) => {
+        if (d.vehicles?.length) setGarageVehicles(d.vehicles);
+        else setManualEntry(true);
+      })
+      .catch(() => setManualEntry(true));
+  }, [session]);
 
   function set<K extends keyof typeof form>(key: K, value: (typeof form)[K]) {
     setForm((f) => ({ ...f, [key]: value }));
@@ -170,11 +195,55 @@ export function QuoteWizard({
         {step === 3 && (
           <div className="grid gap-4">
             <h2 className="text-xl font-bold text-slate-950">Tell us about your vehicle</h2>
-            <label className="text-sm font-medium text-slate-700">Make, model & year
-              <input value={form.vehicle} onChange={(e) => set("vehicle", e.target.value)} placeholder="e.g. 2019 VW Polo 1.4" className={`mt-1 ${inputCls}`} />
-            </label>
+            {garageVehicles.length > 0 && !manualEntry ? (
+              <>
+                <p className="text-sm text-slate-500">Select from My Garage or enter manually.</p>
+                <div className="grid gap-2 sm:grid-cols-2">
+                  {garageVehicles.map((v) => {
+                    const label = `${v.year} ${v.make} ${v.model}${v.colour ? ` · ${v.colour}` : ""}`;
+                    const selected = selectedVehicleId === v.id;
+                    return (
+                      <button
+                        key={v.id}
+                        type="button"
+                        onClick={() => {
+                          setSelectedVehicleId(v.id);
+                          set("vehicle", label);
+                        }}
+                        className={`rounded-2xl border px-4 py-3 text-left text-sm font-medium transition ${selected ? "border-fire bg-fire/5 text-fire" : "border-slate-200 text-slate-700 hover:border-slate-300"}`}
+                      >
+                        <span className="block font-semibold">{v.nickname ?? `${v.make} ${v.model}`}</span>
+                        <span className="block text-xs text-slate-400">{v.year}{v.colour ? ` · ${v.colour}` : ""}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+                <button
+                  type="button"
+                  onClick={() => { setSelectedVehicleId(null); set("vehicle", ""); setManualEntry(true); }}
+                  className="text-xs text-slate-400 underline text-left hover:text-slate-600"
+                >
+                  Enter a different vehicle manually
+                </button>
+              </>
+            ) : (
+              <>
+                <label className="text-sm font-medium text-slate-700">Make, model &amp; year
+                  <input value={form.vehicle} onChange={(e) => set("vehicle", e.target.value)} placeholder="e.g. 2019 VW Polo 1.4" className={`mt-1 ${inputCls}`} />
+                </label>
+                {garageVehicles.length > 0 && (
+                  <button
+                    type="button"
+                    onClick={() => { setManualEntry(false); set("vehicle", ""); }}
+                    className="text-xs text-fire underline text-left hover:text-fire/80"
+                  >
+                    ← Select from My Garage
+                  </button>
+                )}
+              </>
+            )}
             <label className="text-sm font-medium text-slate-700">Describe the issue (optional)
-              <textarea value={form.details} onChange={(e) => set("details", e.target.value)} rows={4} placeholder="Symptoms, warning lights, noises…" className={`mt-1 ${inputCls} resize-none`} />
+              <textarea value={form.details} onChange={(e) => set("details", e.target.value)} rows={3} placeholder="Symptoms, warning lights, noises…" className={`mt-1 ${inputCls} resize-none`} />
             </label>
           </div>
         )}
