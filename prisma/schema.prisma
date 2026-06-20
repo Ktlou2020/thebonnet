@@ -95,6 +95,7 @@ model Profile {
   email             String                  @unique
   fullName          String?
   phone             String?
+  passwordHash      String?
   role              AppRole                 @default(CONSUMER)
   userRole          UserRole                @default(DRIVER)
   emailVerified     DateTime?               @db.Timestamptz
