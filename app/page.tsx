@@ -64,9 +64,14 @@ export default async function HomePage() {
         </div>
 
         <div className="relative mx-auto max-w-5xl px-6 pb-20 pt-20 text-center lg:px-8 lg:pb-28 lg:pt-28">
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/90 backdrop-blur">
-            <ShieldCheck className="h-4 w-4 text-fire" />
-            South Africa&apos;s trusted mechanic marketplace
+          <div className="flex flex-wrap justify-center gap-3">
+            <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/90 backdrop-blur">
+              <ShieldCheck className="h-4 w-4 text-fire" />
+              South Africa&apos;s trusted mechanic marketplace
+            </div>
+            <div className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-4 py-2 text-sm font-semibold text-accent backdrop-blur">
+              Always free for drivers
+            </div>
           </div>
           <h1 className="mx-auto mt-6 max-w-3xl text-5xl font-black tracking-tight text-white sm:text-6xl">
             Find a mechanic{" "}
@@ -80,8 +85,10 @@ export default async function HomePage() {
             <CitySearchWidget cities={cityNames} services={serviceCategories} />
           </div>
 
+          <p className="mt-4 text-sm text-slate-400">No subscriptions. No hidden fees.</p>
+
           {/* Trust strip */}
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm text-slate-300">
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm text-slate-300">
             <span className="inline-flex items-center gap-2"><TrendingUp className="h-4 w-4 text-accent" /> 10,000+ drivers trust My Bonnet</span>
             <span className="inline-flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-accent" /> 500+ verified workshops</span>
             <span className="inline-flex items-center gap-2"><Star className="h-4 w-4 fill-gold text-gold" /> 4.8★ average rating</span>

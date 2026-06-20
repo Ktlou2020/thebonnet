@@ -132,7 +132,6 @@ export default function GaragePage() {
   const [showAddVehicle, setShowAddVehicle] = useState(false);
   const [expandedVehicle, setExpandedVehicle] = useState<string | null>(null);
   const [showAddRecord, setShowAddRecord] = useState<string | null>(null);
-  const [dismissedBanner, setDismissedBanner] = useState(false);
 
   // ── Load vehicles: from API when logged in, otherwise localStorage ──
   useEffect(() => {
@@ -389,24 +388,6 @@ export default function GaragePage() {
         {synced && (
           <div className="mb-4 rounded-2xl border border-green-500/20 bg-green-500/5 p-4 text-sm text-green-400">
             ✓ Garage synced to your account successfully.
-          </div>
-        )}
-
-        {/* Bonnet Plus upsell banner */}
-        {!dismissedBanner && vehicles.length > 0 && (
-          <div className="mb-6 flex items-center justify-between gap-4 rounded-[2rem] border border-fire/20 bg-fire/5 px-6 py-4">
-            <p className="text-sm text-slate-700">
-              <span className="font-semibold text-fire">Bonnet Plus — R49/month.</span>{" "}
-              Unlimited vehicles, AI diagnoses, priority quotes, and maintenance reminders.
-            </p>
-            <div className="flex items-center gap-2 shrink-0">
-              <Link href="/for-mechanics" className="rounded-full bg-fire px-4 py-2 text-sm font-semibold text-white shadow-glow-fire transition hover:bg-fire/90">
-                Upgrade
-              </Link>
-              <button onClick={() => setDismissedBanner(true)} className="rounded-full p-1.5 text-slate-400 hover:text-slate-600">
-                <X className="h-4 w-4" />
-              </button>
-            </div>
           </div>
         )}
 

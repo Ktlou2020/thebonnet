@@ -82,11 +82,23 @@ export function QuoteWizard({
         <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-accent/15 text-accent">
           <Check className="h-8 w-8" />
         </div>
-        <h2 className="mt-5 text-2xl font-bold text-slate-950">Request sent!</h2>
-        <p className="mx-auto mt-3 max-w-md text-sm leading-7 text-slate-600">{done}</p>
-        <a href="/mechanics" className="mt-6 inline-flex rounded-full bg-fire px-6 py-3 text-sm font-semibold text-white shadow-glow-fire">
-          Browse workshops while you wait
-        </a>
+        <h2 className="mt-5 text-2xl font-bold text-slate-950">Your quote request is on its way!</h2>
+        <p className="mx-auto mt-3 max-w-md text-sm leading-7 text-slate-600">
+          Workshops in your area will respond within a few hours. Most quotes come in within 2 hours during business hours.
+        </p>
+        <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
+          <a href="/quotes" className="inline-flex items-center gap-2 rounded-full bg-fire px-6 py-3 text-sm font-semibold text-white shadow-glow-fire">
+            Track my quotes →
+          </a>
+          <a href="/mechanics" className="inline-flex items-center gap-2 rounded-full border border-slate-200 px-6 py-3 text-sm font-semibold text-slate-700 transition hover:border-slate-300">
+            Browse mechanics
+          </a>
+        </div>
+        <div className="mx-auto mt-6 max-w-md rounded-2xl border border-amber-100 bg-amber-50 px-5 py-4 text-left">
+          <p className="text-sm text-amber-800">
+            <span className="font-semibold">Tip:</span> Accept the quote that best fits your budget. You can message the workshop directly once you accept.
+          </p>
+        </div>
       </div>
     );
   }
