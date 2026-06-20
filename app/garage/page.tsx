@@ -2,9 +2,16 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Wrench, Plus, X, ChevronDown, ChevronUp, AlertTriangle, Bell } from "lucide-react";
+import { Plus, X, ChevronDown, ChevronUp, AlertTriangle, Bell } from "lucide-react";
 import type { GarageVehicle, GarageServiceRecord } from "@/lib/types";
 import { useSession } from "next-auth/react";
+import { getLevelProgress } from "@/lib/gamification";
+
+const ACHIEVEMENTS = [
+  { id: "First Ride 🚗", name: "First Ride", desc: "Added your first vehicle", icon: "🚗" },
+  { id: "Multi-Fleet 🏎️", name: "Multi-Fleet", desc: "Tracking 3+ vehicles", icon: "🏎️" },
+  { id: "Service Star 🔧", name: "Service Star", desc: "Logged your first service", icon: "🔧" },
+];
 
 const REMINDER_TYPES = ["Oil Change", "Major Service", "Tyre Rotation", "Brakes", "Custom"];
 
@@ -18,7 +25,6 @@ type MaintenanceReminder = {
 
 // ── XP config ────────────────────────────────────────────────────────────────
 const XP_THRESHOLDS = [0, 200, 500, 1000, 2000];
-const LEVEL_NAMES = ["Novice Driver", "Regular Driver", "Savvy Driver", "Car Enthusiast", "Bonnet Pro"];
 
 interface UserXP {
   totalXp: number;
@@ -33,14 +39,6 @@ function calcLevel(xp: number): number {
     if (xp >= XP_THRESHOLDS[i]) l = i;
   }
   return l;
-}
-
-function getProgress(xp: number): { current: number; next: number; pct: number } {
-  const level = calcLevel(xp);
-  const current = XP_THRESHOLDS[level];
-  const next = XP_THRESHOLDS[level + 1] ?? current + 1000;
-  const pct = Math.min(100, ((xp - current) / (next - current)) * 100);
-  return { current, next, pct };
 }
 
 // ── Storage keys ─────────────────────────────────────────────────────────────
@@ -309,8 +307,6 @@ export default function GaragePage() {
     return recs[0]?.date;
   }
 
-  const progress = getProgress(xp.totalXp);
-
   if (!loaded) return null;
 
   return (
@@ -333,28 +329,46 @@ export default function GaragePage() {
             )}
           </div>
 
-          {/* XP bar */}
-          {vehicles.length > 0 && (
-            <div className="mt-6 rounded-[2rem] border border-white/10 bg-white/5 p-5 backdrop-blur">
-              <div className="flex items-center justify-between text-sm mb-2">
-                <span className="font-semibold text-white">{LEVEL_NAMES[xp.level]} • Level {xp.level + 1}</span>
-                <span className="text-slate-400">{xp.totalXp} XP</span>
-              </div>
-              <div className="h-2 rounded-full bg-white/10 overflow-hidden">
-                <div
-                  className="h-full rounded-full bg-fire transition-all"
-                  style={{ width: `${progress.pct}%` }}
-                />
-              </div>
-              {xp.badges.length > 0 && (
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {xp.badges.map((b) => (
-                    <span key={b} className="rounded-full bg-fire/20 px-3 py-1 text-xs font-medium text-fire">{b}</span>
-                  ))}
+          {/* XP / level bar — driver levels */}
+          {vehicles.length > 0 && (() => {
+            const lvl = getLevelProgress(xp.totalXp);
+            return (
+              <div className="mt-6 rounded-[2rem] border border-white/10 bg-white/5 p-5 backdrop-blur">
+                <div className="mb-2 flex items-center justify-between text-sm">
+                  <span className="flex items-center gap-2 font-semibold text-white">
+                    <span className="text-lg" aria-hidden>{lvl.current.icon}</span>
+                    {lvl.current.name} • Level {lvl.current.level}
+                  </span>
+                  <span className="text-slate-400">{xp.totalXp} XP</span>
                 </div>
-              )}
-            </div>
-          )}
+                <div className="h-2 overflow-hidden rounded-full bg-white/10">
+                  <div className="h-full rounded-full bg-fire transition-all" style={{ width: `${lvl.pct}%` }} />
+                </div>
+                <p className="mt-2 text-xs text-slate-400">
+                  {lvl.next ? `${lvl.xpToNext} XP to ${lvl.next.name}` : "Max level — you're a Legend!"}
+                </p>
+
+                {/* Achievements grid */}
+                <div className="mt-4 grid grid-cols-3 gap-2">
+                  {ACHIEVEMENTS.map((a) => {
+                    const earned = xp.badges.includes(a.id);
+                    return (
+                      <div
+                        key={a.id}
+                        title={a.desc}
+                        className={`flex flex-col items-center gap-1 rounded-2xl border px-2 py-3 text-center transition ${
+                          earned ? "border-fire/30 bg-fire/10" : "border-white/10 bg-white/5 opacity-50"
+                        }`}
+                      >
+                        <span className="text-xl" aria-hidden>{earned ? a.icon : "🔒"}</span>
+                        <span className="text-[10px] font-semibold text-white">{a.name}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })()}
         </div>
       </div>
 

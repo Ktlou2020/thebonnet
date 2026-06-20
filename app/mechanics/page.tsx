@@ -1,96 +1,86 @@
 import Link from "next/link";
-import { MechanicCard } from "@/components/mechanic-card";
-import { SectionHeading } from "@/components/section-heading";
+import { WorkshopCard } from "@/components/workshop-card";
+import { DiscoveryFilters } from "@/components/discovery-filters";
 import { getDirectoryPageData } from "@/lib/workshops";
 
+export const dynamic = "force-dynamic";
+
 export default async function MechanicsPage({
-  searchParams
+  searchParams,
 }: {
-  searchParams?: Promise<{ city?: string; service?: string; mobile?: string }>;
+  searchParams?: Promise<{ city?: string; service?: string; rating?: string; verified?: string; sort?: string; mobile?: string }>;
 }) {
   const params = (await searchParams) ?? {};
   const selectedCity = typeof params.city === "string" ? params.city : null;
   const selectedService = typeof params.service === "string" ? params.service : null;
+  const minRating = params.rating ? parseFloat(params.rating) : null;
+  const verifiedOnly = params.verified === "1";
+  const sort = params.sort ?? "featured";
   const mobileOnly = params.mobile === "1";
+
   const { filteredMechanics, cityHighlights, serviceCategories } = await getDirectoryPageData({
     city: selectedCity,
     service: selectedService,
-    mobileOnly
+    mobileOnly,
+  });
+
+  let results = filteredMechanics;
+  if (minRating !== null) results = results.filter((m) => m.rating >= minRating);
+  if (verifiedOnly) results = results.filter((m) => m.isVerified);
+
+  results = [...results].sort((a, b) => {
+    if (sort === "rating") return b.rating - a.rating;
+    if (sort === "reviews") return (b.reviewCount ?? 0) - (a.reviewCount ?? 0);
+    if (sort === "name") return a.name.localeCompare(b.name);
+    return Number(b.featured) - Number(a.featured) || b.rating - a.rating;
   });
 
   return (
-    <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
-      <SectionHeading eyebrow="Mechanic directory" title="Browse mechanics by city, service type, and mobile support" description="These listings are sourced from public workshop information and organised into a cleaner client-facing marketplace for South African drivers." />
+    <div className="min-h-screen bg-slate-50">
+      <div className="bg-ink px-6 py-12 text-white lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">Find your mechanic</h1>
+          <p className="mt-2 max-w-2xl text-slate-300">
+            Browse verified workshops across South Africa. Filter by city, service, and rating to find the right fit.
+          </p>
+        </div>
+      </div>
 
-      <div className="mt-10 rounded-[2rem] border border-slate-200 bg-white p-6 shadow-soft">
-        <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+      <div className="mx-auto max-w-7xl px-6 py-10 lg:px-8">
+        <div className="grid gap-8 lg:grid-cols-[280px_minmax(0,1fr)]">
+          <div className="lg:sticky lg:top-24 lg:h-fit">
+            <DiscoveryFilters
+              cities={cityHighlights.map((c) => ({ city: c.city, count: c.count }))}
+              services={serviceCategories}
+            />
+          </div>
+
           <div>
-            <p className="text-sm leading-7 text-slate-600">Use the filters below to narrow the directory, or jump straight to the quote form if you want help matching the right workshop.</p>
-            <div className="mt-4 flex flex-wrap gap-2">
-              {selectedCity ? <span className="rounded-full bg-accent/10 px-3 py-1 text-xs font-semibold text-accent">City: {selectedCity}</span> : null}
-              {selectedService ? <span className="rounded-full bg-accent/10 px-3 py-1 text-xs font-semibold text-accent">Service: {selectedService}</span> : null}
-              {mobileOnly ? <span className="rounded-full bg-accent/10 px-3 py-1 text-xs font-semibold text-accent">Mobile only</span> : null}
-              {selectedCity || selectedService || mobileOnly ? <Link href="/mechanics" className="rounded-full border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-700">Clear filters</Link> : null}
+            <div className="mb-6 flex items-center justify-between gap-4">
+              <h2 className="text-xl font-bold text-slate-950">
+                {results.length} workshop{results.length === 1 ? "" : "s"} found
+                {selectedCity ? ` in ${selectedCity}` : ""}
+              </h2>
             </div>
-          </div>
-          <div className="flex flex-wrap gap-3">
-            <Link href={mobileOnly ? "/mechanics" : `/mechanics?${new URLSearchParams({ ...(selectedCity ? { city: selectedCity } : {}), ...(selectedService ? { service: selectedService } : {}), mobile: "1" }).toString()}`} className="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700">
-              {mobileOnly ? "Show all workshops" : "Mobile mechanics only"}
-            </Link>
-            <Link href={`/request-quote${selectedCity || selectedService ? `?${new URLSearchParams({ ...(selectedCity ? { city: selectedCity } : {}), ...(selectedService ? { service: selectedService } : {}) }).toString()}` : ""}`} className="rounded-full bg-ink px-4 py-2 text-sm font-semibold text-white">
-              Request quotes
-            </Link>
-          </div>
-        </div>
 
-        <div className="mt-6">
-          <p className="text-xs font-semibold uppercase tracking-[0.15em] text-slate-500">Cities</p>
-          <div className="mt-3 flex flex-wrap gap-2">
-            {cityHighlights.map((item) => (
-              <Link key={item.city} href={`/mechanics?${new URLSearchParams({ ...(selectedService ? { service: selectedService } : {}), ...(mobileOnly ? { mobile: "1" } : {}), city: item.city }).toString()}`} className={`rounded-full px-3 py-1 text-xs font-medium transition ${selectedCity === item.city ? "bg-ink text-white" : "bg-slate-100 text-slate-700 hover:bg-slate-200"}`}>
-                {item.city} · {item.count}
-              </Link>
-            ))}
-          </div>
-        </div>
-
-        <div className="mt-6">
-          <p className="text-xs font-semibold uppercase tracking-[0.15em] text-slate-500">Services</p>
-          <div className="mt-3 flex flex-wrap gap-2">
-            {serviceCategories.map((service) => (
-              <Link key={service} href={`/mechanics?${new URLSearchParams({ ...(selectedCity ? { city: selectedCity } : {}), ...(mobileOnly ? { mobile: "1" } : {}), service }).toString()}`} className={`rounded-full border px-3 py-1 text-xs transition ${selectedService === service ? "border-ink bg-ink text-white" : "border-slate-200 text-slate-600 hover:border-slate-300"}`}>
-                {service}
-              </Link>
-            ))}
+            {results.length ? (
+              <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+                {results.map((mechanic) => <WorkshopCard key={mechanic.slug} mechanic={mechanic} />)}
+              </div>
+            ) : (
+              <div className="rounded-[2rem] border border-dashed border-slate-300 bg-white p-10 text-center shadow-soft">
+                <div className="text-5xl">🔍</div>
+                <h3 className="mt-4 text-xl font-semibold text-slate-950">No workshops matched those filters</h3>
+                <p className="mt-2 text-sm text-slate-600">Try clearing a filter or request a quote and we&apos;ll match you manually.</p>
+                <div className="mt-6 flex flex-wrap justify-center gap-3">
+                  <Link href="/mechanics" className="rounded-full border border-slate-200 px-5 py-2.5 text-sm font-semibold text-slate-700">Clear filters</Link>
+                  <Link href="/request-quote" className="rounded-full bg-fire px-5 py-2.5 text-sm font-semibold text-white shadow-glow-fire">Request quotes</Link>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
-
-      <div className="mt-8 flex items-center justify-between gap-4">
-        <div>
-          <h2 className="text-2xl font-semibold text-slate-950">{filteredMechanics.length} workshops found</h2>
-          <p className="mt-1 text-sm text-slate-500">Public workshop listings with customer-facing contact options.</p>
-        </div>
-      </div>
-
-      {filteredMechanics.length ? (
-        <div className="mt-8 grid gap-6 lg:grid-cols-2 xl:grid-cols-3">
-          {filteredMechanics.map((mechanic) => <MechanicCard key={mechanic.slug} mechanic={mechanic} />)}
-        </div>
-      ) : (
-        <div className="mt-8 rounded-[2rem] border border-dashed border-slate-300 bg-white p-8 text-center shadow-soft">
-          <h3 className="text-xl font-semibold text-slate-950">
-            {selectedCity
-              ? `No workshops found in ${selectedCity}. Try a nearby city or browse all workshops.`
-              : "No workshops matched those filters"}
-          </h3>
-          <p className="mt-3 text-sm leading-7 text-slate-600">Try clearing one of the filters or send a quote request so the platform can help you find a workshop manually.</p>
-          <div className="mt-6 flex flex-wrap justify-center gap-3">
-            <Link href="/mechanics" className="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700">Browse all workshops</Link>
-            <Link href="/request-quote" className="rounded-full bg-ink px-4 py-2 text-sm font-semibold text-white">Request quotes</Link>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
