@@ -3,7 +3,7 @@ import { getAdminSession } from "@/lib/admin-auth";
 import { getPrisma } from "@/lib/db";
 import { SERVICE_AREAS, AREA_TO_REGION } from "@/lib/areas";
 
-const SA_CITIES = [...SERVICE_AREAS];
+const SA_CITIES: string[] = [...SERVICE_AREAS];
 
 const CITY_TO_PROVINCE: Record<string, string> = Object.fromEntries(
   SERVICE_AREAS.map((area) => [area, "Gauteng"])

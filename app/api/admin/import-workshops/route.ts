@@ -7,7 +7,7 @@ const CITY_TO_PROVINCE: Record<string, string> = Object.fromEntries(
   SERVICE_AREAS.map((area) => [area, "Gauteng"])
 );
 
-const VALID_CITIES = [...SERVICE_AREAS];
+const VALID_CITIES: string[] = [...SERVICE_AREAS];
 
 function slugify(name: string, city: string): string {
   const nameSlug = name

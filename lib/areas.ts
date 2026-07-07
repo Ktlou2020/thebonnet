@@ -20,8 +20,8 @@ export const JOBURG_WEST = [
   "Krugersdorp",
 ] as const;
 
-export const SERVICE_AREAS = [...JOBURG_NORTH, ...JOBURG_WEST] as const;
-export type ServiceArea = (typeof SERVICE_AREAS)[number];
+export const SERVICE_AREAS: string[] = [...JOBURG_NORTH, ...JOBURG_WEST];
+export type ServiceArea = (typeof JOBURG_NORTH)[number] | (typeof JOBURG_WEST)[number];
 
 export const AREA_TO_REGION: Record<ServiceArea, "Joburg North" | "Joburg West"> = {
   Sandton: "Joburg North",
@@ -43,4 +43,4 @@ export const AREA_TO_REGION: Record<ServiceArea, "Joburg North" | "Joburg West">
 };
 
 // For dropdowns that need a freeform fallback
-export const SERVICE_AREAS_WITH_OTHER = [...SERVICE_AREAS, "Other"] as const;
+export const SERVICE_AREAS_WITH_OTHER: string[] = [...SERVICE_AREAS, "Other"];
