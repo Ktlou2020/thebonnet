@@ -1,46 +1,36 @@
 import { NextResponse } from "next/server";
 import { getAdminSession } from "@/lib/admin-auth";
 import { getPrisma } from "@/lib/db";
+import { SERVICE_AREAS, AREA_TO_REGION } from "@/lib/areas";
 
-const SA_CITIES = [
-  "Cape Town",
-  "Johannesburg",
-  "Pretoria",
-  "Durban",
-  "Port Elizabeth",
-  "Bloemfontein",
-  "Nelspruit",
-  "Polokwane",
-  "East London",
-  "Sandton",
-];
+const SA_CITIES = [...SERVICE_AREAS];
 
-const CITY_TO_PROVINCE: Record<string, string> = {
-  "Cape Town": "Western Cape",
-  "Johannesburg": "Gauteng",
-  "Pretoria": "Gauteng",
-  "Durban": "KwaZulu-Natal",
-  "Port Elizabeth": "Eastern Cape",
-  "Bloemfontein": "Free State",
-  "Nelspruit": "Mpumalanga",
-  "Polokwane": "Limpopo",
-  "East London": "Eastern Cape",
-  "Sandton": "Gauteng",
-};
+const CITY_TO_PROVINCE: Record<string, string> = Object.fromEntries(
+  SERVICE_AREAS.map((area) => [area, "Gauteng"])
+);
 
-// Bounding boxes for each city (south, west, north, east)
+// Bounding boxes per Joburg suburb (south, west, north, east)
 const CITY_BBOX: Record<string, [number, number, number, number]> = {
-  "Cape Town":      [-34.12, 18.30, -33.73, 18.90],
-  "Johannesburg":   [-26.40, 27.80, -25.90, 28.30],
-  "Pretoria":       [-25.85, 28.00, -25.50, 28.50],
-  "Durban":         [-30.05, 30.80, -29.70, 31.10],
-  "Port Elizabeth": [-34.05, 25.40, -33.75, 26.00],
-  "Bloemfontein":   [-29.25, 26.10, -28.95, 26.45],
-  "Nelspruit":      [-25.60, 30.90, -25.35, 31.05],
-  "Polokwane":      [-24.00, 29.35, -23.75, 29.60],
-  "East London":    [-33.10, 27.75, -32.90, 28.10],
-  "Sandton":        [-26.15, 28.00, -26.05, 28.15],
+  "Sandton":          [-26.12, 28.02, -26.06, 28.10],
+  "Randburg":         [-26.12, 27.96, -26.04, 28.05],
+  "Fourways":         [-26.03, 28.00, -25.96, 28.08],
+  "Midrand":          [-25.99, 28.10, -25.92, 28.18],
+  "Bryanston":        [-26.09, 28.00, -26.05, 28.06],
+  "Sunninghill":      [-26.05, 28.08, -26.01, 28.13],
+  "Rivonia":          [-26.06, 28.05, -26.03, 28.09],
+  "Morningside":      [-26.08, 28.07, -26.05, 28.11],
+  "Roodepoort":       [-26.18, 27.83, -26.11, 27.93],
+  "Florida":          [-26.18, 27.89, -26.14, 27.94],
+  "Weltevreden Park": [-26.15, 27.86, -26.10, 27.92],
+  "Northcliff":       [-26.13, 27.96, -26.09, 28.00],
+  "Cresta":           [-26.14, 27.97, -26.11, 28.01],
+  "Honeydew":         [-26.08, 27.93, -26.03, 27.99],
+  "Northgate":        [-26.12, 27.97, -26.09, 28.01],
+  "Krugersdorp":      [-26.12, 27.74, -26.05, 27.83],
 };
+
+// Keep reference to AREA_TO_REGION for province lookup (all Gauteng)
+void AREA_TO_REGION;
 
 interface OsmElement {
   type: "node" | "way" | "relation";

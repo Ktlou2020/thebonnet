@@ -3,25 +3,14 @@ import Link from "next/link";
 import { MechanicCard } from "@/components/mechanic-card";
 import { getMechanics, filterMechanics } from "@/lib/workshops";
 
-const SA_CITIES = [
-  "Cape Town",
-  "Johannesburg",
-  "Pretoria",
-  "Durban",
-  "Gqeberha",
-  "East London",
-  "Bloemfontein",
-  "Nelspruit",
-  "Polokwane",
-  "Kimberley",
-];
+import { SERVICE_AREAS } from "@/lib/areas";
 
 function citySlugToName(slug: string): string {
-  return SA_CITIES.find((c) => c.toLowerCase().replace(/\s+/g, "-") === slug) ?? slug;
+  return SERVICE_AREAS.find((c) => c.toLowerCase().replace(/\s+/g, "-") === slug) ?? slug;
 }
 
 export async function generateStaticParams() {
-  return SA_CITIES.map((city) => ({ city: city.toLowerCase().replace(/\s+/g, "-") }));
+  return SERVICE_AREAS.map((area) => ({ city: area.toLowerCase().replace(/\s+/g, "-") }));
 }
 
 export async function generateMetadata({
@@ -32,8 +21,8 @@ export async function generateMetadata({
   const { city: slug } = await params;
   const cityName = citySlugToName(slug);
   return {
-    title: `Car Mechanics in ${cityName}, South Africa | My Bonnet`,
-    description: `Find trusted mechanics and workshops in ${cityName}. Compare ratings, services, and request quotes — all in one place.`,
+    title: `Car Mechanics in ${cityName}, Johannesburg | My Bonnet`,
+    description: `Find trusted mechanics and workshops in ${cityName}, Joburg. Compare ratings, services, and request quotes — all in one place.`,
   };
 }
 

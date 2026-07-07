@@ -5,13 +5,11 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Check, Car, MapPin, Wrench, ArrowRight, Loader2 } from "lucide-react";
+import { SERVICE_AREAS_WITH_OTHER } from "@/lib/areas";
 
 // ─── Shared ──────────────────────────────────────────────────────────────────
 
-const SA_CITIES = [
-  "Cape Town", "Johannesburg", "Pretoria", "Durban", "Gqeberha",
-  "East London", "Bloemfontein", "Nelspruit", "Polokwane", "Kimberley", "Other",
-];
+const SA_CITIES = [...SERVICE_AREAS_WITH_OTHER];
 
 const CAR_MAKES = [
   "Toyota", "Volkswagen", "Ford", "Hyundai", "Suzuki", "Kia", "Renault",

@@ -1,18 +1,14 @@
 import { RecommendForm } from "@/components/recommend-form";
 import { getCityHighlights } from "@/lib/workshops";
+import { SERVICE_AREAS } from "@/lib/areas";
 
 export const dynamic = "force-dynamic";
 
-const SA_CITIES = [
-  "Cape Town", "Johannesburg", "Pretoria", "Durban", "Port Elizabeth",
-  "Bloemfontein", "Nelspruit", "Polokwane", "East London", "Sandton",
-];
-
 export default async function RecommendPage() {
-  let cities = SA_CITIES;
+  let cities: string[] = [...SERVICE_AREAS];
   try {
     const highlights = await getCityHighlights();
-    if (highlights.length) cities = Array.from(new Set([...highlights.map((c) => c.city), ...SA_CITIES]));
+    if (highlights.length) cities = Array.from(new Set([...highlights.map((c) => c.city), ...SERVICE_AREAS]));
   } catch { /* fall back to defaults */ }
 
   return (

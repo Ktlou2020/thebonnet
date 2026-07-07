@@ -14,11 +14,13 @@ const serviceCategoryOrder: ServiceCategory[] = [
   "Mobile Mechanic"
 ];
 
-const staticMechanics: Mechanic[] = (listings as Array<Omit<Mechanic, "id">>).map((item, index) => ({
-  id: String(index + 1),
-  ...item,
-  services: normalizeServices(item.services)
-}));
+const staticMechanics: Mechanic[] = (listings as Array<Omit<Mechanic, "id">>)
+  .filter((item) => item.city === "Johannesburg")
+  .map((item, index) => ({
+    id: String(index + 1),
+    ...item,
+    services: normalizeServices(item.services),
+  }));
 
 export const priceBenchmarks: PriceBenchmark[] = [
   {

@@ -5,6 +5,7 @@ import { AnimatedStat } from "@/components/animated-stat";
 import { WorkshopCard } from "@/components/workshop-card";
 import { DRIVER_LEVELS } from "@/lib/gamification";
 import { getHomePageData } from "@/lib/workshops";
+import { JOBURG_NORTH, JOBURG_WEST } from "@/lib/areas";
 
 export const dynamic = "force-dynamic";
 
@@ -12,7 +13,7 @@ const steps = [
   {
     icon: Search,
     title: "Search & filter",
-    copy: "Find verified workshops near you by city, service type, and rating. No directory chaos — just the right matches.",
+    copy: "Find verified workshops near you by suburb, service type, and rating. No directory chaos — just the right matches.",
   },
   {
     icon: MessageSquareShare,
@@ -26,17 +27,9 @@ const steps = [
   },
 ];
 
-const cities = [
-  { name: "Cape Town", province: "Western Cape" },
-  { name: "Johannesburg", province: "Gauteng" },
-  { name: "Pretoria", province: "Gauteng" },
-  { name: "Durban", province: "KwaZulu-Natal" },
-  { name: "Port Elizabeth", province: "Eastern Cape" },
-  { name: "Bloemfontein", province: "Free State" },
-  { name: "Nelspruit", province: "Mpumalanga" },
-  { name: "Polokwane", province: "Limpopo" },
-  { name: "East London", province: "Eastern Cape" },
-  { name: "Sandton", province: "Gauteng" },
+const areas = [
+  ...JOBURG_NORTH.map((name) => ({ name, region: "Joburg North" })),
+  ...JOBURG_WEST.map((name) => ({ name, region: "Joburg West" })),
 ];
 
 const workshopValueProps = [
@@ -67,7 +60,7 @@ export default async function HomePage() {
           <div className="flex flex-wrap justify-center gap-3">
             <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/90 backdrop-blur">
               <ShieldCheck className="h-4 w-4 text-fire" />
-              South Africa&apos;s trusted mechanic marketplace
+              Joburg North &amp; West&apos;s trusted mechanic marketplace
             </div>
             <div className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-4 py-2 text-sm font-semibold text-accent backdrop-blur">
               Always free for drivers
@@ -89,8 +82,8 @@ export default async function HomePage() {
 
           {/* Trust strip */}
           <div className="mt-6 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm text-slate-300">
-            <span className="inline-flex items-center gap-2"><TrendingUp className="h-4 w-4 text-accent" /> 10,000+ drivers trust My Bonnet</span>
-            <span className="inline-flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-accent" /> 500+ verified workshops</span>
+            <span className="inline-flex items-center gap-2"><TrendingUp className="h-4 w-4 text-accent" /> Joburg North &amp; West drivers</span>
+            <span className="inline-flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-accent" /> Verified local workshops</span>
             <span className="inline-flex items-center gap-2"><Star className="h-4 w-4 fill-gold text-gold" /> 4.8★ average rating</span>
           </div>
         </div>
@@ -150,7 +143,7 @@ export default async function HomePage() {
               <div className="inline-flex items-center gap-2 rounded-full border border-fire/30 bg-fire/10 px-4 py-1.5 text-sm font-medium text-fire">
                 <Sparkles className="h-4 w-4" /> Rewards
               </div>
-              <h2 className="mt-4 text-3xl font-bold sm:text-4xl">Join thousands of SA drivers earning rewards</h2>
+              <h2 className="mt-4 text-3xl font-bold sm:text-4xl">Joburg drivers earning rewards every service</h2>
               <p className="mt-4 leading-8 text-slate-300">
                 Every review you write, vehicle you log, and service you track earns XP. Level up from Rookie to Legend and unlock perks along the way.
               </p>
@@ -181,23 +174,23 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ─── City grid ─── */}
+      {/* ─── Area grid ─── */}
       <section className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
         <div className="text-center">
           <h2 className="text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">Mechanics near you</h2>
-          <p className="mt-3 text-slate-600">Browse trusted workshops across South Africa&apos;s major cities.</p>
+          <p className="mt-3 text-slate-600">Browse trusted workshops across Joburg North and West.</p>
         </div>
-        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-          {cities.map((city) => {
-            const count = cityCountMap[city.name];
+        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {areas.map((area) => {
+            const count = cityCountMap[area.name];
             return (
               <Link
-                key={city.name}
-                href={`/mechanics?city=${encodeURIComponent(city.name)}`}
+                key={area.name}
+                href={`/mechanics?city=${encodeURIComponent(area.name)}`}
                 className="group rounded-[1.75rem] border border-slate-200 bg-white p-5 shadow-soft transition hover:-translate-y-1 hover:border-fire/20"
               >
-                <h3 className="font-semibold text-slate-950 transition group-hover:text-fire">{city.name}</h3>
-                <p className="mt-1 text-xs text-slate-500">{city.province}</p>
+                <h3 className="font-semibold text-slate-950 transition group-hover:text-fire">{area.name}</h3>
+                <p className="mt-1 text-xs text-slate-500">{area.region}</p>
                 {count != null && count > 0 && (
                   <p className="mt-2 text-xs font-semibold text-fire">{count} workshop{count === 1 ? "" : "s"}</p>
                 )}
@@ -241,10 +234,10 @@ export default async function HomePage() {
       {/* ─── Stats bar ─── */}
       <section className="bg-[linear-gradient(180deg,#0b1730,#08111f)] py-16">
         <div className="mx-auto grid max-w-6xl grid-cols-2 gap-10 px-6 lg:grid-cols-4 lg:px-8">
-          <AnimatedStat value={10000} suffix="+" label="Drivers trust My Bonnet" />
-          <AnimatedStat value={500} suffix="+" label="Verified workshops" />
+          <AnimatedStat value={16} suffix="" label="Areas covered" />
           <AnimatedStat value={4.8} suffix="★" label="Average workshop rating" />
-          <AnimatedStat value={25000} suffix="+" label="Quotes requested" />
+          <AnimatedStat value={2} suffix=" regions" label="Joburg North &amp; West" />
+          <AnimatedStat value={100} suffix="%" label="Free for drivers" />
         </div>
       </section>
     </div>
