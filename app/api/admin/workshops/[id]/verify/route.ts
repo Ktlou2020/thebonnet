@@ -20,7 +20,7 @@ export async function POST(
 
   await prisma.workshop.update({
     where: { id },
-    data: { isVerified: true, verifiedAt: new Date() },
+    data: { isVerified: true, verifiedAt: new Date(), status: "VERIFIED" },
   });
 
   return NextResponse.json({ success: true });
