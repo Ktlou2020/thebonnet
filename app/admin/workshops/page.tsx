@@ -3,18 +3,8 @@
 import { useEffect, useState } from "react";
 import { CheckCircle, XCircle, RefreshCw } from "lucide-react";
 
-const SA_CITIES = [
-  "Cape Town",
-  "Johannesburg",
-  "Pretoria",
-  "Durban",
-  "Port Elizabeth",
-  "Bloemfontein",
-  "Nelspruit",
-  "Polokwane",
-  "East London",
-  "Sandton",
-];
+import { SERVICE_AREAS } from "@/lib/areas";
+const SA_CITIES = [...SERVICE_AREAS];
 
 type WorkshopRow = {
   id: string;

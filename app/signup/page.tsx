@@ -6,10 +6,8 @@ import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { Loader2, ArrowRight, Eye, EyeOff, CheckCircle } from "lucide-react";
 
-const SA_CITIES = [
-  "Cape Town", "Johannesburg", "Pretoria", "Durban", "Gqeberha",
-  "East London", "Bloemfontein", "Nelspruit", "Polokwane", "Kimberley", "Other",
-];
+import { SERVICE_AREAS_WITH_OTHER } from "@/lib/areas";
+const SA_CITIES = [...SERVICE_AREAS_WITH_OTHER];
 const SERVICES = [
   "Oil Service", "Major Service", "Tyres", "Brakes",
   "Electrical", "Aircon", "Suspension", "Body & Paint",

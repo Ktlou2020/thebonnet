@@ -1,21 +1,13 @@
 import { NextResponse } from "next/server";
 import { getAdminSession } from "@/lib/admin-auth";
 import { getPrisma } from "@/lib/db";
+import { SERVICE_AREAS } from "@/lib/areas";
 
-const CITY_TO_PROVINCE: Record<string, string> = {
-  "Cape Town": "Western Cape",
-  "Johannesburg": "Gauteng",
-  "Pretoria": "Gauteng",
-  "Durban": "KwaZulu-Natal",
-  "Port Elizabeth": "Eastern Cape",
-  "Bloemfontein": "Free State",
-  "Nelspruit": "Mpumalanga",
-  "Polokwane": "Limpopo",
-  "East London": "Eastern Cape",
-  "Sandton": "Gauteng",
-};
+const CITY_TO_PROVINCE: Record<string, string> = Object.fromEntries(
+  SERVICE_AREAS.map((area) => [area, "Gauteng"])
+);
 
-const VALID_CITIES = Object.keys(CITY_TO_PROVINCE);
+const VALID_CITIES = [...SERVICE_AREAS];
 
 function slugify(name: string, city: string): string {
   const nameSlug = name
@@ -237,18 +229,9 @@ async function scrapeBusinessListForCity(city: string, citySlug: string): Promis
   return results;
 }
 
-const CITY_SLUG_MAP: Record<string, string> = {
-  "Cape Town": "cape-town",
-  "Johannesburg": "johannesburg",
-  "Pretoria": "pretoria",
-  "Durban": "durban",
-  "Port Elizabeth": "port-elizabeth",
-  "Bloemfontein": "bloemfontein",
-  "Nelspruit": "nelspruit",
-  "Polokwane": "polokwane",
-  "East London": "east-london",
-  "Sandton": "sandton",
-};
+const CITY_SLUG_MAP: Record<string, string> = Object.fromEntries(
+  SERVICE_AREAS.map((area) => [area, area.toLowerCase().replace(/\s+/g, "-")])
+);
 
 async function handleScraperImport(
   prisma: ReturnType<typeof getPrisma>,
